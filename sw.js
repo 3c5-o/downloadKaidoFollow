@@ -1,5 +1,5 @@
-// تغيير رقم الإصدار لفرض التحديث على هواتف المستخدمين
-const CACHE_NAME = 'kaido-cache-v1.2';
+// تم تحديث رقم الإصدار ليتوافق مع النسخة الجديدة (v2.0)
+const CACHE_NAME = 'kaido-cache-v2.0';
 const urlsToCache = [
     './',
     './index.html',
@@ -16,7 +16,7 @@ self.addEventListener('install', event => {
     );
 });
 
-// حدث التفعيل: مسح أي ذاكرة قديمة (الإصدارات السابقة) لتنظيف التطبيق
+// حدث التفعيل: مسح أي ذاكرة قديمة (الإصدارات السابقة) لتنظيف هاتف المستخدم
 self.addEventListener('activate', event => {
     event.waitUntil(
         caches.keys().then(cacheNames => {
