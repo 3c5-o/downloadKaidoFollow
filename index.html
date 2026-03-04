@@ -83,7 +83,8 @@
         .page.active { display: block; }
         @keyframes slideFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .dash-header-wrap { padding: 25px 20px 10px 20px; }
+        /* --- تصميم لوحة التحكم (الرئيسية فقط) --- */
+        .dash-header-wrap { padding: 25px 0 10px 0; }
         .dash-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .dash-greeting { display: flex; flex-direction: column; }
         .dash-greeting span { color: var(--text-sec); font-size: 0.9rem; display: flex; align-items: center; gap: 5px; }
@@ -169,10 +170,23 @@
         }
         .full-modal.open { transform: translateX(0); }
 
-        .order-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .order-info-box { background: var(--bg-input); padding: 15px; border-radius: 14px; text-align: center; border: 1px solid var(--border); }
-        .order-info-title { color: var(--text-sec); font-size: 0.8rem; display: block; margin-bottom: 5px; }
-        .order-info-val { color: var(--text-main); font-weight: 800; font-size: 1.1rem; }
+        /* --- تصميم نافذة الطلب الجديد --- */
+        .order-hero { background: var(--gradient-pro); border-radius: 20px; padding: 25px 20px; text-align: center; margin-bottom: 15px; position: relative; overflow: hidden; box-shadow: 0 10px 30px var(--glow); }
+        .order-hero-badge { background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; display: inline-block; margin-bottom: 15px; font-family: monospace; font-weight: bold; }
+        .order-hero-title { font-size: 1.15rem; font-weight: 800; color: white; line-height: 1.5; margin-bottom: 20px; }
+        .order-hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .order-hero-stat { background: rgba(0,0,0,0.2); border-radius: 12px; padding: 12px 5px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
+        .order-hero-stat span { display: block; font-size: 0.7rem; color: rgba(255,255,255,0.8); margin-bottom: 5px; }
+        .order-hero-stat b { display: block; font-size: 0.95rem; color: white; font-family: monospace; }
+
+        .order-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 20px; margin-bottom: 15px; }
+        .order-section-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; color: var(--primary); }
+        
+        .order-summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .summary-box { background: var(--bg-input); border: 1px solid var(--border); border-radius: 15px; padding: 15px; text-align: center; }
+        .summary-box span { display: block; font-size: 0.8rem; color: var(--text-sec); margin-bottom: 5px; }
+        .summary-box b { display: block; font-size: 1.2rem; font-family: monospace; }
+        .summary-error { background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.3); color: var(--danger); padding: 12px; border-radius: 12px; text-align: center; font-size: 0.85rem; font-weight: bold; display: none; }
 
         .chat-container { height: calc(100vh - 160px); display: flex; flex-direction: column; }
         .chat-feed { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 10px 0; }
@@ -237,49 +251,49 @@
 
     <div id="app-wrap" style="display: none;">
         
-        <div class="dash-header-wrap">
-            <div class="dash-top-row">
-                <div class="dash-greeting">
-                    <span>مرحباً بعودتك <i class="fas fa-hand-sparkles" style="color: var(--warning); margin-right: 5px;"></i></span>
-                    <h2 id="u-name-top">...</h2>
-                </div>
-                <div class="dash-noti-btn" onclick="window.openModal('modal-noti')">
-                    <i class="fas fa-bell"></i>
-                    <span class="noti-dot" id="noti-badge"></span>
-                </div>
-            </div>
-
-            <div class="dash-main-card">
-                <div class="dash-bal-section">
-                    <div class="dash-bal-text">
-                        <span>الرصيد المتاح</span>
-                        <h1 id="u-bal-main">$0.0000</h1>
-                    </div>
-                    <div class="dash-bal-icon">
-                        <i class="fas fa-wallet"></i>
-                    </div>
-                </div>
-                
-                <div class="dash-add-funds">
-                    <button class="btn btn-pro" onclick="window.nav('wallet')" style="padding: 12px; border-radius: 12px;"><i class="fas fa-plus"></i> إضافة رصيد</button>
-                </div>
-
-                <div class="dash-stats-grid">
-                    <div class="dash-stat-box">
-                        <div class="dash-stat-icon icon-pending"><i class="fas fa-bolt"></i></div>
-                        <h3 id="stat-pending">0</h3>
-                        <span>قيد التنفيذ</span>
-                    </div>
-                    <div class="dash-stat-box">
-                        <div class="dash-stat-icon icon-completed"><i class="fas fa-box"></i></div>
-                        <h3 id="stat-completed">0</h3>
-                        <span>طلب مكتمل</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div id="pg-home" class="page active">
+            <div class="dash-header-wrap">
+                <div class="dash-top-row">
+                    <div class="dash-greeting">
+                        <span>مرحباً بعودتك <i class="fas fa-hand-sparkles" style="color: var(--warning); margin-right: 5px;"></i></span>
+                        <h2 id="u-name-top">...</h2>
+                    </div>
+                    <div class="dash-noti-btn" onclick="window.openModal('modal-noti')">
+                        <i class="fas fa-bell"></i>
+                        <span class="noti-dot" id="noti-badge"></span>
+                    </div>
+                </div>
+
+                <div class="dash-main-card">
+                    <div class="dash-bal-section">
+                        <div class="dash-bal-text">
+                            <span>الرصيد المتاح</span>
+                            <h1 id="u-bal-main">$0.0000</h1>
+                        </div>
+                        <div class="dash-bal-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="dash-add-funds">
+                        <button class="btn btn-pro" onclick="window.nav('wallet')" style="padding: 12px; border-radius: 12px;"><i class="fas fa-plus"></i> إضافة رصيد</button>
+                    </div>
+
+                    <div class="dash-stats-grid">
+                        <div class="dash-stat-box">
+                            <div class="dash-stat-icon icon-pending"><i class="fas fa-bolt"></i></div>
+                            <h3 id="stat-pending">0</h3>
+                            <span>قيد التنفيذ</span>
+                        </div>
+                        <div class="dash-stat-box">
+                            <div class="dash-stat-icon icon-completed"><i class="fas fa-box"></i></div>
+                            <h3 id="stat-completed">0</h3>
+                            <span>طلب مكتمل</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <h3 style="margin-bottom: 20px; font-weight: 800; font-size: 1.3rem;">الأقسام المتاحة</h3>
             <div style="position: relative; margin-bottom: 20px;">
                 <i class="fas fa-search" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-sec);"></i>
@@ -289,7 +303,7 @@
         </div>
 
         <div id="pg-orders" class="page">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-top: 25px;">
                 <h3 style="font-weight: 800;">سجل الطلبات</h3>
                 <button onclick="window.syncOrders(true)" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--primary); padding: 8px 15px; border-radius: 10px; font-weight: bold; cursor: pointer;">
                     <i class="fas fa-sync-alt"></i> تحديث
@@ -299,6 +313,7 @@
         </div>
 
         <div id="pg-wallet" class="page">
+            <div style="padding-top: 25px;"></div>
             <div class="card" style="text-align: center; padding: 40px 20px;">
                 <div style="width: 80px; height: 80px; background: rgba(139, 92, 246, 0.1); border-radius: 25px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: var(--primary); font-size: 2.5rem;">
                     <i class="fas fa-wallet"></i>
@@ -313,6 +328,7 @@
         </div>
 
         <div id="pg-support" class="page">
+            <div style="padding-top: 25px;"></div>
             <div class="chat-container">
                 <div class="chat-feed" id="chat-feed"></div>
                 <div style="display: flex; gap: 10px; background: var(--bg-card); padding: 12px; border-radius: 20px; border: 1px solid var(--border);">
@@ -323,6 +339,7 @@
         </div>
 
         <div id="pg-profile" class="page" style="padding-bottom: 120px;">
+            <div style="padding-top: 25px;"></div>
             <div style="text-align: center; margin-bottom: 30px;">
                 <div style="width: 90px; height: 90px; background: var(--bg-card); border: 2px solid var(--primary); border-radius: 30px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--primary); box-shadow: 0 5px 20px var(--glow);">
                     <i class="fas fa-user-tie"></i>
@@ -350,20 +367,6 @@
                         <input type="text" id="p-name-edit" class="input-box" placeholder="أدخل اسمك الجديد">
                     </div>
                     <button onclick="window.saveProfileName()" class="btn btn-pro" style="padding: 12px;">حفظ الاسم</button>
-                </div>
-            </div>
-
-            <div class="accordion-header" onclick="window.toggleAccordion('acc-aff', 'icon-aff')">
-                <div class="accordion-title"><i class="fas fa-users" style="color: var(--success);"></i> دعوة الأصدقاء</div>
-                <i class="fas fa-chevron-down accordion-icon" id="icon-aff"></i>
-            </div>
-            <div class="accordion-content" id="acc-aff">
-                <div class="accordion-inner">
-                    <p style="color: var(--text-sec); font-size: 0.85rem; margin-bottom: 10px; line-height: 1.5;">قم بدعوة أصدقائك لاستخدام كايدو فولو عبر هذا الرابط، واحصل على مكافآت عند تسجيلهم.</p>
-                    <div style="display: flex; gap: 10px;">
-                        <input type="text" id="p-ref-link" class="input-box" readonly style="direction: ltr; text-align: left; font-size: 0.8rem;">
-                        <button onclick="window.copyReferral()" class="btn btn-outline" style="width: auto; padding: 0 20px; color: var(--primary); border-color: var(--primary);"><i class="fas fa-copy"></i></button>
-                    </div>
                 </div>
             </div>
 
@@ -422,41 +425,68 @@
     <div id="modal-order" class="full-modal">
         <div class="header" style="padding: 25px 20px;">
             <i class="fas fa-arrow-right" onclick="window.closeModal('modal-order')" style="font-size: 1.5rem; cursor: pointer;"></i>
-            <h3>تفاصيل الطلب</h3>
+            <h3>طلب جديد</h3>
         </div>
         <div style="padding: 20px; padding-bottom: 100px;">
-            <div class="card">
-                <h3 id="ord-title" style="color: var(--primary); margin-bottom: 20px; line-height: 1.5; font-size: 1.1rem;">...</h3>
-                
-                <div class="order-info-grid">
-                    <div class="order-info-box">
-                        <span class="order-info-title">السعر (لكل 1000)</span>
-                        <span class="order-info-val" id="ord-price" style="color: var(--success);">0$</span>
+            
+            <div class="order-hero">
+                <div class="order-hero-badge" id="ord-id">#000</div>
+                <h3 class="order-hero-title" id="ord-title">...</h3>
+                <div class="order-hero-stats">
+                    <div class="order-hero-stat">
+                        <span>الحد الأدنى <i class="fas fa-arrow-down" style="font-size:0.6rem;"></i></span>
+                        <b id="ord-min">0</b>
                     </div>
-                    <div class="order-info-box">
-                        <span class="order-info-title">أقل / أكثر كمية</span>
-                        <span class="order-info-val"><span id="ord-min">0</span> - <span id="ord-max">0</span></span>
+                    <div class="order-hero-stat">
+                        <span>الحد الأقصى <i class="fas fa-arrow-up" style="font-size:0.6rem;"></i></span>
+                        <b id="ord-max">0</b>
+                    </div>
+                    <div class="order-hero-stat">
+                        <span>لكل 1000 <i class="fas fa-dollar-sign" style="color:var(--warning); font-size:0.6rem;"></i></span>
+                        <b id="ord-price" style="color:var(--warning);">0$</b>
                     </div>
                 </div>
-
-                <div id="ord-desc" style="background: rgba(139, 92, 246, 0.05); padding: 15px; border-radius: 12px; font-size: 0.85rem; color: var(--text-sec); border: 1px dashed rgba(139, 92, 246, 0.3); margin-bottom: 25px; line-height: 1.6;"></div>
-
-                <div class="input-group">
-                    <label class="input-label">الرابط المخصص للطلب</label>
-                    <input type="text" id="ord-link" class="input-box" placeholder="ضع الرابط هنا...">
-                </div>
-                <div class="input-group">
-                    <label class="input-label">الكمية المطلوبة</label>
-                    <input type="number" id="ord-qty" class="input-box" placeholder="أدخل الكمية..." oninput="window.calcTotal()">
-                </div>
-                
-                <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 18px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
-                    <span style="color: var(--success); font-weight: bold; font-size: 1.1rem;">الإجمالي المطلوب:</span>
-                    <b id="ord-total" style="color: var(--success); font-size: 1.4rem; font-family: monospace;">0.00 $</b>
-                </div>
-
-                <button onclick="window.submitOrder()" class="btn btn-pro" style="padding: 16px; font-size: 1.1rem;">تأكيد وإرسال الطلب</button>
             </div>
+            
+            <div class="order-section">
+                <div class="order-section-title"><i class="fas fa-info-circle" style="color:var(--info);"></i> وصف الخدمة</div>
+                <div id="ord-desc" style="font-size: 0.85rem; color: var(--text-sec); line-height: 1.6;"></div>
+            </div>
+
+            <div class="order-section">
+                <div class="order-section-title"><i class="fas fa-shopping-cart"></i> تفاصيل الطلب</div>
+                <div class="input-group">
+                    <label class="input-label">الرابط أو اسم المستخدم</label>
+                    <div style="position:relative;">
+                        <i class="fas fa-link" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); color:var(--text-sec);"></i>
+                        <input type="text" id="ord-link" class="input-box" style="padding-right:40px;" placeholder="أدخل الرابط هنا...">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">الكمية</label>
+                    <div style="position:relative;">
+                        <i class="fas fa-hashtag" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); color:var(--text-sec);"></i>
+                        <input type="number" id="ord-qty" class="input-box" style="padding-right:40px;" placeholder="0" oninput="window.calcTotal()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-section">
+                <div class="order-section-title"><i class="fas fa-dollar-sign" style="color:var(--success);"></i> ملخص الطلب</div>
+                <div class="order-summary-grid">
+                    <div class="summary-box">
+                        <span>رصيدك <i class="fas fa-wallet" style="margin-right:3px;"></i></span>
+                        <b id="ord-bal" style="color:var(--info);">0.0000$</b>
+                    </div>
+                    <div class="summary-box">
+                        <span>التكلفة <i class="fas fa-dollar-sign" style="margin-right:3px;"></i></span>
+                        <b id="ord-total" style="color:var(--success);">0.0000$</b>
+                    </div>
+                </div>
+                <div id="ord-error" class="summary-error"><i class="fas fa-exclamation-circle"></i> رصيد غير كاف! اشحن رصيدك الآن</div>
+            </div>
+
+            <button onclick="window.submitOrder()" class="btn btn-pro" style="padding: 18px; font-size: 1.1rem; margin-top: 10px;"><i class="fas fa-paper-plane"></i> إرسال الطلب</button>
         </div>
     </div>
 <script type="module">
@@ -464,6 +494,7 @@
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, updateDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
+        // إعدادات قاعدة البيانات
         const app = initializeApp({
             apiKey: "AIzaSyDPNS3dO05la3CpArNwm2KLHWaznog2rS4",
             authDomain: "kaido-follow-508df.firebaseapp.com",
@@ -475,6 +506,7 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        // المتغيرات العامة
         let currentUser = null;
         let userData = null;
         let currentService = null;
@@ -482,6 +514,7 @@
         let unsubscribeChat = null;
         let unsubscribeNoti = null;
 
+        // دوال الواجهة الأساسية
         window.loader = (show) => document.getElementById('loader').style.display = show ? 'flex' : 'none';
         
         window.toast = (msg) => {
@@ -533,13 +566,8 @@
             });
         };
 
-        window.copyReferral = () => {
-            const link = document.getElementById('p-ref-link').value;
-            window.copyText(link, "تم نسخ رابط الدعوة بنجاح");
-        };
-
         window.copyOrderId = (id) => {
-            window.copyText(id, "تم نسخ رقم الطلب");
+            window.copyText(id, "تم نسخ رقم الطلب بنجاح");
         };
 
         window.filterServices = () => {
@@ -570,6 +598,7 @@
             }, 2500);
         };
 
+        // نظام الإشعارات (In-App Notifications)
         window.listenNotifications = () => {
             if(unsubscribeNoti) unsubscribeNoti();
             const q = query(collection(db, "notifications"), orderBy("createdAt", "desc"));
@@ -594,7 +623,7 @@
                     list.innerHTML += `
                     <div class="card" style="padding:15px; margin-bottom:10px; border-right: 3px solid var(--primary); border-radius: 12px;">
                         <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-                            <b style="color:var(--primary); font-size:0.95rem;">${n.title}</b>
+                            <b style="color:var(--primary); font-size:0.95rem;"><i class="fas fa-bullhorn" style="margin-left:5px;"></i> ${n.title}</b>
                             <span style="font-size:0.75rem; color:var(--text-sec);">${dateStr}</span>
                         </div>
                         <p style="font-size:0.85rem; color:var(--text-main); line-height:1.5;">${n.message}</p>
@@ -603,6 +632,7 @@
             });
         };
 
+        // المصادقة ومزامنة البيانات
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
@@ -620,11 +650,12 @@
                         document.getElementById('u-bal').innerText = balanceText;
                         document.getElementById('u-bal-main').innerText = balanceText;
                         
+                        // تحديث الرصيد داخل نافذة الطلب إذا كانت مفتوحة
+                        document.getElementById('ord-bal').innerText = balanceText;
+                        
                         document.getElementById('p-display-name').innerText = userData.name;
                         document.getElementById('p-username').value = "@" + (userData.username || "user");
                         document.getElementById('p-email').value = userData.email;
-                        
-                        document.getElementById('p-ref-link').value = "https://3c5-o.github.io/downloadKaidoFollow/?ref=" + (userData.username || user.uid);
                         
                         if(!document.getElementById('p-name-edit').value) {
                             document.getElementById('p-name-edit').value = userData.name;
@@ -663,11 +694,8 @@
             try {
                 const cred = await createUserWithEmailAndPassword(auth, e, p);
                 
-                const urlParams = new URLSearchParams(window.location.search);
-                const ref = urlParams.get('ref') || '';
-
                 await setDoc(doc(db, "users", cred.user.uid), {
-                    name: n, username: u, email: e, balance: 0, spent: 0, referredBy: ref, createdAt: serverTimestamp()
+                    name: n, username: u, email: e, balance: 0, spent: 0, createdAt: serverTimestamp()
                 });
                 await setDoc(doc(db, "chats", cred.user.uid), {
                     lastMessage: "تم إنشاء الحساب بنجاح", time: serverTimestamp(), userId: cred.user.uid, name: n, username: u, hasUnread: false
@@ -716,6 +744,7 @@
             window.loader(false);
         };
 
+        // جلب الأقسام والخدمات
         window.loadCategories = async () => {
             const q = query(collection(db, "categories"), where("visible", "==", true));
             const snap = await getDocs(q);
@@ -751,37 +780,53 @@
                 <div class="service-card">
                     <b style="font-size:1.05rem; display:block; margin-bottom:8px; line-height: 1.4; color:var(--text-main);">${s.name}</b>
                     <span class="service-price">$${s.price} <small style="color:var(--text-sec); font-size:0.75rem; font-weight:normal;">/ 1000</small></span>
-                    <button class="btn btn-outline" style="padding:12px; color:var(--primary); border-color:var(--primary); width:100%; margin-top:10px;" onclick="window.prepOrder('${objStr}')">تقديم الطلب</button>
+                    <button class="btn btn-outline" style="padding:12px; color:var(--primary); border-color:var(--primary); width:100%; margin-top:10px;" onclick="window.prepOrder('${objStr}')"><i class="fas fa-cart-plus" style="margin-left:5px;"></i> تقديم الطلب</button>
                 </div>`;
             });
         };
 
+        // إعداد وتجهيز نافذة الطلب الاحترافية
         window.prepOrder = (encodedObj) => {
             currentService = JSON.parse(decodeURIComponent(encodedObj));
             
+            document.getElementById('ord-id').innerText = "#" + (currentService.providerServiceId || "000");
             document.getElementById('ord-title').innerText = currentService.name;
-            document.getElementById('ord-price').innerText = currentService.price + " $";
+            document.getElementById('ord-price').innerText = currentService.price + "$";
             document.getElementById('ord-min').innerText = currentService.min;
             document.getElementById('ord-max').innerText = currentService.max;
-            document.getElementById('ord-desc').innerHTML = currentService.description ? currentService.description.replace(/\n/g, '<br>') : 'تفاصيل الخدمة غير متوفرة حالياً.';
+            document.getElementById('ord-desc').innerHTML = currentService.description ? currentService.description.replace(/\n/g, '<br>') : 'لا يوجد تفاصيل إضافية للخدمة حالياً.';
             
             document.getElementById('ord-link').value = '';
             document.getElementById('ord-qty').value = '';
-            document.getElementById('ord-total').innerText = '0.00 $';
+            document.getElementById('ord-total').innerText = '0.0000$';
+            document.getElementById('ord-bal').innerText = userData.balance.toFixed(4) + "$";
+            document.getElementById('ord-error').style.display = 'none';
             
             window.openModal('modal-order');
         };
 
+        // حساب التكلفة والتنبيه المباشر بالرصيد
         window.calcTotal = () => {
-            const qty = parseInt(document.getElementById('ord-qty').value);
+            const qty = parseInt(document.getElementById('ord-qty').value) || 0;
+            const errorBox = document.getElementById('ord-error');
+            
             if(qty > 0 && currentService) {
                 const total = (qty / 1000) * currentService.price;
-                document.getElementById('ord-total').innerText = total.toFixed(4) + " $";
+                document.getElementById('ord-total').innerText = total.toFixed(4) + "$";
+                
+                // مقارنة التكلفة بالرصيد المتاح
+                if(total > userData.balance) {
+                    errorBox.style.display = 'block';
+                } else {
+                    errorBox.style.display = 'none';
+                }
             } else {
-                document.getElementById('ord-total').innerText = "0.00 $";
+                document.getElementById('ord-total').innerText = "0.0000$";
+                errorBox.style.display = 'none';
             }
         };
 
+        // إرسال الطلب للمزود (API)
         window.submitOrder = async () => {
             const link = document.getElementById('ord-link').value.trim();
             const qty = parseInt(document.getElementById('ord-qty').value);
@@ -790,10 +835,14 @@
             if(qty < currentService.min || qty > currentService.max) return window.toast(`الكمية المسموحة: ${currentService.min} إلى ${currentService.max}`);
             
             const cost = parseFloat(((qty / 1000) * currentService.price).toFixed(4));
-            if(userData.balance < cost) return window.toast("عذراً، الرصيد غير كافٍ لإتمام الطلب");
+            if(userData.balance < cost) {
+                document.getElementById('ord-error').style.display = 'block';
+                return window.toast("عذراً، الرصيد غير كافٍ لإتمام الطلب");
+            }
 
             window.loader(true);
             try {
+                // خصم الرصيد مبدئياً
                 await updateDoc(doc(db, "users", currentUser.uid), {
                     balance: userData.balance - cost,
                     spent: (userData.spent || 0) + cost
@@ -834,6 +883,7 @@
                 window.nav('orders');
 
             } catch(e) {
+                // إرجاع الرصيد في حال الفشل
                 await updateDoc(doc(db, "users", currentUser.uid), { balance: userData.balance });
                 window.toast("تعذر إرسال الطلب، تم استرجاع الرصيد.");
                 console.error(e);
@@ -841,6 +891,7 @@
             window.loader(false);
         };
 
+        // تعريب حالات الطلب
         const getStatusArabic = (st) => {
             if(!st) return 'غير معروف';
             const s = st.toLowerCase();
@@ -854,6 +905,7 @@
             return st;
         };
 
+        // عرض ومزامنة الطلبات
         window.listenOrders = () => {
             const q = query(collection(db, "orders"), where("userId", "==", currentUser.uid), orderBy("createdAt", "desc"));
             onSnapshot(q, (snap) => {
@@ -865,7 +917,7 @@
                 let completedCount = 0;
 
                 if(snap.empty) {
-                    list.innerHTML = '<div style="text-align:center; padding:50px; color:var(--text-sec); font-size:1.1rem;">لا توجد أي طلبات سابقة.</div>';
+                    list.innerHTML = '<div style="text-align:center; padding:50px; color:var(--text-sec); font-size:1.1rem;"><i class="fas fa-box-open" style="font-size:3rem; margin-bottom:15px; opacity:0.3;"></i><br>لا توجد أي طلبات سابقة.</div>';
                     document.getElementById('stat-pending').innerText = '0';
                     document.getElementById('stat-completed').innerText = '0';
                     return;
@@ -985,9 +1037,10 @@
                     }
                 } catch(e) { console.error("Sync Error", e); }
             }
-            if(manual) window.toast("تم تحديث حالة الطلبات");
+            if(manual) window.toast("تم تحديث حالة الطلبات بنجاح");
         };
 
+        // المحفظة والشحن
         window.redeemCoupon = async () => {
             const code = document.getElementById('coupon-code').value.trim();
             if(!code) return window.toast("يرجى إدخال رمز الشحن");
@@ -1040,6 +1093,7 @@
             });
         };
 
+        // الدعم الفني
         window.initChat = () => {
             if(unsubscribeChat) unsubscribeChat();
             
