@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>كايدو فولو | Kaido Follow</title>
+    <title>Kaido Follow | Premium SMM</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -85,7 +85,7 @@
         @keyframes slideFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         .header {
-            padding: 25px 20px; display: flex; justify-content: space-between; align-items: center;
+            padding: 20px; display: flex; justify-content: space-between; align-items: center;
             position: sticky; top: 0; background: rgba(9, 9, 11, 0.85); backdrop-filter: blur(20px); z-index: 100;
         }
 
@@ -109,7 +109,7 @@
         .splash-title { font-weight: 900; font-size: 2.2rem; letter-spacing: 2px; background: var(--gradient-pro); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        /* --- 7. تصميم الأقسام والخدمات (احترافي) --- */
+        /* --- 7. تصميم الأقسام والخدمات --- */
         .cat-card {
             background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
             padding: 16px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;
@@ -147,6 +147,10 @@
         .status-wait { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
         .status-fail { background: rgba(244, 63, 94, 0.15); color: var(--danger); }
         .status-info { background: rgba(59, 130, 246, 0.15); color: var(--info); }
+        
+        /* أيقونة النسخ السريع */
+        .copy-icon { margin-right: 8px; color: var(--primary); cursor: pointer; transition: 0.2s; }
+        .copy-icon:active { transform: scale(0.8); }
 
         #loader { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 9999; display: none; justify-content: center; align-items: center; }
         .spinner { width: 45px; height: 45px; border: 4px solid var(--bg-input); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
@@ -201,14 +205,24 @@
                 <span style="color: var(--text-sec); font-size: 0.85rem;">مرحباً بك،</span>
                 <h3 id="u-name" style="font-weight: 700;">...</h3>
             </div>
-            <div style="text-align: left; background: var(--bg-card); padding: 8px 15px; border-radius: 12px; border: 1px solid var(--border);">
-                <span style="color: var(--text-sec); font-size: 0.75rem;">الرصيد المتاح</span>
-                <div id="u-bal" style="color: var(--accent); font-weight: 800; font-family: monospace; font-size: 1.1rem;">0.00 $</div>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div style="position: relative; cursor: pointer; padding: 5px;" onclick="window.openModal('modal-noti')">
+                    <i class="fas fa-bell" style="font-size: 1.4rem; color: var(--text-main);"></i>
+                    <span id="noti-badge" style="display: none; position: absolute; top: 2px; right: 2px; background: var(--danger); width: 10px; height: 10px; border-radius: 50%; box-shadow: 0 0 5px var(--danger);"></span>
+                </div>
+                <div style="text-align: left; background: var(--bg-card); padding: 8px 15px; border-radius: 12px; border: 1px solid var(--border);">
+                    <span style="color: var(--text-sec); font-size: 0.75rem;">الرصيد المتاح</span>
+                    <div id="u-bal" style="color: var(--accent); font-weight: 800; font-family: monospace; font-size: 1.1rem;">0.00 $</div>
+                </div>
             </div>
         </div>
 
         <div id="pg-home" class="page active">
             <h3 style="margin-bottom: 20px; font-weight: 800; font-size: 1.3rem;">الأقسام المتاحة</h3>
+            <div style="position: relative; margin-bottom: 20px;">
+                <i class="fas fa-search" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-sec);"></i>
+                <input type="text" id="search-services" class="input-box" style="padding-right: 45px;" placeholder="ابحث عن قسم أو خدمة..." onkeyup="window.filterServices()">
+            </div>
             <div id="cats-list"></div>
         </div>
 
@@ -228,7 +242,7 @@
                     <i class="fas fa-wallet"></i>
                 </div>
                 <h3 style="margin-bottom: 10px;">شحن الرصيد</h3>
-                <p style="color: var(--text-sec); margin-bottom: 25px; font-size: 0.9rem;">أدخل رمز الشحن (الكوبون) لإضافة الرصيد إلى محفظتك في كايدو فولو.</p>
+                <p style="color: var(--text-sec); margin-bottom: 25px; font-size: 0.9rem;">أدخل رمز الشحن لإضافة الرصيد إلى محفظتك في كايدو فولو.</p>
                 <input type="text" id="coupon-code" class="input-box" style="text-align: center; letter-spacing: 2px; font-weight: 800; font-size: 1.2rem; margin-bottom: 20px;" placeholder="أدخل الرمز هنا">
                 <button onclick="window.redeemCoupon()" class="btn btn-pro">تأكيد الشحن</button>
             </div>
@@ -263,7 +277,7 @@
             <div class="accordion-content" id="acc-info">
                 <div class="accordion-inner">
                     <div class="input-group">
-                        <label class="input-label">اسم المستخدم (اليوزر)</label>
+                        <label class="input-label">اسم المستخدم</label>
                         <input type="text" id="p-username" class="input-box" readonly>
                     </div>
                     <div class="input-group">
@@ -271,10 +285,24 @@
                         <input type="text" id="p-email" class="input-box" readonly>
                     </div>
                     <div class="input-group">
-                        <label class="input-label">الاسم الظاهر (يمكنك تعديله)</label>
+                        <label class="input-label">الاسم الظاهر</label>
                         <input type="text" id="p-name-edit" class="input-box" placeholder="أدخل اسمك الجديد">
                     </div>
                     <button onclick="window.saveProfileName()" class="btn btn-pro" style="padding: 12px;">حفظ الاسم الجديد</button>
+                </div>
+            </div>
+
+            <div class="accordion-header" onclick="window.toggleAccordion('acc-aff', 'icon-aff')">
+                <div class="accordion-title"><i class="fas fa-users" style="color: var(--success);"></i> دعوة الأصدقاء</div>
+                <i class="fas fa-chevron-down accordion-icon" id="icon-aff"></i>
+            </div>
+            <div class="accordion-content" id="acc-aff">
+                <div class="accordion-inner">
+                    <p style="color: var(--text-sec); font-size: 0.85rem; margin-bottom: 10px; line-height: 1.5;">قم بدعوة أصدقائك لاستخدام كايدو فولو عبر هذا الرابط، واحصل على مكافآت عند تسجيلهم.</p>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="p-ref-link" class="input-box" readonly style="direction: ltr; text-align: left; font-size: 0.8rem;">
+                        <button onclick="window.copyReferral()" class="btn btn-outline" style="width: auto; padding: 0 20px; color: var(--primary); border-color: var(--primary);"><i class="fas fa-copy"></i></button>
+                    </div>
                 </div>
             </div>
 
@@ -308,10 +336,26 @@
         </div>
     </div>
 
+    <div id="modal-noti" class="full-modal">
+        <div class="header" style="border-bottom: 1px solid var(--border);">
+            <i class="fas fa-arrow-right" onclick="window.closeModal('modal-noti')" style="font-size: 1.5rem; cursor: pointer;"></i>
+            <h3>مركز الإشعارات</h3>
+        </div>
+        <div id="noti-list" style="padding: 20px; padding-bottom: 100px;">
+            <div style="text-align:center; padding:40px; color:var(--text-sec);"><i class="fas fa-bell-slash" style="font-size:2rem; margin-bottom:10px; opacity:0.5;"></i><br>لا توجد إشعارات حالياً</div>
+        </div>
+    </div>
+
     <div id="modal-services" class="full-modal">
         <div class="header" style="border-bottom: 1px solid var(--border);">
             <i class="fas fa-arrow-right" onclick="window.closeModal('modal-services')" style="font-size: 1.5rem; cursor: pointer;"></i>
             <h3 id="cat-title">...</h3>
+        </div>
+        <div style="padding: 15px 20px 0 20px;">
+            <div style="position: relative;">
+                <i class="fas fa-search" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-sec);"></i>
+                <input type="text" id="search-sub-services" class="input-box" style="padding-right: 45px; margin-bottom: 0;" placeholder="ابحث في هذا القسم..." onkeyup="window.filterSubServices()">
+            </div>
         </div>
         <div id="srvs-list" style="padding: 20px;"></div>
     </div>
@@ -361,7 +405,7 @@
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, updateDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-        // 1. إعدادات قاعدة البيانات (Firebase Config)
+        // إعدادات قاعدة البيانات
         const app = initializeApp({
             apiKey: "AIzaSyDPNS3dO05la3CpArNwm2KLHWaznog2rS4",
             authDomain: "kaido-follow-508df.firebaseapp.com",
@@ -373,14 +417,15 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // 2. المتغيرات العامة
+        // المتغيرات العامة
         let currentUser = null;
         let userData = null;
         let currentService = null;
         let activeOrders = [];
         let unsubscribeChat = null;
+        let unsubscribeNoti = null;
 
-        // 3. دوال الواجهة (UI Utilities)
+        // دوال الواجهة الأساسية
         window.loader = (show) => document.getElementById('loader').style.display = show ? 'flex' : 'none';
         
         window.toast = (msg) => {
@@ -399,7 +444,7 @@
             document.querySelectorAll('.nav-item')[tabMap[pageId]].classList.add('active');
 
             if(pageId === 'support') window.initChat();
-            if(pageId === 'orders') window.syncOrders(); // تحديث تلقائي عند دخول صفحة الطلبات
+            if(pageId === 'orders') window.syncOrders(); 
         };
 
         window.toggleAuth = (type) => {
@@ -407,9 +452,9 @@
             document.getElementById('form-reg').style.display = type === 'reg' ? 'block' : 'none';
         };
 
+        window.openModal = (id) => document.getElementById(id).classList.add('open');
         window.closeModal = (id) => document.getElementById(id).classList.remove('open');
 
-        // دالة تشغيل القوائم المنسدلة (الأكورديون) في الملف الشخصي
         window.toggleAccordion = (contentId, iconId) => {
             const content = document.getElementById(contentId);
             const icon = document.getElementById(iconId);
@@ -424,7 +469,43 @@
             }
         };
 
-        // إخفاء شاشة البداية بعد ثوانٍ قليلة
+        // نظام النسخ السريع (Clipboard API)
+        window.copyText = (text, successMsg) => {
+            navigator.clipboard.writeText(text).then(() => {
+                window.toast(successMsg || "تم النسخ بنجاح");
+            }).catch(() => {
+                window.toast("تعذر النسخ، يرجى المحاولة يدوياً");
+            });
+        };
+
+        window.copyReferral = () => {
+            const link = document.getElementById('p-ref-link').value;
+            window.copyText(link, "تم نسخ رابط الدعوة بنجاح");
+        };
+
+        window.copyOrderId = (id) => {
+            window.copyText(id, "تم نسخ رقم الطلب: " + id);
+        };
+
+        // نظام البحث والفلترة الذكي
+        window.filterServices = () => {
+            const queryText = document.getElementById('search-services').value.toLowerCase();
+            const cards = document.querySelectorAll('#cats-list .cat-card');
+            cards.forEach(card => {
+                const title = card.innerText.toLowerCase();
+                card.style.display = title.includes(queryText) ? 'flex' : 'none';
+            });
+        };
+
+        window.filterSubServices = () => {
+            const queryText = document.getElementById('search-sub-services').value.toLowerCase();
+            const cards = document.querySelectorAll('#srvs-list .service-card');
+            cards.forEach(card => {
+                const title = card.innerText.toLowerCase();
+                card.style.display = title.includes(queryText) ? 'block' : 'none';
+            });
+        };
+
         window.onload = () => {
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
@@ -435,7 +516,41 @@
             }, 2500);
         };
 
-        // 4. نظام المصادقة
+        // نظام الإشعارات (In-App Notifications)
+        window.listenNotifications = () => {
+            if(unsubscribeNoti) unsubscribeNoti();
+            const q = query(collection(db, "notifications"), orderBy("createdAt", "desc"));
+            
+            unsubscribeNoti = onSnapshot(q, (snap) => {
+                const list = document.getElementById('noti-list');
+                const badge = document.getElementById('noti-badge');
+                
+                if(snap.empty) {
+                    list.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-sec);"><i class="fas fa-bell-slash" style="font-size:2rem; margin-bottom:10px; opacity:0.5;"></i><br>لا توجد إشعارات حالياً</div>';
+                    badge.style.display = 'none';
+                    return;
+                }
+
+                badge.style.display = 'block';
+                list.innerHTML = '';
+                
+                snap.forEach(d => {
+                    const n = d.data();
+                    const dateStr = n.createdAt ? new Date(n.createdAt.seconds * 1000).toLocaleDateString('ar-EG') : '';
+                    
+                    list.innerHTML += `
+                    <div class="card" style="padding:15px; margin-bottom:10px; border-right: 3px solid var(--primary); border-radius: 12px;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                            <b style="color:var(--primary); font-size:0.95rem;">${n.title}</b>
+                            <span style="font-size:0.75rem; color:var(--text-sec);">${dateStr}</span>
+                        </div>
+                        <p style="font-size:0.85rem; color:var(--text-main); line-height:1.5;">${n.message}</p>
+                    </div>`;
+                });
+            });
+        };
+
+        // نظام المصادقة
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
@@ -453,6 +568,9 @@
                         document.getElementById('p-username').value = "@" + (userData.username || "user");
                         document.getElementById('p-email').value = userData.email;
                         
+                        // تعيين رابط الإحالة (دعوة الأصدقاء)
+                        document.getElementById('p-ref-link').value = "https://kaidofollow.com/register?ref=" + (userData.username || user.uid);
+                        
                         if(!document.getElementById('p-name-edit').value) {
                             document.getElementById('p-name-edit').value = userData.name;
                         }
@@ -462,6 +580,7 @@
                 window.loadCategories();
                 window.listenOrders();
                 window.listenWallet();
+                window.listenNotifications();
             } else {
                 document.getElementById('app-wrap').style.display = 'none';
                 document.getElementById('pg-auth').classList.add('open');
@@ -492,9 +611,9 @@
                     name: n, username: u, email: e, balance: 0, spent: 0, createdAt: serverTimestamp()
                 });
                 await setDoc(doc(db, "chats", cred.user.uid), {
-                    lastMessage: "تم إنشاء الحساب، مرحباً بك!", time: serverTimestamp(), userId: cred.user.uid, name: n, username: u, hasUnread: false
+                    lastMessage: "تم إنشاء الحساب بنجاح", time: serverTimestamp(), userId: cred.user.uid, name: n, username: u, hasUnread: false
                 });
-            } catch(err) { window.toast("حدث خطأ أثناء التسجيل"); window.loader(false); }
+            } catch(err) { window.toast("حدث خطأ أثناء التسجيل، يرجى المحاولة لاحقاً"); window.loader(false); }
         };
 
         window.logout = async () => {
@@ -503,7 +622,6 @@
             location.reload();
         };
 
-        // 5. إدارة الحساب (Profile)
         window.saveProfileName = async () => {
             const newName = document.getElementById('p-name-edit').value.trim();
             if(!newName || newName === userData.name) return;
@@ -530,15 +648,15 @@
                 await reauthenticateWithCredential(currentUser, credential);
                 await updatePassword(currentUser, newP);
                 window.toast("تم تحديث كلمة المرور بأمان");
+                
                 document.getElementById('p-old').value = '';
                 document.getElementById('p-new').value = '';
                 document.getElementById('p-new-conf').value = '';
-                window.toggleAccordion('acc-sec', 'icon-sec'); // إغلاق القائمة
+                window.toggleAccordion('acc-sec', 'icon-sec');
             } catch(e) { window.toast("كلمة المرور الحالية غير صحيحة"); }
             window.loader(false);
         };
 
-        // 6. الخدمات (Categories & Services)
         window.loadCategories = async () => {
             const q = query(collection(db, "categories"), where("visible", "==", true));
             const snap = await getDocs(q);
@@ -559,7 +677,9 @@
 
         window.openCategory = async (id, name) => {
             document.getElementById('cat-title').innerText = name;
-            document.getElementById('modal-services').classList.add('open');
+            document.getElementById('search-sub-services').value = ''; 
+            window.openModal('modal-services');
+            
             const list = document.getElementById('srvs-list');
             list.innerHTML = '<div style="text-align:center; padding:30px;"><div class="spinner" style="margin:0 auto;"></div></div>';
             
@@ -572,12 +692,11 @@
                 <div class="service-card">
                     <b style="font-size:1.05rem; display:block; margin-bottom:8px; line-height: 1.4; color:var(--text-main);">${s.name}</b>
                     <span class="service-price">$${s.price} <small style="color:var(--text-sec); font-size:0.75rem; font-weight:normal;">/ 1000</small></span>
-                    <button class="btn btn-outline" style="padding:12px; color:var(--primary); border-color:var(--primary); width:100%; margin-top:10px;" onclick="window.prepOrder('${objStr}')">طلب الخدمة الآن</button>
+                    <button class="btn btn-outline" style="padding:12px; color:var(--primary); border-color:var(--primary); width:100%; margin-top:10px;" onclick="window.prepOrder('${objStr}')">تقديم الطلب</button>
                 </div>`;
             });
         };
 
-        // 7. إنشاء الطلبات
         window.prepOrder = (encodedObj) => {
             currentService = JSON.parse(decodeURIComponent(encodedObj));
             
@@ -591,7 +710,7 @@
             document.getElementById('ord-qty').value = '';
             document.getElementById('ord-total').innerText = '0.00 $';
             
-            document.getElementById('modal-order').classList.add('open');
+            window.openModal('modal-order');
         };
 
         window.calcTotal = () => {
@@ -612,7 +731,7 @@
             if(qty < currentService.min || qty > currentService.max) return window.toast(`الكمية المسموحة: ${currentService.min} إلى ${currentService.max}`);
             
             const cost = parseFloat(((qty / 1000) * currentService.price).toFixed(4));
-            if(userData.balance < cost) return window.toast("عذراً، رصيدك غير كافٍ لإتمام الطلب");
+            if(userData.balance < cost) return window.toast("عذراً، الرصيد غير كافٍ لإتمام الطلب");
 
             window.loader(true);
             try {
@@ -650,9 +769,9 @@
                     createdAt: serverTimestamp()
                 });
 
-                window.toast("تم إرسال الطلب بنجاح!");
-                document.getElementById('modal-order').classList.remove('open');
-                document.getElementById('modal-services').classList.remove('open');
+                window.toast("تم إرسال الطلب بنجاح");
+                window.closeModal('modal-order');
+                window.closeModal('modal-services');
                 window.nav('orders');
 
             } catch(e) {
@@ -663,7 +782,6 @@
             window.loader(false);
         };
 
-        // دالة مساعدة لتعريب حالة الطلب
         const getStatusArabic = (st) => {
             if(!st) return 'غير معروف';
             const s = st.toLowerCase();
@@ -677,7 +795,6 @@
             return st;
         };
 
-        // 8. سجل الطلبات والمزامنة (Bulk Sync)
         window.listenOrders = () => {
             const q = query(collection(db, "orders"), where("userId", "==", currentUser.uid), orderBy("createdAt", "desc"));
             onSnapshot(q, (snap) => {
@@ -703,7 +820,10 @@
                     list.innerHTML += `
                     <div class="card" style="padding:16px; border-radius:16px;">
                         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
-                            <span style="font-family:monospace; color:var(--text-sec); font-size:0.95rem; font-weight:bold;">#${o.providerOrderId}</span>
+                            <span style="font-family:monospace; color:var(--text-sec); font-size:0.95rem; font-weight:bold;">
+                                <i class="fas fa-copy copy-icon" onclick="window.copyOrderId('${o.providerOrderId}')"></i>
+                                #${o.providerOrderId}
+                            </span>
                             <span class="badge ${badgeClass}">${getStatusArabic(o.status)}</span>
                         </div>
                         <b style="font-size:1rem; margin:12px 0; display:block; line-height:1.5; color:var(--text-main);">${o.service}</b>
@@ -788,35 +908,34 @@
                             });
                         }
                     }
-                } catch(e) { console.error("Bulk Sync Error", e); }
+                } catch(e) { console.error("Sync Error", e); }
             }
             if(manual) window.toast("تم تحديث حالة الطلبات");
         };
 
-        // 9. المحفظة (Wallet & Coupons)
         window.redeemCoupon = async () => {
             const code = document.getElementById('coupon-code').value.trim();
-            if(!code) return window.toast("يرجى إدخال رمز الكوبون");
+            if(!code) return window.toast("يرجى إدخال رمز الشحن");
             
             window.loader(true);
             try {
                 const q = query(collection(db, "coupons"), where("code", "==", code));
                 const snap = await getDocs(q);
                 
-                if(snap.empty) throw new Error("الكوبون غير صحيح");
+                if(snap.empty) throw new Error("الرمز غير صحيح");
                 const couponDoc = snap.docs[0];
                 const coupon = couponDoc.data();
                 
-                if(!coupon.active || coupon.used) throw new Error("الكوبون غير فعال أو تم استخدامه مسبقاً");
+                if(!coupon.active || coupon.used) throw new Error("الرمز غير فعال أو تم استخدامه مسبقاً");
 
                 await updateDoc(doc(db, "users", currentUser.uid), { balance: userData.balance + parseFloat(coupon.value) });
                 await updateDoc(doc(db, "coupons", couponDoc.id), { used: true, usedBy: currentUser.uid, usedAt: serverTimestamp() });
                 
                 await addDoc(collection(db, "deposits"), {
-                    userId: currentUser.uid, amount: parseFloat(coupon.value), method: 'شحن عبر كوبون', code: code, date: serverTimestamp()
+                    userId: currentUser.uid, amount: parseFloat(coupon.value), method: 'شحن مباشر', code: code, date: serverTimestamp()
                 });
 
-                window.toast(`تم شحن ${coupon.value}$ إلى محفظتك بنجاح`);
+                window.toast(`تم إضافة ${coupon.value}$ إلى رصيدك بنجاح`);
                 document.getElementById('coupon-code').value = '';
             } catch(e) { window.toast(e.message); }
             window.loader(false);
@@ -836,7 +955,7 @@
                                 <i class="fas fa-arrow-down"></i>
                             </div>
                             <div>
-                                <span style="display:block; font-weight:bold; font-size:0.95rem;">شحن رصيد</span>
+                                <span style="display:block; font-weight:bold; font-size:0.95rem;">عملية شحن</span>
                                 <span style="font-size:0.75rem; color:var(--text-sec);">${dep.method}</span>
                             </div>
                         </div>
@@ -846,7 +965,6 @@
             });
         };
 
-        // 10. الشات المباشر (Support Chat)
         window.initChat = () => {
             if(unsubscribeChat) unsubscribeChat();
             
@@ -856,14 +974,14 @@
                 feed.innerHTML = '';
                 
                 if(snap.empty) {
-                    feed.innerHTML = '<div style="text-align:center; color:var(--text-sec); margin-top:60px;"><i class="fas fa-headset" style="font-size:3.5rem; opacity:0.2; margin-bottom:15px;"></i><br>أهلاً بك في دعم كايدو فولو!<br>أرسل استفسارك وسنرد عليك قريباً.</div>';
+                    feed.innerHTML = '<div style="text-align:center; color:var(--text-sec); margin-top:60px;"><i class="fas fa-headset" style="font-size:3.5rem; opacity:0.2; margin-bottom:15px;"></i><br>أهلاً بك في دعم كايدو فولو<br>نحن هنا لخدمتك</div>';
                     return;
                 }
 
                 snap.forEach(d => {
                     const m = d.data();
                     const isMe = m.sender === 'user';
-                    const time = m.createdAt ? new Date(m.createdAt.seconds * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '';
+                    const time = m.createdAt ? new Date(m.createdAt.seconds * 1000).toLocaleTimeString('ar-EG', {hour: '2-digit', minute:'2-digit'}) : '';
                     
                     feed.innerHTML += `
                     <div style="display:flex; flex-direction:column; align-items: ${isMe ? 'flex-end' : 'flex-start'}; margin-bottom: 5px;">
