@@ -5,41 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Kaido Follow | Premium SMM</title>
     
+    <link rel="icon" href="https://e.top4top.io/p_3675vatut1.jpg" type="image/jpeg">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#09090b">
+    <link rel="apple-touch-icon" href="https://e.top4top.io/p_3675vatut1.jpg">
+    
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- 1. الألوان المتغيرة (النسخة الفخمة) --- */
         :root {
             --bg-main: #09090b; 
             --bg-card: rgba(24, 24, 27, 0.75); 
             --bg-input: #18181b;
             --border: rgba(63, 63, 70, 0.6);
-            
             --text-main: #f8fafc;
             --text-sec: #a1a1aa;
-            
             --primary: #8b5cf6;
             --accent: #d946ef;
             --gradient-pro: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
             --glow: rgba(139, 92, 246, 0.5);
-            
-            --success: #10b981; --danger: #f43f5e; --warning: #f59e0b; --info: #3b82f6;
+            --success: #10b981; 
+            --danger: #f43f5e; 
+            --warning: #f59e0b; 
+            --info: #3b82f6;
         }
 
-        /* --- 2. الإعدادات الأساسية --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; outline: none; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg-main); color: var(--text-main); padding-bottom: 90px; overflow-x: hidden; min-height: 100vh; }
         input, button { border: none; background: none; color: inherit; }
         
-        /* إضاءة الخلفية */
         body::before {
             content: ''; position: fixed; top: -20%; left: -10%; width: 60vw; height: 60vw;
             background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 60%);
             z-index: -1; filter: blur(60px); pointer-events: none;
         }
 
-        /* --- 3. العناصر الأساسية (البطاقات والأزرار) --- */
         .card {
             background: var(--bg-card); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border); border-radius: 20px; padding: 22px; margin-bottom: 16px;
@@ -64,7 +65,6 @@
         .input-box:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2); }
         .input-box:read-only { opacity: 0.7; cursor: not-allowed; background: rgba(0,0,0,0.2); }
 
-        /* --- 4. القوائم المنسدلة (الأكورديون) للملف الشخصي --- */
         .accordion-header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 16px; background: var(--bg-input); border-radius: 14px;
@@ -79,18 +79,61 @@
         }
         .accordion-inner { padding: 15px; border: 1px solid var(--border); border-top: none; border-radius: 0 0 14px 14px; margin-top: -10px; margin-bottom: 15px; }
 
-        /* --- 5. تخطيط الصفحة والقوائم --- */
         .page { display: none; animation: slideFade 0.4s cubic-bezier(0.16, 1, 0.3, 1); padding: 0 20px; }
         .page.active { display: block; }
         @keyframes slideFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .header {
-            padding: 20px; display: flex; justify-content: space-between; align-items: center;
-            position: sticky; top: 0; background: rgba(9, 9, 11, 0.85); backdrop-filter: blur(20px); z-index: 100;
+        .dash-header-wrap { padding: 25px 20px 10px 20px; }
+        .dash-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .dash-greeting { display: flex; flex-direction: column; }
+        .dash-greeting span { color: var(--text-sec); font-size: 0.9rem; display: flex; align-items: center; gap: 5px; }
+        .dash-greeting h2 { font-weight: 900; font-size: 1.6rem; color: var(--text-main); }
+        
+        .dash-noti-btn { 
+            width: 45px; height: 45px; border-radius: 14px; background: var(--bg-card); 
+            border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; 
+            font-size: 1.3rem; color: var(--primary); cursor: pointer; position: relative; transition: 0.2s;
+        }
+        .dash-noti-btn:active { transform: scale(0.9); }
+        .noti-dot { 
+            position: absolute; top: 8px; right: 10px; width: 10px; height: 10px; 
+            background: var(--danger); border-radius: 50%; box-shadow: 0 0 8px var(--danger); display: none;
         }
 
+        .dash-main-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px;
+            padding: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); backdrop-filter: blur(20px);
+            position: relative; overflow: hidden;
+        }
+        .dash-main-card::before {
+            content: ''; position: absolute; top: -50%; right: -50%; width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%); pointer-events: none;
+        }
+
+        .dash-bal-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .dash-bal-text span { color: var(--text-sec); font-size: 0.9rem; font-weight: 600; }
+        .dash-bal-text h1 { font-size: 2.2rem; font-weight: 900; font-family: monospace; letter-spacing: -1px; }
+        .dash-bal-icon { 
+            width: 55px; height: 55px; background: var(--gradient-pro); border-radius: 16px; 
+            display: flex; align-items: center; justify-content: center; font-size: 1.8rem; 
+            color: white; box-shadow: 0 5px 20px var(--glow); 
+        }
+
+        .dash-add-funds { margin-bottom: 20px; }
+        
+        .dash-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .dash-stat-box { 
+            background: var(--bg-input); border: 1px solid var(--border); border-radius: 16px; 
+            padding: 15px; display: flex; flex-direction: column; align-items: center; text-align: center;
+        }
+        .dash-stat-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 10px; }
+        .icon-pending { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+        .icon-completed { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+        .dash-stat-box h3 { font-size: 1.6rem; font-weight: 900; margin-bottom: 2px; }
+        .dash-stat-box span { font-size: 0.8rem; color: var(--text-sec); font-weight: 600; }
+
         .bottom-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(24, 24, 27, 0.9);
+            position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(24, 24, 27, 0.95);
             backdrop-filter: blur(20px); border-top: 1px solid var(--border); padding: 12px 0;
             display: flex; justify-content: space-around; z-index: 900; padding-bottom: max(12px, env(safe-area-inset-bottom));
         }
@@ -98,7 +141,6 @@
         .nav-item.active { color: var(--primary); transform: translateY(-3px); }
         .nav-item i { font-size: 1.4rem; }
 
-        /* --- 6. شاشة البداية --- */
         #splash-screen {
             position: fixed; inset: 0; background: var(--bg-main); z-index: 10000;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -109,7 +151,6 @@
         .splash-title { font-weight: 900; font-size: 2.2rem; letter-spacing: 2px; background: var(--gradient-pro); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        /* --- 7. تصميم الأقسام والخدمات --- */
         .cat-card {
             background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
             padding: 16px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;
@@ -121,7 +162,6 @@
         .service-card { background: var(--bg-input); border: 1px solid var(--border); border-radius: 16px; padding: 18px; margin-bottom: 15px; }
         .service-price { color: var(--success); font-weight: 900; font-size: 1.4rem; display: block; margin: 10px 0; }
         
-        /* --- 8. النوافذ المنبثقة للطلبات --- */
         .full-modal {
             position: fixed; inset: 0; background: var(--bg-main); z-index: 2000;
             transform: translateX(100%); transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -134,21 +174,18 @@
         .order-info-title { color: var(--text-sec); font-size: 0.8rem; display: block; margin-bottom: 5px; }
         .order-info-val { color: var(--text-main); font-weight: 800; font-size: 1.1rem; }
 
-        /* الشات */
         .chat-container { height: calc(100vh - 160px); display: flex; flex-direction: column; }
         .chat-feed { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 10px 0; }
         .msg { max-width: 80%; padding: 12px 16px; border-radius: 16px; font-size: 0.95rem; line-height: 1.5; }
         .msg-me { align-self: flex-end; background: var(--primary); border-bottom-left-radius: 4px; }
         .msg-admin { align-self: flex-start; background: var(--bg-card); border: 1px solid var(--border); border-bottom-right-radius: 4px; }
 
-        /* أدوات عامة */
         .badge { padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: bold; }
         .status-ok { background: rgba(16, 185, 129, 0.15); color: var(--success); }
         .status-wait { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
         .status-fail { background: rgba(244, 63, 94, 0.15); color: var(--danger); }
         .status-info { background: rgba(59, 130, 246, 0.15); color: var(--info); }
         
-        /* أيقونة النسخ السريع */
         .copy-icon { margin-right: 8px; color: var(--primary); cursor: pointer; transition: 0.2s; }
         .copy-icon:active { transform: scale(0.8); }
 
@@ -200,19 +237,44 @@
 
     <div id="app-wrap" style="display: none;">
         
-        <div class="header">
-            <div>
-                <span style="color: var(--text-sec); font-size: 0.85rem;">مرحباً بك،</span>
-                <h3 id="u-name" style="font-weight: 700;">...</h3>
-            </div>
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <div style="position: relative; cursor: pointer; padding: 5px;" onclick="window.openModal('modal-noti')">
-                    <i class="fas fa-bell" style="font-size: 1.4rem; color: var(--text-main);"></i>
-                    <span id="noti-badge" style="display: none; position: absolute; top: 2px; right: 2px; background: var(--danger); width: 10px; height: 10px; border-radius: 50%; box-shadow: 0 0 5px var(--danger);"></span>
+        <div class="dash-header-wrap">
+            <div class="dash-top-row">
+                <div class="dash-greeting">
+                    <span>مرحباً بعودتك <i class="fas fa-hand-sparkles" style="color: var(--warning); margin-right: 5px;"></i></span>
+                    <h2 id="u-name-top">...</h2>
                 </div>
-                <div style="text-align: left; background: var(--bg-card); padding: 8px 15px; border-radius: 12px; border: 1px solid var(--border);">
-                    <span style="color: var(--text-sec); font-size: 0.75rem;">الرصيد المتاح</span>
-                    <div id="u-bal" style="color: var(--accent); font-weight: 800; font-family: monospace; font-size: 1.1rem;">0.00 $</div>
+                <div class="dash-noti-btn" onclick="window.openModal('modal-noti')">
+                    <i class="fas fa-bell"></i>
+                    <span class="noti-dot" id="noti-badge"></span>
+                </div>
+            </div>
+
+            <div class="dash-main-card">
+                <div class="dash-bal-section">
+                    <div class="dash-bal-text">
+                        <span>الرصيد المتاح</span>
+                        <h1 id="u-bal-main">$0.0000</h1>
+                    </div>
+                    <div class="dash-bal-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                </div>
+                
+                <div class="dash-add-funds">
+                    <button class="btn btn-pro" onclick="window.nav('wallet')" style="padding: 12px; border-radius: 12px;"><i class="fas fa-plus"></i> إضافة رصيد</button>
+                </div>
+
+                <div class="dash-stats-grid">
+                    <div class="dash-stat-box">
+                        <div class="dash-stat-icon icon-pending"><i class="fas fa-bolt"></i></div>
+                        <h3 id="stat-pending">0</h3>
+                        <span>قيد التنفيذ</span>
+                    </div>
+                    <div class="dash-stat-box">
+                        <div class="dash-stat-icon icon-completed"><i class="fas fa-box"></i></div>
+                        <h3 id="stat-completed">0</h3>
+                        <span>طلب مكتمل</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -230,7 +292,7 @@
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h3 style="font-weight: 800;">سجل الطلبات</h3>
                 <button onclick="window.syncOrders(true)" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--primary); padding: 8px 15px; border-radius: 10px; font-weight: bold; cursor: pointer;">
-                    <i class="fas fa-sync-alt"></i> تحديث الحالة
+                    <i class="fas fa-sync-alt"></i> تحديث
                 </button>
             </div>
             <div id="orders-list"></div>
@@ -261,7 +323,6 @@
         </div>
 
         <div id="pg-profile" class="page" style="padding-bottom: 120px;">
-            
             <div style="text-align: center; margin-bottom: 30px;">
                 <div style="width: 90px; height: 90px; background: var(--bg-card); border: 2px solid var(--primary); border-radius: 30px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--primary); box-shadow: 0 5px 20px var(--glow);">
                     <i class="fas fa-user-tie"></i>
@@ -288,7 +349,7 @@
                         <label class="input-label">الاسم الظاهر</label>
                         <input type="text" id="p-name-edit" class="input-box" placeholder="أدخل اسمك الجديد">
                     </div>
-                    <button onclick="window.saveProfileName()" class="btn btn-pro" style="padding: 12px;">حفظ الاسم الجديد</button>
+                    <button onclick="window.saveProfileName()" class="btn btn-pro" style="padding: 12px;">حفظ الاسم</button>
                 </div>
             </div>
 
@@ -314,8 +375,8 @@
                 <div class="accordion-inner">
                     <div class="input-group"><input type="password" id="p-old" class="input-box" placeholder="كلمة المرور الحالية"></div>
                     <div class="input-group"><input type="password" id="p-new" class="input-box" placeholder="كلمة المرور الجديدة"></div>
-                    <div class="input-group"><input type="password" id="p-new-conf" class="input-box" placeholder="تأكيد كلمة المرور الجديدة"></div>
-                    <button onclick="window.changePass()" class="btn btn-outline" style="padding: 12px; border-color: var(--warning); color: var(--warning);">تحديث كلمة المرور</button>
+                    <div class="input-group"><input type="password" id="p-new-conf" class="input-box" placeholder="تأكيد كلمة المرور"></div>
+                    <button onclick="window.changePass()" class="btn btn-outline" style="padding: 12px; border-color: var(--warning); color: var(--warning);">تحديث</button>
                 </div>
             </div>
 
@@ -337,17 +398,15 @@
     </div>
 
     <div id="modal-noti" class="full-modal">
-        <div class="header" style="border-bottom: 1px solid var(--border);">
+        <div class="header" style="border-bottom: 1px solid var(--border); padding: 25px 20px;">
             <i class="fas fa-arrow-right" onclick="window.closeModal('modal-noti')" style="font-size: 1.5rem; cursor: pointer;"></i>
             <h3>مركز الإشعارات</h3>
         </div>
-        <div id="noti-list" style="padding: 20px; padding-bottom: 100px;">
-            <div style="text-align:center; padding:40px; color:var(--text-sec);"><i class="fas fa-bell-slash" style="font-size:2rem; margin-bottom:10px; opacity:0.5;"></i><br>لا توجد إشعارات حالياً</div>
-        </div>
+        <div id="noti-list" style="padding: 20px; padding-bottom: 100px;"></div>
     </div>
 
     <div id="modal-services" class="full-modal">
-        <div class="header" style="border-bottom: 1px solid var(--border);">
+        <div class="header" style="border-bottom: 1px solid var(--border); padding: 25px 20px;">
             <i class="fas fa-arrow-right" onclick="window.closeModal('modal-services')" style="font-size: 1.5rem; cursor: pointer;"></i>
             <h3 id="cat-title">...</h3>
         </div>
@@ -361,7 +420,7 @@
     </div>
 
     <div id="modal-order" class="full-modal">
-        <div class="header">
+        <div class="header" style="padding: 25px 20px;">
             <i class="fas fa-arrow-right" onclick="window.closeModal('modal-order')" style="font-size: 1.5rem; cursor: pointer;"></i>
             <h3>تفاصيل الطلب</h3>
         </div>
@@ -405,7 +464,6 @@
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, updateDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-        // إعدادات قاعدة البيانات
         const app = initializeApp({
             apiKey: "AIzaSyDPNS3dO05la3CpArNwm2KLHWaznog2rS4",
             authDomain: "kaido-follow-508df.firebaseapp.com",
@@ -417,7 +475,6 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // المتغيرات العامة
         let currentUser = null;
         let userData = null;
         let currentService = null;
@@ -425,7 +482,6 @@
         let unsubscribeChat = null;
         let unsubscribeNoti = null;
 
-        // دوال الواجهة الأساسية
         window.loader = (show) => document.getElementById('loader').style.display = show ? 'flex' : 'none';
         
         window.toast = (msg) => {
@@ -469,7 +525,6 @@
             }
         };
 
-        // نظام النسخ السريع (Clipboard API)
         window.copyText = (text, successMsg) => {
             navigator.clipboard.writeText(text).then(() => {
                 window.toast(successMsg || "تم النسخ بنجاح");
@@ -484,10 +539,9 @@
         };
 
         window.copyOrderId = (id) => {
-            window.copyText(id, "تم نسخ رقم الطلب: " + id);
+            window.copyText(id, "تم نسخ رقم الطلب");
         };
 
-        // نظام البحث والفلترة الذكي
         window.filterServices = () => {
             const queryText = document.getElementById('search-services').value.toLowerCase();
             const cards = document.querySelectorAll('#cats-list .cat-card');
@@ -516,7 +570,6 @@
             }, 2500);
         };
 
-        // نظام الإشعارات (In-App Notifications)
         window.listenNotifications = () => {
             if(unsubscribeNoti) unsubscribeNoti();
             const q = query(collection(db, "notifications"), orderBy("createdAt", "desc"));
@@ -550,7 +603,6 @@
             });
         };
 
-        // نظام المصادقة
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
@@ -562,14 +614,17 @@
                         userData = docSnap.data();
                         
                         document.getElementById('u-name').innerText = userData.name.split(' ')[0];
-                        document.getElementById('u-bal').innerText = userData.balance.toFixed(4) + " $";
+                        document.getElementById('u-name-top').innerText = userData.name.split(' ')[0];
+                        
+                        const balanceText = "$" + userData.balance.toFixed(4);
+                        document.getElementById('u-bal').innerText = balanceText;
+                        document.getElementById('u-bal-main').innerText = balanceText;
                         
                         document.getElementById('p-display-name').innerText = userData.name;
                         document.getElementById('p-username').value = "@" + (userData.username || "user");
                         document.getElementById('p-email').value = userData.email;
                         
-                        // تعيين رابط الإحالة (دعوة الأصدقاء)
-                        document.getElementById('p-ref-link').value = "https://kaidofollow.com/register?ref=" + (userData.username || user.uid);
+                        document.getElementById('p-ref-link').value = "https://3c5-o.github.io/downloadKaidoFollow/?ref=" + (userData.username || user.uid);
                         
                         if(!document.getElementById('p-name-edit').value) {
                             document.getElementById('p-name-edit').value = userData.name;
@@ -607,8 +662,12 @@
             window.loader(true);
             try {
                 const cred = await createUserWithEmailAndPassword(auth, e, p);
+                
+                const urlParams = new URLSearchParams(window.location.search);
+                const ref = urlParams.get('ref') || '';
+
                 await setDoc(doc(db, "users", cred.user.uid), {
-                    name: n, username: u, email: e, balance: 0, spent: 0, createdAt: serverTimestamp()
+                    name: n, username: u, email: e, balance: 0, spent: 0, referredBy: ref, createdAt: serverTimestamp()
                 });
                 await setDoc(doc(db, "chats", cred.user.uid), {
                     lastMessage: "تم إنشاء الحساب بنجاح", time: serverTimestamp(), userId: cred.user.uid, name: n, username: u, hasUnread: false
@@ -801,9 +860,14 @@
                 const list = document.getElementById('orders-list');
                 list.innerHTML = '';
                 activeOrders = [];
+                
+                let pendingCount = 0;
+                let completedCount = 0;
 
                 if(snap.empty) {
                     list.innerHTML = '<div style="text-align:center; padding:50px; color:var(--text-sec); font-size:1.1rem;">لا توجد أي طلبات سابقة.</div>';
+                    document.getElementById('stat-pending').innerText = '0';
+                    document.getElementById('stat-completed').innerText = '0';
                     return;
                 }
 
@@ -812,10 +876,18 @@
                     o.dbId = d.id;
                     activeOrders.push(o);
 
+                    const statusStr = o.status.toLowerCase();
                     let badgeClass = 'status-wait';
-                    if(o.status.toLowerCase().includes('complet')) badgeClass = 'status-ok';
-                    if(o.status.toLowerCase().includes('cancel') || o.status.toLowerCase().includes('fail')) badgeClass = 'status-fail';
-                    if(o.status.toLowerCase().includes('process') || o.status.toLowerCase().includes('progress')) badgeClass = 'status-info';
+                    
+                    if(statusStr.includes('complet')) {
+                        badgeClass = 'status-ok';
+                        completedCount++;
+                    } else if(statusStr.includes('cancel') || statusStr.includes('fail')) {
+                        badgeClass = 'status-fail';
+                    } else {
+                        badgeClass = 'status-info';
+                        pendingCount++;
+                    }
 
                     list.innerHTML += `
                     <div class="card" style="padding:16px; border-radius:16px;">
@@ -843,6 +915,9 @@
                         </div>
                     </div>`;
                 });
+                
+                document.getElementById('stat-pending').innerText = pendingCount;
+                document.getElementById('stat-completed').innerText = completedCount;
             });
         };
 
@@ -1010,6 +1085,14 @@
             }, { merge: true });
         };
 
+        // تفعيل ميزة التطبيق PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').catch(err => {
+                    console.log('فشل تفعيل ServiceWorker: ', err);
+                });
+            });
+        }
     </script>
     </body>
 </html>
