@@ -1,0 +1,22 @@
+{
+  "name": "Kaido Follow",
+  "short_name": "Kaido Follow",
+  "description": "منصة كايدو فولو للخدمات المميزة",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#09090b",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://e.top4top.io/p_3675vatut1.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "https://e.top4top.io/p_3675vatut1.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
