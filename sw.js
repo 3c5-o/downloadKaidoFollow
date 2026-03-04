@@ -1,5 +1,5 @@
 // تم تحديث رقم الإصدار ليتوافق مع النسخة الجديدة (v2.0)
-const CACHE_NAME = 'kaido-cache-v2.0';
+const CACHE_NAME = 'kaido-cache-v3.0';
 const urlsToCache = [
     './',
     './index.html',
