@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        /* المتغيرات والألوان الفخمة (Dark Mode) */
         :root {
             --bg-main: #09090b; 
             --bg-card: rgba(24, 24, 27, 0.75); 
@@ -31,16 +32,19 @@
             --info: #3b82f6;
         }
 
+        /* الإعدادات العامة */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; outline: none; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg-main); color: var(--text-main); padding-bottom: 90px; overflow-x: hidden; min-height: 100vh; }
         input, button { border: none; background: none; color: inherit; }
         
+        /* إضاءة الخلفية */
         body::before {
             content: ''; position: fixed; top: -20%; left: -10%; width: 60vw; height: 60vw;
             background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 60%);
             z-index: -1; filter: blur(60px); pointer-events: none;
         }
 
+        /* البطاقات والأزرار */
         .card {
             background: var(--bg-card); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border); border-radius: 20px; padding: 22px; margin-bottom: 16px;
@@ -56,6 +60,7 @@
         .btn-outline { border: 1px solid var(--border); color: var(--text-sec); background: rgba(255,255,255,0.02); }
         .btn-danger { background: rgba(244, 63, 94, 0.1); color: var(--danger); border: 1px solid rgba(244, 63, 94, 0.3); }
 
+        /* المدخلات */
         .input-group { margin-bottom: 16px; }
         .input-label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-sec); font-weight: 600; }
         .input-box {
@@ -65,6 +70,7 @@
         .input-box:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2); }
         .input-box:read-only { opacity: 0.7; cursor: not-allowed; background: rgba(0,0,0,0.2); }
 
+        /* الأكورديون (القوائم المنسدلة) */
         .accordion-header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 16px; background: var(--bg-input); border-radius: 14px;
@@ -79,11 +85,12 @@
         }
         .accordion-inner { padding: 15px; border: 1px solid var(--border); border-top: none; border-radius: 0 0 14px 14px; margin-top: -10px; margin-bottom: 15px; }
 
+        /* الصفحات والتنقل */
         .page { display: none; animation: slideFade 0.4s cubic-bezier(0.16, 1, 0.3, 1); padding: 0 20px; }
         .page.active { display: block; }
         @keyframes slideFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- تصميم لوحة التحكم (تظهر في الرئيسية فقط) --- */
+        /* --- تصميم لوحة التحكم (الرئيسية فقط) --- */
         .dash-header-wrap { padding: 25px 0 10px 0; }
         .dash-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .dash-greeting { display: flex; flex-direction: column; }
@@ -133,6 +140,7 @@
         .dash-stat-box h3 { font-size: 1.6rem; font-weight: 900; margin-bottom: 2px; }
         .dash-stat-box span { font-size: 0.8rem; color: var(--text-sec); font-weight: 600; }
 
+        /* القائمة السفلية */
         .bottom-nav {
             position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(24, 24, 27, 0.95);
             backdrop-filter: blur(20px); border-top: 1px solid var(--border); padding: 12px 0;
@@ -142,6 +150,7 @@
         .nav-item.active { color: var(--primary); transform: translateY(-3px); }
         .nav-item i { font-size: 1.4rem; }
 
+        /* شاشة التحميل الأولية */
         #splash-screen {
             position: fixed; inset: 0; background: var(--bg-main); z-index: 10000;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -152,6 +161,7 @@
         .splash-title { font-weight: 900; font-size: 2.2rem; letter-spacing: 2px; background: var(--gradient-pro); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
+        /* كروت الأقسام والخدمات */
         .cat-card {
             background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
             padding: 16px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;
@@ -163,6 +173,7 @@
         .service-card { background: var(--bg-input); border: 1px solid var(--border); border-radius: 16px; padding: 18px; margin-bottom: 15px; }
         .service-price { color: var(--success); font-weight: 900; font-size: 1.4rem; display: block; margin: 10px 0; }
         
+        /* النوافذ المنبثقة الشاملة */
         .full-modal {
             position: fixed; inset: 0; background: var(--bg-main); z-index: 2000;
             transform: translateX(100%); transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -188,12 +199,14 @@
         .summary-box b { display: block; font-size: 1.2rem; font-family: monospace; }
         .summary-error { background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.3); color: var(--danger); padding: 12px; border-radius: 12px; text-align: center; font-size: 0.85rem; font-weight: bold; display: none; }
 
+        /* الدعم والمحادثات */
         .chat-container { height: calc(100vh - 160px); display: flex; flex-direction: column; }
         .chat-feed { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 10px 0; }
         .msg { max-width: 80%; padding: 12px 16px; border-radius: 16px; font-size: 0.95rem; line-height: 1.5; }
         .msg-me { align-self: flex-end; background: var(--primary); border-bottom-left-radius: 4px; }
         .msg-admin { align-self: flex-start; background: var(--bg-card); border: 1px solid var(--border); border-bottom-right-radius: 4px; }
 
+        /* الشارات والحالات */
         .badge { padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: bold; }
         .status-ok { background: rgba(16, 185, 129, 0.15); color: var(--success); }
         .status-wait { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
@@ -203,6 +216,7 @@
         .copy-icon { margin-right: 8px; color: var(--primary); cursor: pointer; transition: 0.2s; }
         .copy-icon:active { transform: scale(0.8); }
 
+        /* نظام الإشعارات والتحميل */
         #loader { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 9999; display: none; justify-content: center; align-items: center; }
         .spinner { width: 45px; height: 45px; border: 4px solid var(--bg-input); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -252,6 +266,7 @@
     <div id="app-wrap" style="display: none;">
         
         <div id="pg-home" class="page active">
+            
             <div class="dash-header-wrap">
                 <div class="dash-top-row">
                     <div class="dash-greeting">
@@ -386,7 +401,7 @@
             <div class="card" style="text-align: center; padding: 30px 20px; margin-top: 25px;">
                 <img src="./logo.jpg" style="width: 55px; border-radius: 18px; margin-bottom: 12px; opacity: 0.9;">
                 <h3 style="font-weight: 900; letter-spacing: 1px;">كايدو فولو</h3>
-                <p style="color: var(--text-sec); font-size: 0.9rem; margin-bottom: 20px; font-weight: bold;">الإصدار 1.2</p>
+                <p style="color: var(--text-sec); font-size: 0.9rem; margin-bottom: 20px; font-weight: bold;">الإصدار 2.0</p>
                 <button onclick="window.logout()" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
             </div>
         </div>
@@ -428,6 +443,7 @@
             <h3>طلب جديد</h3>
         </div>
         <div style="padding: 20px; padding-bottom: 100px;">
+            
             <div class="order-hero">
                 <div class="order-hero-badge" id="ord-id">#000</div>
                 <h3 class="order-hero-title" id="ord-title">...</h3>
@@ -1072,15 +1088,17 @@
             await setDoc(doc(db, "chats", currentUser.uid), { lastMessage: txt, time: serverTimestamp(), userId: currentUser.uid, name: userData.name, username: userData.username, hasUnread: true }, { merge: true });
         };
 
-        // تفعيل ميزة التطبيق PWA مع نظام التحديث التلقائي الإجباري
+        // تفعيل ميزة التطبيق PWA مع نظام التحديث التلقائي الإجباري (كاسر الكاش)
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').then(reg => {
+                const swUrl = './sw.js?v=' + new Date().getTime(); // خدعة الوقت لإجبار التحميل
+                navigator.serviceWorker.register(swUrl).then(reg => {
+                    reg.update();
                     reg.addEventListener('updatefound', () => {
                         const newWorker = reg.installing;
                         newWorker.addEventListener('statechange', () => {
                             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                window.toast("يوجد تحديث جديد للتطبيق، جاري التحديث...", "info");
+                                window.toast("يوجد تحديث جديد للتطبيق، جاري التحديث...");
                                 setTimeout(() => window.location.reload(true), 1500);
                             }
                         });
