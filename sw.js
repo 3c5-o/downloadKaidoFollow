@@ -1,5 +1,5 @@
 // تغيير رقم الإصدار لفرض التحديث على هواتف المستخدمين
-const CACHE_NAME = 'kaido-cache-v1.1';
+const CACHE_NAME = 'kaido-cache-v1.2';
 const urlsToCache = [
     './',
     './index.html',
