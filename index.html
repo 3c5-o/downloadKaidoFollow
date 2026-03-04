@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kaido Premium | SMM Panel</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. PREMIUM THEME VARIABLES --- */
+        :root {
+            --bg-main: #09090b; /* Deep Black/Zinc */
+            --bg-card: rgba(24, 24, 27, 0.7); /* Translucent Zinc */
+            --bg-input: #18181b;
+            --border: rgba(63, 63, 70, 0.5);
+            
+            --text-main: #f8fafc;
+            --text-sec: #a1a1aa;
+            
+            /* Luxury Gradient (Gold/Purple vibe) */
+            --primary: #8b5cf6;
+            --accent: #d946ef;
+            --gradient-pro: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
+            --glow: rgba(139, 92, 246, 0.4);
+            
+            --success: #10b981; --danger: #f43f5e; --warning: #f59e0b;
+        }
+
+        /* --- 2. GLOBAL RESET & BASE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; outline: none; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg-main); color: var(--text-main); padding-bottom: 90px; overflow-x: hidden; min-height: 100vh; }
+        input, button { border: none; background: none; color: inherit; }
+        
+        /* Background Ambient Glow */
+        body::before {
+            content: ''; position: fixed; top: -10%; left: -10%; width: 50vw; height: 50vw;
+            background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+            opacity: 0.3; z-index: -1; filter: blur(60px); pointer-events: none;
+        }
+
+        /* --- 3. UI COMPONENTS (GLASSMORPHISM) --- */
+        .card {
+            background: var(--bg-card); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border); border-radius: 20px; padding: 20px; margin-bottom: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); transition: transform 0.2s;
+        }
+        
+        .btn {
+            width: 100%; padding: 16px; border-radius: 16px; font-weight: 700; font-size: 1rem;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s;
+        }
+        .btn:active { transform: scale(0.97); }
+        .btn-pro { background: var(--gradient-pro); color: white; box-shadow: 0 8px 25px var(--glow); border: 1px solid rgba(255,255,255,0.1); }
+        .btn-outline { border: 1px solid var(--border); color: var(--text-sec); }
+        
+        .input-group { margin-bottom: 16px; }
+        .input-label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-sec); font-weight: 600; }
+        .input-box {
+            width: 100%; padding: 16px; background: var(--bg-input); border: 1px solid var(--border);
+            border-radius: 14px; font-size: 1rem; transition: 0.3s;
+        }
+        .input-box:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2); }
+
+        /* --- 4. LAYOUT & NAVIGATION --- */
+        .page { display: none; animation: slideFade 0.4s cubic-bezier(0.16, 1, 0.3, 1); padding: 0 20px; }
+        .page.active { display: block; }
+        @keyframes slideFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .header {
+            padding: 25px 20px; display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; background: rgba(9, 9, 11, 0.8); backdrop-filter: blur(20px); z-index: 100;
+        }
+
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(24, 24, 27, 0.85);
+            backdrop-filter: blur(20px); border-top: 1px solid var(--border); padding: 12px 0;
+            display: flex; justify-content: space-around; z-index: 900; padding-bottom: max(12px, env(safe-area-inset-bottom));
+        }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 5px; color: var(--text-sec); font-size: 0.75rem; transition: 0.3s; cursor: pointer; }
+        .nav-item.active { color: var(--primary); transform: translateY(-3px); }
+        .nav-item i { font-size: 1.4rem; }
+
+        /* --- 5. SPECIFIC SECTIONS --- */
+        /* Orders */
+        .order-card { display: flex; flex-direction: column; gap: 12px; }
+        .order-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        .badge { padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: bold; }
+        .status-ok { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+        .status-wait { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+        .status-fail { background: rgba(244, 63, 94, 0.15); color: var(--danger); }
+        .order-stats { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-sec); }
+        
+        /* Support Chat */
+        .chat-container { height: calc(100vh - 160px); display: flex; flex-direction: column; }
+        .chat-feed { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 10px 0; }
+        .msg { max-width: 80%; padding: 12px 16px; border-radius: 16px; font-size: 0.95rem; line-height: 1.5; }
+        .msg-me { align-self: flex-end; background: var(--primary); border-bottom-left-radius: 4px; }
+        .msg-admin { align-self: flex-start; background: var(--bg-card); border: 1px solid var(--border); border-bottom-right-radius: 4px; }
+        .chat-input-wrapper { display: flex; gap: 10px; background: var(--bg-card); padding: 10px; border-radius: 20px; border: 1px solid var(--border); }
+
+        /* Modals (Full screen overlays) */
+        .full-modal {
+            position: fixed; inset: 0; background: var(--bg-main); z-index: 2000;
+            transform: translateX(100%); transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex; flex-direction: column; overflow-y: auto;
+        }
+        .full-modal.open { transform: translateX(0); }
+
+        /* Utilities */
+        #loader { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 9999; display: none; justify-content: center; align-items: center; }
+        .spinner { width: 45px; height: 45px; border: 4px solid var(--bg-input); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        #toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--text-main); color: var(--bg-main); padding: 12px 24px; border-radius: 50px; font-weight: bold; z-index: 10000; display: none; animation: slideDown 0.3s; }
+        @keyframes slideDown { from { transform: translate(-50%, -20px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div id="loader"><div class="spinner"></div></div>
+    <div id="toast">تم الإجراء بنجاح</div>
+
+    <div id="pg-auth" class="full-modal open" style="justify-content: center; padding: 30px; background: radial-gradient(circle at top right, rgba(139, 92, 246, 0.1), var(--bg-main));">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <div style="width: 80px; height: 80px; background: var(--gradient-pro); border-radius: 25px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; box-shadow: 0 10px 30px var(--glow);">
+                <i class="fas fa-gem"></i>
+            </div>
+            <h1 style="font-weight: 800; letter-spacing: 2px;">KAIDO PRO</h1>
+        </div>
+
+        <div class="card" id="form-login">
+            <h3 style="margin-bottom: 20px; text-align: center;">تسجيل الدخول</h3>
+            <div class="input-group"><label class="input-label">البريد الإلكتروني</label><input type="email" id="l-email" class="input-box" placeholder="mail@example.com"></div>
+            <div class="input-group"><label class="input-label">كلمة المرور</label><input type="password" id="l-pass" class="input-box" placeholder="••••••••"></div>
+            <button onclick="window.doLogin()" class="btn btn-pro">دخول</button>
+            <button onclick="window.toggleAuth('reg')" class="btn btn-outline" style="margin-top: 15px; border: none;">حساب جديد؟ إنشاء الآن</button>
+        </div>
+
+        <div class="card" id="form-reg" style="display: none;">
+            <h3 style="margin-bottom: 20px; text-align: center;">إنشاء حساب جديد</h3>
+            <div class="input-group"><label class="input-label">الاسم</label><input type="text" id="r-name" class="input-box"></div>
+            <div class="input-group"><label class="input-label">البريد الإلكتروني</label><input type="email" id="r-email" class="input-box"></div>
+            <div class="input-group"><label class="input-label">كلمة المرور</label><input type="password" id="r-pass" class="input-box"></div>
+            <button onclick="window.doRegister()" class="btn btn-pro">إنشاء החساب</button>
+            <button onclick="window.toggleAuth('login')" class="btn btn-outline" style="margin-top: 15px; border: none;">لدي حساب بالفعل</button>
+        </div>
+    </div>
+
+    <div id="app-wrap" style="display: none;">
+        
+        <div class="header">
+            <div>
+                <span style="color: var(--text-sec); font-size: 0.85rem;">مرحباً بك،</span>
+                <h3 id="u-name" style="font-weight: 700;">...</h3>
+            </div>
+            <div style="text-align: left; background: var(--bg-card); padding: 8px 15px; border-radius: 12px; border: 1px solid var(--border);">
+                <span style="color: var(--text-sec); font-size: 0.75rem;">الرصيد المتاح</span>
+                <div id="u-bal" style="color: #d946ef; font-weight: 800; font-family: monospace; font-size: 1.1rem;">0.00 $</div>
+            </div>
+        </div>
+
+        <div id="pg-home" class="page active">
+            <h3 style="margin-bottom: 15px; font-weight: 800;">الأقسام المتاحة</h3>
+            <div id="cats-list">
+                </div>
+        </div>
+
+        <div id="pg-orders" class="page">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="font-weight: 800;">سجل الطلبات</h3>
+                <button onclick="window.syncOrders(true)" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--primary); padding: 8px 15px; border-radius: 10px; font-weight: bold; cursor: pointer;">
+                    <i class="fas fa-sync-alt"></i> مزامنة
+                </button>
+            </div>
+            <div id="orders-list">
+                </div>
+        </div>
+
+        <div id="pg-wallet" class="page">
+            <div class="card" style="text-align: center; padding: 40px 20px;">
+                <i class="fas fa-wallet" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
+                <h3 style="margin-bottom: 10px;">شحن الرصيد</h3>
+                <p style="color: var(--text-sec); margin-bottom: 20px; font-size: 0.9rem;">قم بإدخال رمز القسيمة (الكوبون) لإضافة الرصيد إلى محفظتك فوراً.</p>
+                <input type="text" id="coupon-code" class="input-box" style="text-align: center; letter-spacing: 3px; font-weight: 800; font-size: 1.2rem;" placeholder="XXXX-XXXX-XXXX">
+                <button onclick="window.redeemCoupon()" class="btn btn-pro" style="margin-top: 10px;">تأكيد الشحن</button>
+            </div>
+            <h4 style="margin: 20px 0 10px;">العمليات السابقة</h4>
+            <div id="wallet-history"></div>
+        </div>
+
+        <div id="pg-support" class="page">
+            <div class="chat-container">
+                <div class="chat-feed" id="chat-feed">
+                    </div>
+                <div class="chat-input-wrapper">
+                    <input type="text" id="chat-input" class="input-box" style="margin: 0; border: none; background: transparent;" placeholder="اكتب رسالتك للدعم...">
+                    <button onclick="window.sendMsg()" style="background: var(--gradient-pro); border: none; width: 50px; border-radius: 12px; color: white; cursor: pointer; transition: 0.2s;"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div id="pg-profile" class="page">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <div style="width: 100px; height: 100px; background: var(--bg-card); border: 2px solid var(--primary); border-radius: 30px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--text-sec);">
+                    <i class="fas fa-user-astronaut"></i>
+                </div>
+                <h2 id="p-name">...</h2>
+                <p id="p-email" style="color: var(--text-sec); font-family: monospace;"></p>
+            </div>
+
+            <div class="card">
+                <h4 style="margin-bottom: 15px; color: var(--primary);">تغيير كلمة المرور</h4>
+                <div class="input-group"><input type="password" id="p-old" class="input-box" placeholder="كلمة المرور الحالية"></div>
+                <div class="input-group"><input type="password" id="p-new" class="input-box" placeholder="كلمة المرور الجديدة"></div>
+                <button onclick="window.changePass()" class="btn btn-outline">حفظ التغييرات</button>
+            </div>
+
+            <button onclick="window.logout()" class="btn btn-danger" style="margin-top: 20px;"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
+        </div>
+
+        <div class="bottom-nav">
+            <div class="nav-item active" onclick="window.nav('home')"><i class="fas fa-layer-group"></i><span>الخدمات</span></div>
+            <div class="nav-item" onclick="window.nav('orders')"><i class="fas fa-receipt"></i><span>الطلبات</span></div>
+            <div class="nav-item" onclick="window.nav('wallet')"><i class="fas fa-wallet"></i><span>المحفظة</span></div>
+            <div class="nav-item" onclick="window.nav('support')"><i class="fas fa-headset"></i><span>الدعم</span></div>
+            <div class="nav-item" onclick="window.nav('profile')"><i class="fas fa-user"></i><span>حسابي</span></div>
+        </div>
+
+    </div>
+
+    <div id="modal-services" class="full-modal">
+        <div class="header" style="border-bottom: 1px solid var(--border);">
+            <i class="fas fa-arrow-right" onclick="window.closeModal('modal-services')" style="font-size: 1.5rem; cursor: pointer;"></i>
+            <h3 id="cat-title">...</h3>
+        </div>
+        <div id="srvs-list" style="padding: 20px;"></div>
+    </div>
+
+    <div id="modal-order" class="full-modal">
+        <div class="header">
+            <i class="fas fa-arrow-right" onclick="window.closeModal('modal-order')" style="font-size: 1.5rem; cursor: pointer;"></i>
+            <h3>إنشاء طلب</h3>
+        </div>
+        <div style="padding: 20px; padding-bottom: 100px;">
+            <div class="card">
+                <h3 id="ord-title" style="color: var(--primary); margin-bottom: 15px; line-height: 1.4;">...</h3>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+                    <div style="background: var(--bg-input); padding: 10px; border-radius: 12px; text-align: center;"><span style="color:var(--text-sec); font-size:0.8rem; display:block;">السعر لكل 1000</span><b id="ord-price">0$</b></div>
+                    <div style="background: var(--bg-input); padding: 10px; border-radius: 12px; text-align: center;"><span style="color:var(--text-sec); font-size:0.8rem; display:block;">أقل/أقصى كمية</span><b><span id="ord-min">0</span> - <span id="ord-max">0</span></b></div>
+                </div>
+
+                <div id="ord-desc" style="background: rgba(139, 92, 246, 0.1); padding: 15px; border-radius: 12px; font-size: 0.85rem; color: var(--text-sec); border: 1px solid rgba(139, 92, 246, 0.2); margin-bottom: 20px;"></div>
+
+                <div class="input-group"><label class="input-label">الرابط (Link)</label><input type="text" id="ord-link" class="input-box" placeholder="https://..."></div>
+                <div class="input-group"><label class="input-label">الكمية المطلوبة (Quantity)</label><input type="number" id="ord-qty" class="input-box" placeholder="1000" oninput="window.calcTotal()"></div>
+                
+                <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 15px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <span style="color: var(--success); font-weight: bold;">الإجمالي المطلوب:</span>
+                    <b id="ord-total" style="color: var(--success); font-size: 1.2rem;">0.00 $</b>
+                </div>
+
+                <button onclick="window.submitOrder()" class="btn btn-pro">تأكيد وإرسال الطلب</button>
+            </div>
+        </div>
+    </div>
+<script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, updateDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        // 1. Firebase Configuration
+        const app = initializeApp({
+            apiKey: "AIzaSyDPNS3dO05la3CpArNwm2KLHWaznog2rS4",
+            authDomain: "kaido-follow-508df.firebaseapp.com",
+            projectId: "kaido-follow-508df",
+            storageBucket: "kaido-follow-508df.firebasestorage.app",
+            messagingSenderId: "184094852418",
+            appId: "1:184094852418:web:30fcad84203aba734f74db"
+        });
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // 2. Global State
+        let currentUser = null;
+        let userData = null;
+        let currentService = null;
+        let activeOrders = [];
+        let unsubscribeChat = null;
+
+        // 3. Core Utilities
+        window.loader = (show) => document.getElementById('loader').style.display = show ? 'flex' : 'none';
+        
+        window.toast = (msg) => {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.style.display = 'block';
+            setTimeout(() => t.style.display = 'none', 3000);
+        };
+
+        window.nav = (pageId) => {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('pg-' + pageId).classList.add('active');
+            
+            const tabMap = { 'home': 0, 'orders': 1, 'wallet': 2, 'support': 3, 'profile': 4 };
+            document.querySelectorAll('.nav-item')[tabMap[pageId]].classList.add('active');
+
+            if(pageId === 'support') window.initChat();
+            if(pageId === 'orders') window.syncOrders(); // Auto-sync on visit
+        };
+
+        window.toggleAuth = (type) => {
+            document.getElementById('form-login').style.display = type === 'login' ? 'block' : 'none';
+            document.getElementById('form-reg').style.display = type === 'reg' ? 'block' : 'none';
+        };
+
+        window.closeModal = (id) => document.getElementById(id).classList.remove('open');
+
+        // 4. Authentication Logic
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('pg-auth').classList.remove('open');
+                document.getElementById('app-wrap').style.display = 'block';
+
+                // Listen to User Data
+                onSnapshot(doc(db, "users", user.uid), (docSnap) => {
+                    if (docSnap.exists()) {
+                        userData = docSnap.data();
+                        
+                        // Header
+                        document.getElementById('u-name').innerText = userData.name.split(' ')[0];
+                        document.getElementById('u-bal').innerText = userData.balance.toFixed(2) + " $";
+                        
+                        // Profile
+                        document.getElementById('p-name').innerText = userData.name;
+                        document.getElementById('p-email').innerText = userData.email;
+                    }
+                });
+
+                window.loadCategories();
+                window.listenOrders();
+                window.listenWallet();
+            } else {
+                document.getElementById('app-wrap').style.display = 'none';
+                document.getElementById('pg-auth').classList.add('open');
+            }
+            window.loader(false);
+        });
+
+        window.doLogin = async () => {
+            const e = document.getElementById('l-email').value;
+            const p = document.getElementById('l-pass').value;
+            if(!e || !p) return window.toast("أدخل البريد وكلمة المرور");
+            window.loader(true);
+            try { await signInWithEmailAndPassword(auth, e, p); }
+            catch(err) { window.toast("بيانات الدخول غير صحيحة"); window.loader(false); }
+        };
+
+        window.doRegister = async () => {
+            const n = document.getElementById('r-name').value;
+            const e = document.getElementById('r-email').value;
+            const p = document.getElementById('r-pass').value;
+            if(!n || !e || !p) return window.toast("أكمل جميع البيانات");
+            window.loader(true);
+            try {
+                const cred = await createUserWithEmailAndPassword(auth, e, p);
+                await setDoc(doc(db, "users", cred.user.uid), {
+                    name: n, email: e, balance: 0, spent: 0, createdAt: serverTimestamp()
+                });
+                await setDoc(doc(db, "chats", cred.user.uid), {
+                    lastMessage: "بدأت المحادثة", time: serverTimestamp(), userId: cred.user.uid, name: n, hasUnread: false
+                });
+            } catch(err) { window.toast(err.message); window.loader(false); }
+        };
+
+        window.logout = async () => {
+            await signOut(auth);
+            location.reload();
+        };
+
+        // 5. Profile & Security
+        window.changePass = async () => {
+            const oldP = document.getElementById('p-old').value;
+            const newP = document.getElementById('p-new').value;
+            if(!oldP || !newP) return window.toast("أكمل الحقول");
+            window.loader(true);
+            try {
+                const credential = EmailAuthProvider.credential(currentUser.email, oldP);
+                await reauthenticateWithCredential(currentUser, credential);
+                await updatePassword(currentUser, newP);
+                window.toast("تم تغيير كلمة المرور بنجاح");
+                document.getElementById('p-old').value = '';
+                document.getElementById('p-new').value = '';
+            } catch(e) { window.toast("كلمة المرور القديمة غير صحيحة"); }
+            window.loader(false);
+        };
+
+        // 6. Services & Categories
+        window.loadCategories = async () => {
+            const q = query(collection(db, "categories"), where("visible", "==", true), orderBy("sortOrder"));
+            const snap = await getDocs(q);
+            const list = document.getElementById('cats-list');
+            list.innerHTML = '';
+            snap.forEach(d => {
+                const c = d.data();
+                list.innerHTML += `
+                <div class="card" onclick="window.openCategory('${d.id}', '${c.name}')" style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
+                    <div style="display:flex; align-items:center; gap:15px;">
+                        <div style="background:var(--bg-input); width:45px; height:45px; border-radius:12px; display:flex; align-items:center; justify-content:center; color:var(--primary); font-size:1.2rem;">
+                            <i class="fas fa-cubes"></i>
+                        </div>
+                        <b style="font-size:1.1rem;">${c.name}</b>
+                    </div>
+                    <i class="fas fa-chevron-left" style="color:var(--text-sec)"></i>
+                </div>`;
+            });
+        };
+
+        window.openCategory = async (id, name) => {
+            document.getElementById('cat-title').innerText = name;
+            document.getElementById('modal-services').classList.add('open');
+            const list = document.getElementById('srvs-list');
+            list.innerHTML = '<div style="text-align:center; padding:30px;"><div class="spinner" style="margin:0 auto;"></div></div>';
+            
+            const snap = await getDocs(query(collection(db, "services"), where("categoryId", "==", id), where("visible", "==", true)));
+            list.innerHTML = '';
+            snap.forEach(d => {
+                const s = d.data();
+                const objStr = encodeURIComponent(JSON.stringify({id: d.id, ...s}));
+                list.innerHTML += `
+                <div class="card">
+                    <div style="margin-bottom:12px;">
+                        <b style="font-size:1.1rem; display:block; margin-bottom:5px;">${s.name}</b>
+                        <span style="color:var(--success); font-weight:800; font-size:1.2rem;">$${s.price} <small style="color:var(--text-sec); font-size:0.7rem; font-weight:normal;">/ 1000</small></span>
+                    </div>
+                    <button class="btn btn-outline" style="padding:10px;" onclick="window.prepOrder('${objStr}')">طلب الخدمة</button>
+                </div>`;
+            });
+        };
+
+        // 7. Order Placement (API Routing)
+        window.prepOrder = (encodedObj) => {
+            currentService = JSON.parse(decodeURIComponent(encodedObj));
+            
+            document.getElementById('ord-title').innerText = currentService.name;
+            document.getElementById('ord-price').innerText = currentService.price + " $";
+            document.getElementById('ord-min').innerText = currentService.min;
+            document.getElementById('ord-max').innerText = currentService.max;
+            document.getElementById('ord-desc').innerHTML = currentService.description ? currentService.description.replace(/\n/g, '<br>') : 'لا يوجد وصف للخدمة.';
+            
+            document.getElementById('ord-link').value = '';
+            document.getElementById('ord-qty').value = '';
+            document.getElementById('ord-total').innerText = '0.00 $';
+            
+            document.getElementById('modal-order').classList.add('open');
+        };
+
+        window.calcTotal = () => {
+            const qty = parseInt(document.getElementById('ord-qty').value);
+            if(qty > 0 && currentService) {
+                const total = (qty / 1000) * currentService.price;
+                document.getElementById('ord-total').innerText = total.toFixed(4) + " $";
+            } else {
+                document.getElementById('ord-total').innerText = "0.00 $";
+            }
+        };
+
+        window.submitOrder = async () => {
+            const link = document.getElementById('ord-link').value.trim();
+            const qty = parseInt(document.getElementById('ord-qty').value);
+            
+            if(!link || !qty) return window.toast("يرجى إدخال الرابط والكمية");
+            if(qty < currentService.min || qty > currentService.max) return window.toast(`الكمية يجب أن تكون بين ${currentService.min} و ${currentService.max}`);
+            
+            const cost = parseFloat(((qty / 1000) * currentService.price).toFixed(4));
+            if(userData.balance < cost) return window.toast("رصيدك غير كافٍ");
+
+            window.loader(true);
+            try {
+                // 1. Deduct Balance
+                await updateDoc(doc(db, "users", currentUser.uid), {
+                    balance: userData.balance - cost,
+                    spent: (userData.spent || 0) + cost
+                });
+
+                // 2. Fetch Provider API Info
+                const provDoc = await getDoc(doc(db, "providers", currentService.providerId));
+                const prov = provDoc.data();
+                
+                let apiUrl = prov.url.trim();
+                if(!apiUrl.startsWith('http')) apiUrl = 'https://' + apiUrl;
+                
+                // 3. API Call via CORS Proxy (Correctly encoded)
+                const targetUrl = `${apiUrl}?key=${prov.key}&action=add&service=${currentService.providerServiceId}&link=${link}&quantity=${qty}`;
+                const proxyUrl = `https://corsproxy.io/?` + encodeURIComponent(targetUrl);
+                
+                const res = await fetch(proxyUrl);
+                const apiData = await res.json();
+
+                if(apiData.error) throw new Error(apiData.error);
+
+                // 4. Save Order to Database
+                await addDoc(collection(db, "orders"), {
+                    userId: currentUser.uid,
+                    service: currentService.name,
+                    serviceId: currentService.id,
+                    qty: qty,
+                    link: link,
+                    price: cost,
+                    providerOrderId: apiData.order,
+                    status: 'Pending',
+                    remains: qty,
+                    start_count: 0,
+                    createdAt: serverTimestamp()
+                });
+
+                window.toast("تم إرسال الطلب بنجاح!");
+                document.getElementById('modal-order').classList.remove('open');
+                document.getElementById('modal-services').classList.remove('open');
+                window.nav('orders');
+
+            } catch(e) {
+                // Refund on failure
+                await updateDoc(doc(db, "users", currentUser.uid), { balance: userData.balance });
+                window.toast("فشل الطلب: " + (e.message || "خطأ غير معروف"));
+                console.error(e);
+            }
+            window.loader(false);
+        };
+
+        // 8. Orders History & Bulk Sync
+        window.listenOrders = () => {
+            const q = query(collection(db, "orders"), where("userId", "==", currentUser.uid), orderBy("createdAt", "desc"));
+            onSnapshot(q, (snap) => {
+                const list = document.getElementById('orders-list');
+                list.innerHTML = '';
+                activeOrders = [];
+
+                if(snap.empty) {
+                    list.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-sec);">لا توجد طلبات سابقة.</div>';
+                    return;
+                }
+
+                snap.forEach(d => {
+                    const o = d.data();
+                    o.dbId = d.id;
+                    activeOrders.push(o);
+
+                    let badgeClass = 'status-wait';
+                    if(o.status.includes('Completed') || o.status.includes('مكتمل')) badgeClass = 'status-ok';
+                    if(o.status.includes('Canceled') || o.status.includes('Fail') || o.status.includes('ملغي')) badgeClass = 'status-fail';
+
+                    list.innerHTML += `
+                    <div class="card order-card" style="padding:15px;">
+                        <div class="order-header">
+                            <span style="font-family:monospace; color:var(--text-sec);">#${o.providerOrderId}</span>
+                            <span class="badge ${badgeClass}">${o.status}</span>
+                        </div>
+                        <b style="font-size:0.95rem; margin:10px 0; display:block; line-height:1.4;">${o.service}</b>
+                        <div class="order-stats">
+                            <span>الكمية: <b style="color:var(--text-main)">${o.qty}</b></span>
+                            <span>البدء: <b style="color:var(--text-main)">${o.start_count || 0}</b></span>
+                            <span>المتبقي: <b style="color:var(--text-main)">${o.remains || o.qty}</b></span>
+                        </div>
+                        <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--border); font-size:0.8rem; color:var(--primary); font-weight:bold;">
+                            التكلفة: ${o.price} $
+                        </div>
+                    </div>`;
+                });
+            });
+        };
+
+        window.syncOrders = async (manual = false) => {
+            const pending = activeOrders.filter(o => !['Completed', 'Canceled', 'Fail', 'Partial'].includes(o.status));
+            if(pending.length === 0) {
+                if(manual) window.toast("جميع الطلبات محدثة");
+                return;
+            }
+            if(manual) window.toast("جاري التحديث...");
+
+            // Group by provider for Bulk API Request
+            const groups = {}; 
+            for(const order of pending) {
+                try {
+                    const srvSnap = await getDoc(doc(db, "services", order.serviceId));
+                    if(!srvSnap.exists()) continue;
+                    const provSnap = await getDoc(doc(db, "providers", srvSnap.data().providerId));
+                    if(!provSnap.exists()) continue;
+                    
+                    const prov = provSnap.data();
+                    const key = prov.url + prov.key;
+                    
+                    if(!groups[key]) groups[key] = { prov: prov, orderIds: [], orderMap: {} };
+                    groups[key].orderIds.push(order.providerOrderId);
+                    groups[key].orderMap[order.providerOrderId] = order;
+                } catch(e) {}
+            }
+
+            // Execute Bulk Request
+            for(const key in groups) {
+                const group = groups[key];
+                let apiUrl = group.prov.url;
+                if(!apiUrl.startsWith('http')) apiUrl = 'https://' + apiUrl;
+                
+                const idsString = group.orderIds.join(',');
+                const targetUrl = `${apiUrl}?key=${group.prov.key}&action=status&orders=${idsString}`;
+                const proxyUrl = `https://corsproxy.io/?` + encodeURIComponent(targetUrl);
+
+                try {
+                    const res = await fetch(proxyUrl);
+                    const apiData = await res.json(); // Expected: {"1": {status...}, "2": {status...}}
+
+                    for(const apiOrderId in apiData) {
+                        const info = apiData[apiOrderId];
+                        const localOrder = group.orderMap[apiOrderId];
+                        
+                        if(info && typeof info === 'object' && info.status && localOrder) {
+                            // Auto Refund Logic
+                            if((info.status === 'Canceled' || info.status === 'Fail') && localOrder.status !== 'Canceled') {
+                                const currentBal = (await getDoc(doc(db, "users", currentUser.uid))).data().balance;
+                                await updateDoc(doc(db, "users", currentUser.uid), { balance: currentBal + localOrder.price });
+                            }
+                            
+                            // Update Firestore
+                            await updateDoc(doc(db, "orders", localOrder.dbId), {
+                                status: info.status,
+                                remains: info.remains || localOrder.remains,
+                                start_count: info.start_count || localOrder.start_count
+                            });
+                        }
+                    }
+                } catch(e) { console.error("Bulk Sync Error", e); }
+            }
+            if(manual) window.toast("تم تحديث الحالات");
+        };
+
+        // 9. Wallet & Coupons
+        window.redeemCoupon = async () => {
+            const code = document.getElementById('coupon-code').value.trim();
+            if(!code) return window.toast("أدخل الكود");
+            
+            window.loader(true);
+            try {
+                const q = query(collection(db, "coupons"), where("code", "==", code));
+                const snap = await getDocs(q);
+                
+                if(snap.empty) throw new Error("الكود غير صحيح");
+                const couponDoc = snap.docs[0];
+                const coupon = couponDoc.data();
+                
+                if(!coupon.active || coupon.used) throw new Error("الكود مستخدم أو غير فعال");
+
+                // Add balance & mark used
+                await updateDoc(doc(db, "users", currentUser.uid), { balance: userData.balance + parseFloat(coupon.value) });
+                await updateDoc(doc(db, "coupons", couponDoc.id), { used: true, usedBy: currentUser.uid, usedAt: serverTimestamp() });
+                
+                // Add to history
+                await addDoc(collection(db, "deposits"), {
+                    userId: currentUser.uid, amount: parseFloat(coupon.value), method: 'Coupon', code: code, date: serverTimestamp()
+                });
+
+                window.toast(`تم شحن ${coupon.value}$ بنجاح`);
+                document.getElementById('coupon-code').value = '';
+            } catch(e) { window.toast(e.message); }
+            window.loader(false);
+        };
+
+        window.listenWallet = () => {
+            const q = query(collection(db, "deposits"), where("userId", "==", currentUser.uid), orderBy("date", "desc"));
+            onSnapshot(q, (snap) => {
+                const list = document.getElementById('wallet-history');
+                list.innerHTML = '';
+                snap.forEach(d => {
+                    const dep = d.data();
+                    list.innerHTML += `
+                    <div class="card" style="padding:15px; display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <span style="display:block; font-weight:bold; font-size:0.9rem;">شحن محفظة</span>
+                            <span style="font-size:0.75rem; color:var(--text-sec);">${dep.method}</span>
+                        </div>
+                        <b style="color:var(--success); font-size:1.1rem;">+${dep.amount}$</b>
+                    </div>`;
+                });
+            });
+        };
+
+        // 10. Support Chat (Direct Real-time)
+        window.initChat = () => {
+            if(unsubscribeChat) unsubscribeChat();
+            
+            const q = query(collection(db, "chats", currentUser.uid, "messages"), orderBy("createdAt", "asc"));
+            unsubscribeChat = onSnapshot(q, (snap) => {
+                const feed = document.getElementById('chat-feed');
+                feed.innerHTML = '';
+                
+                if(snap.empty) {
+                    feed.innerHTML = '<div style="text-align:center; color:var(--text-sec); margin-top:50px;">مرحباً بك! كيف يمكننا مساعدتك اليوم؟</div>';
+                    return;
+                }
+
+                snap.forEach(d => {
+                    const m = d.data();
+                    const isMe = m.sender === 'user';
+                    const time = m.createdAt ? new Date(m.createdAt.seconds * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '';
+                    
+                    feed.innerHTML += `
+                    <div style="display:flex; flex-direction:column; align-items: ${isMe ? 'flex-end' : 'flex-start'};">
+                        <div class="msg ${isMe ? 'msg-me' : 'msg-admin'}">${m.text}</div>
+                        <span style="font-size:0.65rem; color:var(--text-sec); margin-top:4px; padding:0 5px;">${time}</span>
+                    </div>`;
+                });
+                
+                // Scroll to bottom
+                feed.scrollTop = feed.scrollHeight;
+            });
+        };
+
+        window.sendMsg = async () => {
+            const input = document.getElementById('chat-input');
+            const txt = input.value.trim();
+            if(!txt) return;
+            
+            input.value = '';
+            
+            // Add message
+            await addDoc(collection(db, "chats", currentUser.uid, "messages"), {
+                text: txt, sender: 'user', createdAt: serverTimestamp()
+            });
+            
+            // Update master doc for Admin Notification
+            await setDoc(doc(db, "chats", currentUser.uid), {
+                lastMessage: txt, time: serverTimestamp(), userId: currentUser.uid, name: userData.name, hasUnread: true
+            }, { merge: true });
+        };
+
+    </script>
+    </body>
+</html>
