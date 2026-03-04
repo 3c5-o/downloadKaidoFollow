@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Kaido Follow | Premium SMM</title>
     
-    <link rel="icon" href="https://e.top4top.io/p_3675vatut1.jpg" type="image/jpeg">
+    <link rel="icon" href="./logo.jpg" type="image/jpeg">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#09090b">
-    <link rel="apple-touch-icon" href="https://e.top4top.io/p_3675vatut1.jpg">
+    <link rel="apple-touch-icon" href="./logo.jpg">
     
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -83,7 +83,7 @@
         .page.active { display: block; }
         @keyframes slideFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- تصميم لوحة التحكم (الرئيسية فقط) --- */
+        /* --- تصميم لوحة التحكم (تظهر في الرئيسية فقط) --- */
         .dash-header-wrap { padding: 25px 0 10px 0; }
         .dash-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .dash-greeting { display: flex; flex-direction: column; }
@@ -217,7 +217,7 @@
 
     <div id="splash-screen">
         <div class="splash-logo-wrap">
-            <img src="https://e.top4top.io/p_3675vatut1.jpg" class="splash-logo" alt="كايدو فولو">
+            <img src="./logo.jpg" class="splash-logo" alt="كايدو فولو">
         </div>
         <h1 class="splash-title">كايدو فولو</h1>
         <p style="color: var(--text-sec); letter-spacing: 2px; font-size: 0.85rem; margin-top: 10px; font-weight: 600;">الخدمات المميزة</p>
@@ -225,7 +225,7 @@
 
     <div id="pg-auth" class="full-modal open" style="justify-content: center; padding: 30px; z-index: 5000;">
         <div style="text-align: center; margin-bottom: 40px;">
-            <img src="https://e.top4top.io/p_3675vatut1.jpg" style="width: 90px; border-radius: 25px; box-shadow: 0 10px 30px var(--glow); margin-bottom: 20px;">
+            <img src="./logo.jpg" style="width: 90px; border-radius: 25px; box-shadow: 0 10px 30px var(--glow); margin-bottom: 20px;">
             <h1 style="font-weight: 800; letter-spacing: 1px;">كايدو فولو</h1>
             <p style="color: var(--text-sec); font-size: 0.9rem;">مرحباً بك في منصتك المفضلة</p>
         </div>
@@ -384,9 +384,9 @@
             </div>
 
             <div class="card" style="text-align: center; padding: 30px 20px; margin-top: 25px;">
-                <img src="https://e.top4top.io/p_3675vatut1.jpg" style="width: 55px; border-radius: 18px; margin-bottom: 12px; opacity: 0.9;">
+                <img src="./logo.jpg" style="width: 55px; border-radius: 18px; margin-bottom: 12px; opacity: 0.9;">
                 <h3 style="font-weight: 900; letter-spacing: 1px;">كايدو فولو</h3>
-                <p style="color: var(--text-sec); font-size: 0.9rem; margin-bottom: 20px; font-weight: bold;">الإصدار 1.0</p>
+                <p style="color: var(--text-sec); font-size: 0.9rem; margin-bottom: 20px; font-weight: bold;">الإصدار 1.2</p>
                 <button onclick="window.logout()" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
             </div>
         </div>
@@ -428,7 +428,6 @@
             <h3>طلب جديد</h3>
         </div>
         <div style="padding: 20px; padding-bottom: 100px;">
-            
             <div class="order-hero">
                 <div class="order-hero-badge" id="ord-id">#000</div>
                 <h3 class="order-hero-title" id="ord-title">...</h3>
@@ -488,13 +487,11 @@
 
             <button onclick="window.submitOrder()" class="btn btn-pro" style="padding: 18px; font-size: 1.1rem; margin-top: 10px;"><i class="fas fa-paper-plane"></i> إرسال الطلب</button>
         </div>
-    </div>
-<script type="module">
+    </div><script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, updateDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-        // إعدادات قاعدة البيانات
         const app = initializeApp({
             apiKey: "AIzaSyDPNS3dO05la3CpArNwm2KLHWaznog2rS4",
             authDomain: "kaido-follow-508df.firebaseapp.com",
@@ -506,7 +503,6 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // المتغيرات العامة
         let currentUser = null;
         let userData = null;
         let currentService = null;
@@ -514,7 +510,6 @@
         let unsubscribeChat = null;
         let unsubscribeNoti = null;
 
-        // دوال الواجهة الأساسية
         window.loader = (show) => document.getElementById('loader').style.display = show ? 'flex' : 'none';
         
         window.toast = (msg) => {
@@ -566,9 +561,7 @@
             });
         };
 
-        window.copyOrderId = (id) => {
-            window.copyText(id, "تم نسخ رقم الطلب بنجاح");
-        };
+        window.copyOrderId = (id) => { window.copyText(id, "تم نسخ رقم الطلب بنجاح"); };
 
         window.filterServices = () => {
             const queryText = document.getElementById('search-services').value.toLowerCase();
@@ -598,7 +591,6 @@
             }, 2500);
         };
 
-        // نظام الإشعارات (In-App Notifications)
         window.listenNotifications = () => {
             if(unsubscribeNoti) unsubscribeNoti();
             const q = query(collection(db, "notifications"), orderBy("createdAt", "desc"));
@@ -619,7 +611,6 @@
                 snap.forEach(d => {
                     const n = d.data();
                     const dateStr = n.createdAt ? new Date(n.createdAt.seconds * 1000).toLocaleDateString('ar-EG') : '';
-                    
                     list.innerHTML += `
                     <div class="card" style="padding:15px; margin-bottom:10px; border-right: 3px solid var(--primary); border-radius: 12px;">
                         <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
@@ -632,7 +623,6 @@
             });
         };
 
-        // المصادقة ومزامنة البيانات
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
@@ -643,17 +633,13 @@
                     if (docSnap.exists()) {
                         userData = docSnap.data();
                         
-                        document.getElementById('u-name').innerText = userData.name.split(' ')[0];
                         document.getElementById('u-name-top').innerText = userData.name.split(' ')[0];
+                        document.getElementById('p-display-name').innerText = userData.name;
                         
-                        const balanceText = "$" + userData.balance.toFixed(4);
-                        document.getElementById('u-bal').innerText = balanceText;
+                        const balanceText = userData.balance.toFixed(4) + "$";
                         document.getElementById('u-bal-main').innerText = balanceText;
-                        
-                        // تحديث الرصيد داخل نافذة الطلب إذا كانت مفتوحة
                         document.getElementById('ord-bal').innerText = balanceText;
                         
-                        document.getElementById('p-display-name').innerText = userData.name;
                         document.getElementById('p-username').value = "@" + (userData.username || "user");
                         document.getElementById('p-email').value = userData.email;
                         
@@ -693,13 +679,8 @@
             window.loader(true);
             try {
                 const cred = await createUserWithEmailAndPassword(auth, e, p);
-                
-                await setDoc(doc(db, "users", cred.user.uid), {
-                    name: n, username: u, email: e, balance: 0, spent: 0, createdAt: serverTimestamp()
-                });
-                await setDoc(doc(db, "chats", cred.user.uid), {
-                    lastMessage: "تم إنشاء الحساب بنجاح", time: serverTimestamp(), userId: cred.user.uid, name: n, username: u, hasUnread: false
-                });
+                await setDoc(doc(db, "users", cred.user.uid), { name: n, username: u, email: e, balance: 0, spent: 0, createdAt: serverTimestamp() });
+                await setDoc(doc(db, "chats", cred.user.uid), { lastMessage: "تم إنشاء الحساب بنجاح", time: serverTimestamp(), userId: cred.user.uid, name: n, username: u, hasUnread: false });
             } catch(err) { window.toast("حدث خطأ أثناء التسجيل، يرجى المحاولة لاحقاً"); window.loader(false); }
         };
 
@@ -735,7 +716,6 @@
                 await reauthenticateWithCredential(currentUser, credential);
                 await updatePassword(currentUser, newP);
                 window.toast("تم تحديث كلمة المرور بأمان");
-                
                 document.getElementById('p-old').value = '';
                 document.getElementById('p-new').value = '';
                 document.getElementById('p-new-conf').value = '';
@@ -744,7 +724,6 @@
             window.loader(false);
         };
 
-        // جلب الأقسام والخدمات
         window.loadCategories = async () => {
             const q = query(collection(db, "categories"), where("visible", "==", true));
             const snap = await getDocs(q);
@@ -785,7 +764,6 @@
             });
         };
 
-        // إعداد وتجهيز نافذة الطلب الاحترافية
         window.prepOrder = (encodedObj) => {
             currentService = JSON.parse(decodeURIComponent(encodedObj));
             
@@ -799,13 +777,11 @@
             document.getElementById('ord-link').value = '';
             document.getElementById('ord-qty').value = '';
             document.getElementById('ord-total').innerText = '0.0000$';
-            document.getElementById('ord-bal').innerText = userData.balance.toFixed(4) + "$";
             document.getElementById('ord-error').style.display = 'none';
             
             window.openModal('modal-order');
         };
 
-        // حساب التكلفة والتنبيه المباشر بالرصيد
         window.calcTotal = () => {
             const qty = parseInt(document.getElementById('ord-qty').value) || 0;
             const errorBox = document.getElementById('ord-error');
@@ -814,19 +790,14 @@
                 const total = (qty / 1000) * currentService.price;
                 document.getElementById('ord-total').innerText = total.toFixed(4) + "$";
                 
-                // مقارنة التكلفة بالرصيد المتاح
-                if(total > userData.balance) {
-                    errorBox.style.display = 'block';
-                } else {
-                    errorBox.style.display = 'none';
-                }
+                if(total > userData.balance) { errorBox.style.display = 'block'; } 
+                else { errorBox.style.display = 'none'; }
             } else {
                 document.getElementById('ord-total').innerText = "0.0000$";
                 errorBox.style.display = 'none';
             }
         };
 
-        // إرسال الطلب للمزود (API)
         window.submitOrder = async () => {
             const link = document.getElementById('ord-link').value.trim();
             const qty = parseInt(document.getElementById('ord-qty').value);
@@ -842,7 +813,6 @@
 
             window.loader(true);
             try {
-                // خصم الرصيد مبدئياً
                 await updateDoc(doc(db, "users", currentUser.uid), {
                     balance: userData.balance - cost,
                     spent: (userData.spent || 0) + cost
@@ -864,17 +834,9 @@
                 if(apiData.error) throw new Error(apiData.error);
 
                 await addDoc(collection(db, "orders"), {
-                    userId: currentUser.uid,
-                    service: currentService.name,
-                    serviceId: currentService.id,
-                    qty: qty,
-                    link: link,
-                    price: cost,
-                    providerOrderId: apiData.order,
-                    status: 'Pending',
-                    remains: qty,
-                    start_count: 0,
-                    createdAt: serverTimestamp()
+                    userId: currentUser.uid, service: currentService.name, serviceId: currentService.id,
+                    qty: qty, link: link, price: cost, providerOrderId: apiData.order,
+                    status: 'Pending', remains: qty, start_count: 0, createdAt: serverTimestamp()
                 });
 
                 window.toast("تم إرسال الطلب بنجاح");
@@ -883,7 +845,6 @@
                 window.nav('orders');
 
             } catch(e) {
-                // إرجاع الرصيد في حال الفشل
                 await updateDoc(doc(db, "users", currentUser.uid), { balance: userData.balance });
                 window.toast("تعذر إرسال الطلب، تم استرجاع الرصيد.");
                 console.error(e);
@@ -891,7 +852,6 @@
             window.loader(false);
         };
 
-        // تعريب حالات الطلب
         const getStatusArabic = (st) => {
             if(!st) return 'غير معروف';
             const s = st.toLowerCase();
@@ -905,16 +865,13 @@
             return st;
         };
 
-        // عرض ومزامنة الطلبات
         window.listenOrders = () => {
             const q = query(collection(db, "orders"), where("userId", "==", currentUser.uid), orderBy("createdAt", "desc"));
             onSnapshot(q, (snap) => {
                 const list = document.getElementById('orders-list');
                 list.innerHTML = '';
                 activeOrders = [];
-                
-                let pendingCount = 0;
-                let completedCount = 0;
+                let pendingCount = 0; let completedCount = 0;
 
                 if(snap.empty) {
                     list.innerHTML = '<div style="text-align:center; padding:50px; color:var(--text-sec); font-size:1.1rem;"><i class="fas fa-box-open" style="font-size:3rem; margin-bottom:15px; opacity:0.3;"></i><br>لا توجد أي طلبات سابقة.</div>';
@@ -931,15 +888,9 @@
                     const statusStr = o.status.toLowerCase();
                     let badgeClass = 'status-wait';
                     
-                    if(statusStr.includes('complet')) {
-                        badgeClass = 'status-ok';
-                        completedCount++;
-                    } else if(statusStr.includes('cancel') || statusStr.includes('fail')) {
-                        badgeClass = 'status-fail';
-                    } else {
-                        badgeClass = 'status-info';
-                        pendingCount++;
-                    }
+                    if(statusStr.includes('complet')) { badgeClass = 'status-ok'; completedCount++; }
+                    else if(statusStr.includes('cancel') || statusStr.includes('fail')) { badgeClass = 'status-fail'; }
+                    else { badgeClass = 'status-info'; pendingCount++; }
 
                     list.innerHTML += `
                     <div class="card" style="padding:16px; border-radius:16px;">
@@ -953,16 +904,13 @@
                         <b style="font-size:1rem; margin:12px 0; display:block; line-height:1.5; color:var(--text-main);">${o.service}</b>
                         <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-sec); background: rgba(0,0,0,0.2); padding: 12px; border-radius: 12px; border: 1px solid var(--border);">
                             <div style="display:flex; flex-direction:column; gap:4px; text-align:center;">
-                                <span>الكمية</span>
-                                <b style="color:var(--text-main); font-size:1rem;">${o.qty}</b>
+                                <span>الكمية</span><b style="color:var(--text-main); font-size:1rem;">${o.qty}</b>
                             </div>
                             <div style="display:flex; flex-direction:column; gap:4px; text-align:center;">
-                                <span>عدد البدء</span>
-                                <b style="color:var(--text-main); font-size:1rem;">${o.start_count || 0}</b>
+                                <span>البدء</span><b style="color:var(--text-main); font-size:1rem;">${o.start_count || 0}</b>
                             </div>
                             <div style="display:flex; flex-direction:column; gap:4px; text-align:center;">
-                                <span>المتبقي</span>
-                                <b style="color:var(--primary); font-size:1rem;">${o.remains || o.qty}</b>
+                                <span>المتبقي</span><b style="color:var(--primary); font-size:1rem;">${o.remains || o.qty}</b>
                             </div>
                         </div>
                     </div>`;
@@ -1020,7 +968,6 @@
                         const localOrder = group.orderMap[apiOrderId];
                         
                         if(info && typeof info === 'object' && info.status && localOrder) {
-                            
                             const newStatus = info.status;
                             
                             if((newStatus === 'Canceled' || newStatus === 'Fail') && localOrder.status !== 'Canceled') {
@@ -1029,9 +976,7 @@
                             }
                             
                             await updateDoc(doc(db, "orders", localOrder.dbId), {
-                                status: newStatus,
-                                remains: info.remains || localOrder.remains,
-                                start_count: info.start_count || localOrder.start_count
+                                status: newStatus, remains: info.remains || localOrder.remains, start_count: info.start_count || localOrder.start_count
                             });
                         }
                     }
@@ -1040,7 +985,6 @@
             if(manual) window.toast("تم تحديث حالة الطلبات بنجاح");
         };
 
-        // المحفظة والشحن
         window.redeemCoupon = async () => {
             const code = document.getElementById('coupon-code').value.trim();
             if(!code) return window.toast("يرجى إدخال رمز الشحن");
@@ -1093,10 +1037,8 @@
             });
         };
 
-        // الدعم الفني
         window.initChat = () => {
             if(unsubscribeChat) unsubscribeChat();
-            
             const q = query(collection(db, "chats", currentUser.uid, "messages"), orderBy("createdAt", "asc"));
             unsubscribeChat = onSnapshot(q, (snap) => {
                 const feed = document.getElementById('chat-feed');
@@ -1111,14 +1053,12 @@
                     const m = d.data();
                     const isMe = m.sender === 'user';
                     const time = m.createdAt ? new Date(m.createdAt.seconds * 1000).toLocaleTimeString('ar-EG', {hour: '2-digit', minute:'2-digit'}) : '';
-                    
                     feed.innerHTML += `
                     <div style="display:flex; flex-direction:column; align-items: ${isMe ? 'flex-end' : 'flex-start'}; margin-bottom: 5px;">
                         <div class="msg ${isMe ? 'msg-me' : 'msg-admin'}">${m.text}</div>
                         <span style="font-size:0.65rem; color:var(--text-sec); margin-top:4px; padding:0 5px;">${time}</span>
                     </div>`;
                 });
-                
                 feed.scrollTop = feed.scrollHeight;
             });
         };
@@ -1127,26 +1067,27 @@
             const input = document.getElementById('chat-input');
             const txt = input.value.trim();
             if(!txt) return;
-            
             input.value = '';
-            
-            await addDoc(collection(db, "chats", currentUser.uid, "messages"), {
-                text: txt, sender: 'user', createdAt: serverTimestamp()
-            });
-            
-            await setDoc(doc(db, "chats", currentUser.uid), {
-                lastMessage: txt, time: serverTimestamp(), userId: currentUser.uid, name: userData.name, username: userData.username, hasUnread: true
-            }, { merge: true });
+            await addDoc(collection(db, "chats", currentUser.uid, "messages"), { text: txt, sender: 'user', createdAt: serverTimestamp() });
+            await setDoc(doc(db, "chats", currentUser.uid), { lastMessage: txt, time: serverTimestamp(), userId: currentUser.uid, name: userData.name, username: userData.username, hasUnread: true }, { merge: true });
         };
 
-        // تفعيل ميزة التطبيق PWA
+        // تفعيل ميزة التطبيق PWA مع نظام التحديث التلقائي الإجباري
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').catch(err => {
-                    console.log('فشل تفعيل ServiceWorker: ', err);
-                });
+                navigator.serviceWorker.register('./sw.js').then(reg => {
+                    reg.addEventListener('updatefound', () => {
+                        const newWorker = reg.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                window.toast("يوجد تحديث جديد للتطبيق، جاري التحديث...", "info");
+                                setTimeout(() => window.location.reload(true), 1500);
+                            }
+                        });
+                    });
+                }).catch(err => console.log('SW Error:', err));
             });
         }
     </script>
-    </body>
+</body>
 </html>
