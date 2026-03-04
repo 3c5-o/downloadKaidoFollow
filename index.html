@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Kaido Follow | User Panel</title>
+    <title>كايدو فولو | Kaido Follow</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* --- 1. PREMIUM THEME VARIABLES --- */
+        /* --- 1. الألوان المتغيرة (النسخة الفخمة) --- */
         :root {
             --bg-main: #09090b; 
             --bg-card: rgba(24, 24, 27, 0.75); 
@@ -19,28 +19,27 @@
             --text-main: #f8fafc;
             --text-sec: #a1a1aa;
             
-            /* Kaido Official Brand Colors */
             --primary: #8b5cf6;
             --accent: #d946ef;
             --gradient-pro: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
             --glow: rgba(139, 92, 246, 0.5);
             
-            --success: #10b981; --danger: #f43f5e; --warning: #f59e0b;
+            --success: #10b981; --danger: #f43f5e; --warning: #f59e0b; --info: #3b82f6;
         }
 
-        /* --- 2. GLOBAL RESET & BASE --- */
+        /* --- 2. الإعدادات الأساسية --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; outline: none; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg-main); color: var(--text-main); padding-bottom: 90px; overflow-x: hidden; min-height: 100vh; }
         input, button { border: none; background: none; color: inherit; }
         
-        /* Background Ambient Glow */
+        /* إضاءة الخلفية */
         body::before {
             content: ''; position: fixed; top: -20%; left: -10%; width: 60vw; height: 60vw;
-            background: radial-gradient(circle, rgba(139, 92, 246, 0.2) 0%, transparent 60%);
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 60%);
             z-index: -1; filter: blur(60px); pointer-events: none;
         }
 
-        /* --- 3. UI COMPONENTS (GLASSMORPHISM) --- */
+        /* --- 3. العناصر الأساسية (البطاقات والأزرار) --- */
         .card {
             background: var(--bg-card); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border); border-radius: 20px; padding: 22px; margin-bottom: 16px;
@@ -65,7 +64,22 @@
         .input-box:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2); }
         .input-box:read-only { opacity: 0.7; cursor: not-allowed; background: rgba(0,0,0,0.2); }
 
-        /* --- 4. LAYOUT & NAVIGATION --- */
+        /* --- 4. القوائم المنسدلة (الأكورديون) للملف الشخصي --- */
+        .accordion-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px; background: var(--bg-input); border-radius: 14px;
+            cursor: pointer; border: 1px solid var(--border); transition: 0.3s; margin-bottom: 10px;
+        }
+        .accordion-header:hover { border-color: var(--primary); }
+        .accordion-title { font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .accordion-icon { transition: transform 0.3s ease; color: var(--text-sec); }
+        .accordion-content {
+            max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out;
+            background: rgba(0,0,0,0.2); border-radius: 14px;
+        }
+        .accordion-inner { padding: 15px; border: 1px solid var(--border); border-top: none; border-radius: 0 0 14px 14px; margin-top: -10px; margin-bottom: 15px; }
+
+        /* --- 5. تخطيط الصفحة والقوائم --- */
         .page { display: none; animation: slideFade 0.4s cubic-bezier(0.16, 1, 0.3, 1); padding: 0 20px; }
         .page.active { display: block; }
         @keyframes slideFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -84,44 +98,30 @@
         .nav-item.active { color: var(--primary); transform: translateY(-3px); }
         .nav-item i { font-size: 1.4rem; }
 
-        /* --- 5. SPLASH SCREEN (PROFESSIONAL) --- */
+        /* --- 6. شاشة البداية --- */
         #splash-screen {
             position: fixed; inset: 0; background: var(--bg-main); z-index: 10000;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             transition: opacity 0.6s cubic-bezier(0.8, 0, 0.2, 1);
         }
-        .splash-brand { position: relative; display: flex; flex-direction: column; align-items: center; }
         .splash-logo-wrap { width: 110px; height: 110px; position: relative; margin-bottom: 25px; }
         .splash-logo { width: 100%; height: 100%; border-radius: 35px; position: relative; z-index: 2; box-shadow: 0 0 40px var(--glow); animation: float 3s ease-in-out infinite; }
-        .splash-ring { position: absolute; inset: -15px; border: 2px solid var(--primary); border-radius: 45px; opacity: 0; animation: ripple 2s infinite cubic-bezier(0.4, 0, 0.2, 1); }
-        .splash-title { font-weight: 900; font-size: 2.2rem; letter-spacing: 2px; background: var(--gradient-pro); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: fadeInText 1s ease-out forwards; }
-        
+        .splash-title { font-weight: 900; font-size: 2.2rem; letter-spacing: 2px; background: var(--gradient-pro); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        @keyframes ripple { 0% { transform: scale(0.8); opacity: 1; } 100% { transform: scale(1.4); opacity: 0; } }
-        @keyframes fadeInText { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- 6. SPECIFIC SECTIONS --- */
-        /* Orders */
-        .order-card { display: flex; flex-direction: column; gap: 12px; }
-        .order-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-        .badge { padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: bold; }
-        .status-ok { background: rgba(16, 185, 129, 0.15); color: var(--success); }
-        .status-wait { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
-        .status-fail { background: rgba(244, 63, 94, 0.15); color: var(--danger); }
-        .order-stats { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-sec); }
-        
-        /* Support Chat */
-        .chat-container { height: calc(100vh - 160px); display: flex; flex-direction: column; }
-        .chat-feed { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 10px 0; }
-        .msg { max-width: 80%; padding: 12px 16px; border-radius: 16px; font-size: 0.95rem; line-height: 1.5; }
-        .msg-me { align-self: flex-end; background: var(--primary); border-bottom-left-radius: 4px; }
-        .msg-admin { align-self: flex-start; background: var(--bg-card); border: 1px solid var(--border); border-bottom-right-radius: 4px; }
-        
-        /* Profile Sections */
-        .section-title { font-size: 1.1rem; font-weight: 800; color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-        .section-title i { font-size: 1.2rem; }
+        /* --- 7. تصميم الأقسام والخدمات (احترافي) --- */
+        .cat-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
+            padding: 16px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;
+            cursor: pointer; transition: 0.2s;
+        }
+        .cat-card:active { transform: scale(0.98); border-color: var(--primary); }
+        .cat-icon-wrap { width: 50px; height: 50px; background: rgba(139, 92, 246, 0.1); border-radius: 14px; display: flex; justify-content: center; align-items: center; color: var(--primary); font-size: 1.4rem; }
 
-        /* Modals */
+        .service-card { background: var(--bg-input); border: 1px solid var(--border); border-radius: 16px; padding: 18px; margin-bottom: 15px; }
+        .service-price { color: var(--success); font-weight: 900; font-size: 1.4rem; display: block; margin: 10px 0; }
+        
+        /* --- 8. النوافذ المنبثقة للطلبات --- */
         .full-modal {
             position: fixed; inset: 0; background: var(--bg-main); z-index: 2000;
             transform: translateX(100%); transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -129,7 +129,25 @@
         }
         .full-modal.open { transform: translateX(0); }
 
-        /* Utilities */
+        .order-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .order-info-box { background: var(--bg-input); padding: 15px; border-radius: 14px; text-align: center; border: 1px solid var(--border); }
+        .order-info-title { color: var(--text-sec); font-size: 0.8rem; display: block; margin-bottom: 5px; }
+        .order-info-val { color: var(--text-main); font-weight: 800; font-size: 1.1rem; }
+
+        /* الشات */
+        .chat-container { height: calc(100vh - 160px); display: flex; flex-direction: column; }
+        .chat-feed { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 10px 0; }
+        .msg { max-width: 80%; padding: 12px 16px; border-radius: 16px; font-size: 0.95rem; line-height: 1.5; }
+        .msg-me { align-self: flex-end; background: var(--primary); border-bottom-left-radius: 4px; }
+        .msg-admin { align-self: flex-start; background: var(--bg-card); border: 1px solid var(--border); border-bottom-right-radius: 4px; }
+
+        /* أدوات عامة */
+        .badge { padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: bold; }
+        .status-ok { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+        .status-wait { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+        .status-fail { background: rgba(244, 63, 94, 0.15); color: var(--danger); }
+        .status-info { background: rgba(59, 130, 246, 0.15); color: var(--info); }
+
         #loader { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 9999; display: none; justify-content: center; align-items: center; }
         .spinner { width: 45px; height: 45px; border: 4px solid var(--bg-input); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -140,40 +158,37 @@
 <body>
 
     <div id="loader"><div class="spinner"></div></div>
-    <div id="toast">تم الإجراء بنجاح</div>
+    <div id="toast">جاري التنفيذ...</div>
 
     <div id="splash-screen">
-        <div class="splash-brand">
-            <div class="splash-logo-wrap">
-                <div class="splash-ring"></div>
-                <img src="https://e.top4top.io/p_3675vatut1.jpg" class="splash-logo" alt="Logo">
-            </div>
-            <h1 class="splash-title">KAIDO FOLLOW</h1>
-            <p style="color: var(--text-sec); letter-spacing: 3px; font-size: 0.8rem; margin-top: 10px; font-weight: 600;">PREMIUM SERVICES</p>
+        <div class="splash-logo-wrap">
+            <img src="https://e.top4top.io/p_3675vatut1.jpg" class="splash-logo" alt="كايدو فولو">
         </div>
+        <h1 class="splash-title">كايدو فولو</h1>
+        <p style="color: var(--text-sec); letter-spacing: 2px; font-size: 0.85rem; margin-top: 10px; font-weight: 600;">الخدمات المميزة</p>
     </div>
 
-    <div id="pg-auth" class="full-modal open" style="justify-content: center; padding: 30px; background: radial-gradient(circle at top right, rgba(139, 92, 246, 0.1), var(--bg-main)); z-index: 5000;">
+    <div id="pg-auth" class="full-modal open" style="justify-content: center; padding: 30px; z-index: 5000;">
         <div style="text-align: center; margin-bottom: 40px;">
             <img src="https://e.top4top.io/p_3675vatut1.jpg" style="width: 90px; border-radius: 25px; box-shadow: 0 10px 30px var(--glow); margin-bottom: 20px;">
-            <h1 style="font-weight: 800; letter-spacing: 1px;">KAIDO FOLLOW</h1>
-            <p style="color: var(--text-sec); font-size: 0.9rem;">أهلاً بك في منصتك المفضلة</p>
+            <h1 style="font-weight: 800; letter-spacing: 1px;">كايدو فولو</h1>
+            <p style="color: var(--text-sec); font-size: 0.9rem;">مرحباً بك في منصتك المفضلة</p>
         </div>
 
         <div class="card" id="form-login">
             <h3 style="margin-bottom: 20px; text-align: center;">تسجيل الدخول</h3>
-            <div class="input-group"><label class="input-label">البريد الإلكتروني</label><input type="email" id="l-email" class="input-box" placeholder="mail@example.com"></div>
-            <div class="input-group"><label class="input-label">كلمة المرور</label><input type="password" id="l-pass" class="input-box" placeholder="••••••••"></div>
+            <div class="input-group"><label class="input-label">البريد الإلكتروني</label><input type="email" id="l-email" class="input-box" placeholder="أدخل بريدك الإلكتروني"></div>
+            <div class="input-group"><label class="input-label">كلمة المرور</label><input type="password" id="l-pass" class="input-box" placeholder="أدخل كلمة المرور"></div>
             <button onclick="window.doLogin()" class="btn btn-pro">دخول</button>
-            <button onclick="window.toggleAuth('reg')" class="btn btn-outline" style="margin-top: 15px; border: none;">حساب جديد؟ إنشاء الآن</button>
+            <button onclick="window.toggleAuth('reg')" class="btn btn-outline" style="margin-top: 15px; border: none;">ليس لديك حساب؟ إنشاء جديد</button>
         </div>
 
         <div class="card" id="form-reg" style="display: none;">
             <h3 style="margin-bottom: 20px; text-align: center;">إنشاء حساب جديد</h3>
-            <div class="input-group"><label class="input-label">الاسم</label><input type="text" id="r-name" class="input-box"></div>
-            <div class="input-group"><label class="input-label">اسم المستخدم (User)</label><input type="text" id="r-user" class="input-box"></div>
-            <div class="input-group"><label class="input-label">البريد الإلكتروني</label><input type="email" id="r-email" class="input-box"></div>
-            <div class="input-group"><label class="input-label">كلمة المرور</label><input type="password" id="r-pass" class="input-box"></div>
+            <div class="input-group"><label class="input-label">الاسم الكامل</label><input type="text" id="r-name" class="input-box" placeholder="الاسم الظاهر"></div>
+            <div class="input-group"><label class="input-label">اسم المستخدم</label><input type="text" id="r-user" class="input-box" placeholder="اسم المستخدم (يوزر)"></div>
+            <div class="input-group"><label class="input-label">البريد الإلكتروني</label><input type="email" id="r-email" class="input-box" placeholder="البريد الإلكتروني"></div>
+            <div class="input-group"><label class="input-label">كلمة المرور</label><input type="password" id="r-pass" class="input-box" placeholder="كلمة المرور"></div>
             <button onclick="window.doRegister()" class="btn btn-pro">إنشاء حساب</button>
             <button onclick="window.toggleAuth('login')" class="btn btn-outline" style="margin-top: 15px; border: none;">لدي حساب بالفعل</button>
         </div>
@@ -193,7 +208,7 @@
         </div>
 
         <div id="pg-home" class="page active">
-            <h3 style="margin-bottom: 15px; font-weight: 800;">الأقسام المتاحة</h3>
+            <h3 style="margin-bottom: 20px; font-weight: 800; font-size: 1.3rem;">الأقسام المتاحة</h3>
             <div id="cats-list"></div>
         </div>
 
@@ -201,7 +216,7 @@
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h3 style="font-weight: 800;">سجل الطلبات</h3>
                 <button onclick="window.syncOrders(true)" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--primary); padding: 8px 15px; border-radius: 10px; font-weight: bold; cursor: pointer;">
-                    <i class="fas fa-sync-alt"></i> تحديث
+                    <i class="fas fa-sync-alt"></i> تحديث الحالة
                 </button>
             </div>
             <div id="orders-list"></div>
@@ -209,70 +224,79 @@
 
         <div id="pg-wallet" class="page">
             <div class="card" style="text-align: center; padding: 40px 20px;">
-                <i class="fas fa-wallet" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
+                <div style="width: 80px; height: 80px; background: rgba(139, 92, 246, 0.1); border-radius: 25px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: var(--primary); font-size: 2.5rem;">
+                    <i class="fas fa-wallet"></i>
+                </div>
                 <h3 style="margin-bottom: 10px;">شحن الرصيد</h3>
-                <p style="color: var(--text-sec); margin-bottom: 20px; font-size: 0.9rem;">أدخل كود الكوبون لإضافة الرصيد لمحفظتك في Kaido Follow.</p>
-                <input type="text" id="coupon-code" class="input-box" style="text-align: center; letter-spacing: 3px; font-weight: 800; font-size: 1.2rem;" placeholder="XXXX-XXXX-XXXX">
-                <button onclick="window.redeemCoupon()" class="btn btn-pro" style="margin-top: 10px;">تأكيد الشحن</button>
+                <p style="color: var(--text-sec); margin-bottom: 25px; font-size: 0.9rem;">أدخل رمز الشحن (الكوبون) لإضافة الرصيد إلى محفظتك في كايدو فولو.</p>
+                <input type="text" id="coupon-code" class="input-box" style="text-align: center; letter-spacing: 2px; font-weight: 800; font-size: 1.2rem; margin-bottom: 20px;" placeholder="أدخل الرمز هنا">
+                <button onclick="window.redeemCoupon()" class="btn btn-pro">تأكيد الشحن</button>
             </div>
-            <h4 style="margin: 20px 0 10px;">العمليات السابقة</h4>
+            <h4 style="margin: 25px 0 15px; font-weight: 800;">العمليات السابقة</h4>
             <div id="wallet-history"></div>
         </div>
 
         <div id="pg-support" class="page">
             <div class="chat-container">
                 <div class="chat-feed" id="chat-feed"></div>
-                <div style="display: flex; gap: 10px; background: var(--bg-card); padding: 10px; border-radius: 20px; border: 1px solid var(--border);">
-                    <input type="text" id="chat-input" class="input-box" style="margin: 0; border: none; background: transparent;" placeholder="اكتب رسالتك للدعم...">
-                    <button onclick="window.sendMsg()" style="background: var(--gradient-pro); border: none; width: 50px; border-radius: 12px; color: white; cursor: pointer;"><i class="fas fa-paper-plane"></i></button>
+                <div style="display: flex; gap: 10px; background: var(--bg-card); padding: 12px; border-radius: 20px; border: 1px solid var(--border);">
+                    <input type="text" id="chat-input" class="input-box" style="margin: 0; border: none; background: transparent;" placeholder="اكتب رسالتك للدعم الفني...">
+                    <button onclick="window.sendMsg()" style="background: var(--gradient-pro); border: none; width: 55px; border-radius: 14px; color: white; cursor: pointer; font-size: 1.2rem;"><i class="fas fa-paper-plane"></i></button>
                 </div>
             </div>
         </div>
 
         <div id="pg-profile" class="page" style="padding-bottom: 120px;">
             
-            <div style="text-align: center; margin-bottom: 25px;">
+            <div style="text-align: center; margin-bottom: 30px;">
                 <div style="width: 90px; height: 90px; background: var(--bg-card); border: 2px solid var(--primary); border-radius: 30px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--primary); box-shadow: 0 5px 20px var(--glow);">
-                    <i class="fas fa-user-astronaut"></i>
+                    <i class="fas fa-user-tie"></i>
                 </div>
                 <h2 id="p-display-name">...</h2>
-                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
-                    <span class="badge status-ok">نشط</span>
+                <span class="badge status-ok" style="margin-top: 10px; display: inline-block;">حساب نشط</span>
+            </div>
+
+            <div class="accordion-header" onclick="window.toggleAccordion('acc-info', 'icon-info')">
+                <div class="accordion-title"><i class="fas fa-id-card" style="color: var(--primary);"></i> معلومات الحساب</div>
+                <i class="fas fa-chevron-down accordion-icon" id="icon-info"></i>
+            </div>
+            <div class="accordion-content" id="acc-info">
+                <div class="accordion-inner">
+                    <div class="input-group">
+                        <label class="input-label">اسم المستخدم (اليوزر)</label>
+                        <input type="text" id="p-username" class="input-box" readonly>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">البريد الإلكتروني</label>
+                        <input type="text" id="p-email" class="input-box" readonly>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">الاسم الظاهر (يمكنك تعديله)</label>
+                        <input type="text" id="p-name-edit" class="input-box" placeholder="أدخل اسمك الجديد">
+                    </div>
+                    <button onclick="window.saveProfileName()" class="btn btn-pro" style="padding: 12px;">حفظ الاسم الجديد</button>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="section-title"><i class="fas fa-id-card"></i> معلومات الحساب</div>
-                <div class="input-group">
-                    <label class="input-label">اسم المستخدم (يوزر الحساب)</label>
-                    <input type="text" id="p-username" class="input-box" readonly>
+            <div class="accordion-header" onclick="window.toggleAccordion('acc-sec', 'icon-sec')">
+                <div class="accordion-title"><i class="fas fa-shield-alt" style="color: var(--warning);"></i> إعدادات الأمان</div>
+                <i class="fas fa-chevron-down accordion-icon" id="icon-sec"></i>
+            </div>
+            <div class="accordion-content" id="acc-sec">
+                <div class="accordion-inner">
+                    <div class="input-group"><input type="password" id="p-old" class="input-box" placeholder="كلمة المرور الحالية"></div>
+                    <div class="input-group"><input type="password" id="p-new" class="input-box" placeholder="كلمة المرور الجديدة"></div>
+                    <div class="input-group"><input type="password" id="p-new-conf" class="input-box" placeholder="تأكيد كلمة المرور الجديدة"></div>
+                    <button onclick="window.changePass()" class="btn btn-outline" style="padding: 12px; border-color: var(--warning); color: var(--warning);">تحديث كلمة المرور</button>
                 </div>
-                <div class="input-group">
-                    <label class="input-label">البريد الإلكتروني</label>
-                    <input type="text" id="p-email" class="input-box" readonly>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">الاسم الظاهر (قابل للتعديل)</label>
-                    <input type="text" id="p-name-edit" class="input-box">
-                </div>
-                <button onclick="window.saveProfileName()" class="btn btn-pro" style="padding: 12px;">حفظ التعديلات</button>
             </div>
 
-            <div class="card">
-                <div class="section-title" style="color: var(--warning);"><i class="fas fa-lock"></i> تغيير كلمة المرور</div>
-                <div class="input-group"><input type="password" id="p-old" class="input-box" placeholder="كلمة المرور الحالية"></div>
-                <div class="input-group"><input type="password" id="p-new" class="input-box" placeholder="كلمة المرور الجديدة"></div>
-                <div class="input-group"><input type="password" id="p-new-conf" class="input-box" placeholder="تأكيد كلمة المرور الجديدة"></div>
-                <button onclick="window.changePass()" class="btn btn-outline" style="padding: 12px; border-color: var(--warning); color: var(--warning);">تحديث كلمة المرور</button>
+            <div class="card" style="text-align: center; padding: 30px 20px; margin-top: 25px;">
+                <img src="https://e.top4top.io/p_3675vatut1.jpg" style="width: 55px; border-radius: 18px; margin-bottom: 12px; opacity: 0.9;">
+                <h3 style="font-weight: 900; letter-spacing: 1px;">كايدو فولو</h3>
+                <p style="color: var(--text-sec); font-size: 0.9rem; margin-bottom: 20px; font-weight: bold;">الإصدار 1.0</p>
+                <button onclick="window.logout()" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
             </div>
-
-            <div class="card" style="text-align: center; padding: 30px 20px;">
-                <img src="https://e.top4top.io/p_3675vatut1.jpg" style="width: 50px; border-radius: 15px; margin-bottom: 10px; opacity: 0.8;">
-                <h3 style="font-weight: 800; letter-spacing: 1px;">KAIDO FOLLOW</h3>
-                <p style="color: var(--text-sec); font-size: 0.85rem; margin-bottom: 20px;">الإصدار الحالي: V1.6.0 Pro</p>
-                <button onclick="window.logout()" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج بأمان</button>
-            </div>
-
         </div>
 
         <div class="bottom-nav">
@@ -282,7 +306,6 @@
             <div class="nav-item" onclick="window.nav('support')"><i class="fas fa-headset"></i><span>الدعم</span></div>
             <div class="nav-item" onclick="window.nav('profile')"><i class="fas fa-user"></i><span>حسابي</span></div>
         </div>
-
     </div>
 
     <div id="modal-services" class="full-modal">
@@ -296,23 +319,40 @@
     <div id="modal-order" class="full-modal">
         <div class="header">
             <i class="fas fa-arrow-right" onclick="window.closeModal('modal-order')" style="font-size: 1.5rem; cursor: pointer;"></i>
-            <h3>إنشاء طلب</h3>
+            <h3>تفاصيل الطلب</h3>
         </div>
         <div style="padding: 20px; padding-bottom: 100px;">
             <div class="card">
-                <h3 id="ord-title" style="color: var(--primary); margin-bottom: 15px; line-height: 1.4;">...</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
-                    <div style="background: var(--bg-input); padding: 10px; border-radius: 12px; text-align: center;"><span style="color:var(--text-sec); font-size:0.8rem; display:block;">السعر لكل 1000</span><b id="ord-price">0$</b></div>
-                    <div style="background: var(--bg-input); padding: 10px; border-radius: 12px; text-align: center;"><span style="color:var(--text-sec); font-size:0.8rem; display:block;">أقل/أقصى كمية</span><b><span id="ord-min">0</span> - <span id="ord-max">0</span></b></div>
+                <h3 id="ord-title" style="color: var(--primary); margin-bottom: 20px; line-height: 1.5; font-size: 1.1rem;">...</h3>
+                
+                <div class="order-info-grid">
+                    <div class="order-info-box">
+                        <span class="order-info-title">السعر (لكل 1000)</span>
+                        <span class="order-info-val" id="ord-price" style="color: var(--success);">0$</span>
+                    </div>
+                    <div class="order-info-box">
+                        <span class="order-info-title">أقل / أكثر كمية</span>
+                        <span class="order-info-val"><span id="ord-min">0</span> - <span id="ord-max">0</span></span>
+                    </div>
                 </div>
-                <div id="ord-desc" style="background: rgba(139, 92, 246, 0.1); padding: 15px; border-radius: 12px; font-size: 0.85rem; color: var(--text-sec); border: 1px solid rgba(139, 92, 246, 0.2); margin-bottom: 20px;"></div>
-                <div class="input-group"><label class="input-label">الرابط (Link)</label><input type="text" id="ord-link" class="input-box" placeholder="https://..."></div>
-                <div class="input-group"><label class="input-label">الكمية (Quantity)</label><input type="number" id="ord-qty" class="input-box" placeholder="1000" oninput="window.calcTotal()"></div>
-                <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 15px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <span style="color: var(--success); font-weight: bold;">الإجمالي:</span>
-                    <b id="ord-total" style="color: var(--success); font-size: 1.2rem;">0.00 $</b>
+
+                <div id="ord-desc" style="background: rgba(139, 92, 246, 0.05); padding: 15px; border-radius: 12px; font-size: 0.85rem; color: var(--text-sec); border: 1px dashed rgba(139, 92, 246, 0.3); margin-bottom: 25px; line-height: 1.6;"></div>
+
+                <div class="input-group">
+                    <label class="input-label">الرابط المخصص للطلب</label>
+                    <input type="text" id="ord-link" class="input-box" placeholder="ضع الرابط هنا...">
                 </div>
-                <button onclick="window.submitOrder()" class="btn btn-pro">إرسال الطلب</button>
+                <div class="input-group">
+                    <label class="input-label">الكمية المطلوبة</label>
+                    <input type="number" id="ord-qty" class="input-box" placeholder="أدخل الكمية..." oninput="window.calcTotal()">
+                </div>
+                
+                <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 18px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                    <span style="color: var(--success); font-weight: bold; font-size: 1.1rem;">الإجمالي المطلوب:</span>
+                    <b id="ord-total" style="color: var(--success); font-size: 1.4rem; font-family: monospace;">0.00 $</b>
+                </div>
+
+                <button onclick="window.submitOrder()" class="btn btn-pro" style="padding: 16px; font-size: 1.1rem;">تأكيد وإرسال الطلب</button>
             </div>
         </div>
     </div>
@@ -359,7 +399,7 @@
             document.querySelectorAll('.nav-item')[tabMap[pageId]].classList.add('active');
 
             if(pageId === 'support') window.initChat();
-            if(pageId === 'orders') window.syncOrders(); // تحديث الطلبات تلقائياً عند فتح الصفحة
+            if(pageId === 'orders') window.syncOrders(); // تحديث تلقائي عند دخول صفحة الطلبات
         };
 
         window.toggleAuth = (type) => {
@@ -369,7 +409,22 @@
 
         window.closeModal = (id) => document.getElementById(id).classList.remove('open');
 
-        // إخفاء شاشة البداية (Splash Screen) بعد 2.5 ثانية
+        // دالة تشغيل القوائم المنسدلة (الأكورديون) في الملف الشخصي
+        window.toggleAccordion = (contentId, iconId) => {
+            const content = document.getElementById(contentId);
+            const icon = document.getElementById(iconId);
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+                icon.style.transform = 'rotate(0deg)';
+                content.style.marginBottom = '0';
+            } else {
+                content.style.maxHeight = content.scrollHeight + 20 + "px";
+                icon.style.transform = 'rotate(180deg)';
+                content.style.marginBottom = '10px';
+            }
+        };
+
+        // إخفاء شاشة البداية بعد ثوانٍ قليلة
         window.onload = () => {
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
@@ -380,28 +435,24 @@
             }, 2500);
         };
 
-        // 4. نظام المصادقة (Authentication)
+        // 4. نظام المصادقة
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
                 document.getElementById('pg-auth').classList.remove('open');
                 document.getElementById('app-wrap').style.display = 'block';
 
-                // الاستماع المباشر لبيانات المستخدم
                 onSnapshot(doc(db, "users", user.uid), (docSnap) => {
                     if (docSnap.exists()) {
                         userData = docSnap.data();
                         
-                        // تحديث الهيدر
                         document.getElementById('u-name').innerText = userData.name.split(' ')[0];
                         document.getElementById('u-bal').innerText = userData.balance.toFixed(4) + " $";
                         
-                        // تحديث قسم الملف الشخصي
                         document.getElementById('p-display-name').innerText = userData.name;
                         document.getElementById('p-username').value = "@" + (userData.username || "user");
                         document.getElementById('p-email').value = userData.email;
                         
-                        // تعبئة حقل التعديل بالاسم الحالي إذا كان فارغاً
                         if(!document.getElementById('p-name-edit').value) {
                             document.getElementById('p-name-edit').value = userData.name;
                         }
@@ -421,7 +472,7 @@
         window.doLogin = async () => {
             const e = document.getElementById('l-email').value.trim();
             const p = document.getElementById('l-pass').value.trim();
-            if(!e || !p) return window.toast("يرجى إدخال البريد وكلمة المرور");
+            if(!e || !p) return window.toast("يرجى إدخال البريد الإلكتروني وكلمة المرور");
             window.loader(true);
             try { await signInWithEmailAndPassword(auth, e, p); }
             catch(err) { window.toast("بيانات الدخول غير صحيحة"); window.loader(false); }
@@ -433,18 +484,17 @@
             const e = document.getElementById('r-email').value.trim();
             const p = document.getElementById('r-pass').value.trim();
             
-            if(!n || !u || !e || !p) return window.toast("يرجى إكمال جميع البيانات");
+            if(!n || !u || !e || !p) return window.toast("يرجى إكمال جميع الحقول");
             window.loader(true);
             try {
                 const cred = await createUserWithEmailAndPassword(auth, e, p);
                 await setDoc(doc(db, "users", cred.user.uid), {
                     name: n, username: u, email: e, balance: 0, spent: 0, createdAt: serverTimestamp()
                 });
-                // إنشاء ملف الشات المبدئي للأدمن
                 await setDoc(doc(db, "chats", cred.user.uid), {
-                    lastMessage: "تم إنشاء الحساب", time: serverTimestamp(), userId: cred.user.uid, name: n, username: u, hasUnread: false
+                    lastMessage: "تم إنشاء الحساب، مرحباً بك!", time: serverTimestamp(), userId: cred.user.uid, name: n, username: u, hasUnread: false
                 });
-            } catch(err) { window.toast("خطأ في التسجيل: " + err.message); window.loader(false); }
+            } catch(err) { window.toast("حدث خطأ أثناء التسجيل"); window.loader(false); }
         };
 
         window.logout = async () => {
@@ -453,7 +503,7 @@
             location.reload();
         };
 
-        // 5. إدارة الملف الشخصي (Profile Management)
+        // 5. إدارة الحساب (Profile)
         window.saveProfileName = async () => {
             const newName = document.getElementById('p-name-edit').value.trim();
             if(!newName || newName === userData.name) return;
@@ -472,30 +522,23 @@
             
             if(!oldP || !newP || !confP) return window.toast("يرجى إكمال جميع حقول كلمة المرور");
             if(newP !== confP) return window.toast("كلمة المرور الجديدة غير متطابقة");
-            if(newP.length < 6) return window.toast("كلمة المرور يجب أن تكون 6 أحرف على الأقل");
+            if(newP.length < 6) return window.toast("كلمة المرور يجب أن تتكون من 6 أحرف على الأقل");
 
             window.loader(true);
             try {
-                // إعادة المصادقة لضمان الأمان
                 const credential = EmailAuthProvider.credential(currentUser.email, oldP);
                 await reauthenticateWithCredential(currentUser, credential);
-                
-                // تغيير كلمة المرور
                 await updatePassword(currentUser, newP);
-                window.toast("تم تغيير كلمة المرور بنجاح");
-                
-                // تصفير الحقول
+                window.toast("تم تحديث كلمة المرور بأمان");
                 document.getElementById('p-old').value = '';
                 document.getElementById('p-new').value = '';
                 document.getElementById('p-new-conf').value = '';
-            } catch(e) { 
-                console.error(e);
-                window.toast("كلمة المرور الحالية غير صحيحة"); 
-            }
+                window.toggleAccordion('acc-sec', 'icon-sec'); // إغلاق القائمة
+            } catch(e) { window.toast("كلمة المرور الحالية غير صحيحة"); }
             window.loader(false);
         };
 
-        // 6. الخدمات والأقسام
+        // 6. الخدمات (Categories & Services)
         window.loadCategories = async () => {
             const q = query(collection(db, "categories"), where("visible", "==", true));
             const snap = await getDocs(q);
@@ -504,12 +547,10 @@
             snap.forEach(d => {
                 const c = d.data();
                 list.innerHTML += `
-                <div class="card" onclick="window.openCategory('${d.id}', '${c.name}')" style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
+                <div class="cat-card" onclick="window.openCategory('${d.id}', '${c.name}')">
                     <div style="display:flex; align-items:center; gap:15px;">
-                        <div style="background:var(--bg-input); width:45px; height:45px; border-radius:12px; display:flex; align-items:center; justify-content:center; color:var(--primary); font-size:1.2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
-                            <i class="fas fa-layer-group"></i>
-                        </div>
-                        <b style="font-size:1.1rem;">${c.name}</b>
+                        <div class="cat-icon-wrap"><i class="fas fa-layer-group"></i></div>
+                        <b style="font-size:1.1rem; color:var(--text-main);">${c.name}</b>
                     </div>
                     <i class="fas fa-chevron-left" style="color:var(--text-sec)"></i>
                 </div>`;
@@ -528,17 +569,15 @@
                 const s = d.data();
                 const objStr = encodeURIComponent(JSON.stringify({id: d.id, ...s}));
                 list.innerHTML += `
-                <div class="card">
-                    <div style="margin-bottom:12px;">
-                        <b style="font-size:1rem; display:block; margin-bottom:8px; line-height: 1.4;">${s.name}</b>
-                        <span style="color:var(--success); font-weight:900; font-size:1.3rem;">$${s.price} <small style="color:var(--text-sec); font-size:0.75rem; font-weight:normal;">/ 1000</small></span>
-                    </div>
-                    <button class="btn btn-outline" style="padding:10px; color:var(--primary); border-color:var(--primary);" onclick="window.prepOrder('${objStr}')">طلب الخدمة</button>
+                <div class="service-card">
+                    <b style="font-size:1.05rem; display:block; margin-bottom:8px; line-height: 1.4; color:var(--text-main);">${s.name}</b>
+                    <span class="service-price">$${s.price} <small style="color:var(--text-sec); font-size:0.75rem; font-weight:normal;">/ 1000</small></span>
+                    <button class="btn btn-outline" style="padding:12px; color:var(--primary); border-color:var(--primary); width:100%; margin-top:10px;" onclick="window.prepOrder('${objStr}')">طلب الخدمة الآن</button>
                 </div>`;
             });
         };
 
-        // 7. إنشاء الطلب والربط مع المزود (DarkFollow API)
+        // 7. إنشاء الطلبات
         window.prepOrder = (encodedObj) => {
             currentService = JSON.parse(decodeURIComponent(encodedObj));
             
@@ -546,7 +585,7 @@
             document.getElementById('ord-price').innerText = currentService.price + " $";
             document.getElementById('ord-min').innerText = currentService.min;
             document.getElementById('ord-max').innerText = currentService.max;
-            document.getElementById('ord-desc').innerHTML = currentService.description ? currentService.description.replace(/\n/g, '<br>') : 'لا يوجد تفاصيل إضافية للخدمة.';
+            document.getElementById('ord-desc').innerHTML = currentService.description ? currentService.description.replace(/\n/g, '<br>') : 'تفاصيل الخدمة غير متوفرة حالياً.';
             
             document.getElementById('ord-link').value = '';
             document.getElementById('ord-qty').value = '';
@@ -569,21 +608,19 @@
             const link = document.getElementById('ord-link').value.trim();
             const qty = parseInt(document.getElementById('ord-qty').value);
             
-            if(!link || !qty) return window.toast("يرجى إدخال الرابط والكمية");
+            if(!link || !qty) return window.toast("يرجى إدخال الرابط والكمية بشكل صحيح");
             if(qty < currentService.min || qty > currentService.max) return window.toast(`الكمية المسموحة: ${currentService.min} إلى ${currentService.max}`);
             
             const cost = parseFloat(((qty / 1000) * currentService.price).toFixed(4));
-            if(userData.balance < cost) return window.toast("عذراً، رصيدك غير كافٍ");
+            if(userData.balance < cost) return window.toast("عذراً، رصيدك غير كافٍ لإتمام الطلب");
 
             window.loader(true);
             try {
-                // خصم الرصيد أولاً لضمان عدم التلاعب
                 await updateDoc(doc(db, "users", currentUser.uid), {
                     balance: userData.balance - cost,
                     spent: (userData.spent || 0) + cost
                 });
 
-                // جلب بيانات المزود (Provider) للخدمة
                 const provDoc = await getDoc(doc(db, "providers", currentService.providerId));
                 if(!provDoc.exists()) throw new Error("المزود غير متاح حالياً");
                 const prov = provDoc.data();
@@ -591,7 +628,6 @@
                 let apiUrl = prov.url.trim();
                 if(!apiUrl.startsWith('http')) apiUrl = 'https://' + apiUrl;
                 
-                // بناء الرابط الحقيقي وتشفيره لتجنب أخطاء CORS Proxy
                 const targetUrl = `${apiUrl}?key=${prov.key}&action=add&service=${currentService.providerServiceId}&link=${link}&quantity=${qty}`;
                 const proxyUrl = `https://corsproxy.io/?` + encodeURIComponent(targetUrl);
                 
@@ -600,7 +636,6 @@
 
                 if(apiData.error) throw new Error(apiData.error);
 
-                // حفظ الطلب في قاعدة البيانات بعد نجاح وصوله للمزود
                 await addDoc(collection(db, "orders"), {
                     userId: currentUser.uid,
                     service: currentService.name,
@@ -621,15 +656,28 @@
                 window.nav('orders');
 
             } catch(e) {
-                // في حال فشل المزود، يتم إرجاع الرصيد للمستخدم فوراً
                 await updateDoc(doc(db, "users", currentUser.uid), { balance: userData.balance });
-                window.toast("فشل الطلب: " + (e.message || "خطأ في الاتصال بالمزود"));
+                window.toast("تعذر إرسال الطلب، تم استرجاع الرصيد.");
                 console.error(e);
             }
             window.loader(false);
         };
 
-        // 8. سجل الطلبات والمزامنة الجماعية (Bulk Sync)
+        // دالة مساعدة لتعريب حالة الطلب
+        const getStatusArabic = (st) => {
+            if(!st) return 'غير معروف';
+            const s = st.toLowerCase();
+            if(s.includes('pending')) return 'قيد الانتظار';
+            if(s.includes('processing')) return 'جاري المعالجة';
+            if(s.includes('progress')) return 'قيد التنفيذ';
+            if(s.includes('completed')) return 'مكتمل';
+            if(s.includes('partial')) return 'مكتمل جزئياً';
+            if(s.includes('canceled')) return 'ملغي';
+            if(s.includes('fail')) return 'فشل';
+            return st;
+        };
+
+        // 8. سجل الطلبات والمزامنة (Bulk Sync)
         window.listenOrders = () => {
             const q = query(collection(db, "orders"), where("userId", "==", currentUser.uid), orderBy("createdAt", "desc"));
             onSnapshot(q, (snap) => {
@@ -638,7 +686,7 @@
                 activeOrders = [];
 
                 if(snap.empty) {
-                    list.innerHTML = '<div style="text-align:center; padding:50px; color:var(--text-sec);">لا توجد طلبات سابقة.</div>';
+                    list.innerHTML = '<div style="text-align:center; padding:50px; color:var(--text-sec); font-size:1.1rem;">لا توجد أي طلبات سابقة.</div>';
                     return;
                 }
 
@@ -647,30 +695,30 @@
                     o.dbId = d.id;
                     activeOrders.push(o);
 
-                    // تحديد لون حالة الطلب
-                    let badgeClass = 'status-wait'; // افتراضي (Pending/Processing)
-                    if(o.status.includes('Completed') || o.status.includes('مكتمل')) badgeClass = 'status-ok';
-                    if(o.status.includes('Canceled') || o.status.includes('Fail') || o.status.includes('ملغي')) badgeClass = 'status-fail';
+                    let badgeClass = 'status-wait';
+                    if(o.status.toLowerCase().includes('complet')) badgeClass = 'status-ok';
+                    if(o.status.toLowerCase().includes('cancel') || o.status.toLowerCase().includes('fail')) badgeClass = 'status-fail';
+                    if(o.status.toLowerCase().includes('process') || o.status.toLowerCase().includes('progress')) badgeClass = 'status-info';
 
                     list.innerHTML += `
-                    <div class="card order-card" style="padding:16px;">
-                        <div class="order-header">
-                            <span style="font-family:monospace; color:var(--text-sec); font-size:0.9rem;">#${o.providerOrderId}</span>
-                            <span class="badge ${badgeClass}">${o.status}</span>
+                    <div class="card" style="padding:16px; border-radius:16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
+                            <span style="font-family:monospace; color:var(--text-sec); font-size:0.95rem; font-weight:bold;">#${o.providerOrderId}</span>
+                            <span class="badge ${badgeClass}">${getStatusArabic(o.status)}</span>
                         </div>
-                        <b style="font-size:0.95rem; margin:12px 0; display:block; line-height:1.5;">${o.service}</b>
-                        <div class="order-stats" style="border-top: 1px solid var(--border); padding-top: 12px; margin-top: 5px;">
-                            <div style="display:flex; flex-direction:column; gap:3px;">
-                                <span style="font-size:0.75rem;">الكمية المطلوبة</span>
-                                <b style="color:var(--text-main); font-size:0.95rem;">${o.qty}</b>
+                        <b style="font-size:1rem; margin:12px 0; display:block; line-height:1.5; color:var(--text-main);">${o.service}</b>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-sec); background: rgba(0,0,0,0.2); padding: 12px; border-radius: 12px; border: 1px solid var(--border);">
+                            <div style="display:flex; flex-direction:column; gap:4px; text-align:center;">
+                                <span>الكمية</span>
+                                <b style="color:var(--text-main); font-size:1rem;">${o.qty}</b>
                             </div>
-                            <div style="display:flex; flex-direction:column; gap:3px; text-align:center;">
-                                <span style="font-size:0.75rem;">عدد البدء</span>
-                                <b style="color:var(--text-main); font-size:0.95rem;">${o.start_count || 0}</b>
+                            <div style="display:flex; flex-direction:column; gap:4px; text-align:center;">
+                                <span>عدد البدء</span>
+                                <b style="color:var(--text-main); font-size:1rem;">${o.start_count || 0}</b>
                             </div>
-                            <div style="display:flex; flex-direction:column; gap:3px; text-align:left;">
-                                <span style="font-size:0.75rem;">المتبقي</span>
-                                <b style="color:var(--primary); font-size:0.95rem;">${o.remains || o.qty}</b>
+                            <div style="display:flex; flex-direction:column; gap:4px; text-align:center;">
+                                <span>المتبقي</span>
+                                <b style="color:var(--primary); font-size:1rem;">${o.remains || o.qty}</b>
                             </div>
                         </div>
                     </div>`;
@@ -679,15 +727,17 @@
         };
 
         window.syncOrders = async (manual = false) => {
-            // جلب الطلبات غير المكتملة فقط
-            const pending = activeOrders.filter(o => !['Completed', 'Canceled', 'Fail', 'Partial'].includes(o.status));
+            const pending = activeOrders.filter(o => {
+                const s = o.status.toLowerCase();
+                return !['completed', 'canceled', 'fail', 'partial'].some(st => s.includes(st));
+            });
+            
             if(pending.length === 0) {
-                if(manual) window.toast("جميع الطلبات محدثة");
+                if(manual) window.toast("جميع الطلبات محدثة بالفعل");
                 return;
             }
-            if(manual) window.toast("جاري التحديث الذكي للطلبات...");
+            if(manual) window.toast("جاري المزامنة مع المزود...");
 
-            // تجميع الطلبات حسب المزود لإرسالها كدفعة واحدة (Bulk)
             const groups = {}; 
             for(const order of pending) {
                 try {
@@ -697,45 +747,42 @@
                     if(!provSnap.exists()) continue;
                     
                     const prov = provSnap.data();
-                    const key = prov.url + prov.key; // مفتاح فريد لكل مزود
+                    const key = prov.url + prov.key; 
                     
                     if(!groups[key]) groups[key] = { prov: prov, orderIds: [], orderMap: {} };
                     groups[key].orderIds.push(order.providerOrderId);
-                    groups[key].orderMap[order.providerOrderId] = order; // للوصول السريع
+                    groups[key].orderMap[order.providerOrderId] = order; 
                 } catch(e) {}
             }
 
-            // إرسال الاستعلامات
             for(const key in groups) {
                 const group = groups[key];
                 let apiUrl = group.prov.url;
                 if(!apiUrl.startsWith('http')) apiUrl = 'https://' + apiUrl;
                 
-                const idsString = group.orderIds.join(','); // مثال: 1,2,3
+                const idsString = group.orderIds.join(',');
                 const targetUrl = `${apiUrl}?key=${group.prov.key}&action=status&orders=${idsString}`;
                 const proxyUrl = `https://corsproxy.io/?` + encodeURIComponent(targetUrl);
 
                 try {
                     const res = await fetch(proxyUrl);
                     const apiData = await res.json(); 
-                    // شكل الاستجابة المتوقع: {"1": {status:"Partial", remains:"157"...}, "2": "Incorrect order ID"}
 
                     for(const apiOrderId in apiData) {
                         const info = apiData[apiOrderId];
                         const localOrder = group.orderMap[apiOrderId];
                         
-                        // التحقق من أن الاستجابة هي كائن صحيح (وليست رسالة خطأ مثل Incorrect order ID)
                         if(info && typeof info === 'object' && info.status && localOrder) {
                             
-                            // نظام الاسترداد التلقائي (Auto Refund) في حال الإلغاء
-                            if((info.status === 'Canceled' || info.status === 'Fail') && localOrder.status !== 'Canceled') {
+                            const newStatus = info.status;
+                            
+                            if((newStatus === 'Canceled' || newStatus === 'Fail') && localOrder.status !== 'Canceled') {
                                 const currentBal = (await getDoc(doc(db, "users", currentUser.uid))).data().balance;
                                 await updateDoc(doc(db, "users", currentUser.uid), { balance: currentBal + localOrder.price });
                             }
                             
-                            // تحديث حالة الطلب في قاعدة البيانات
                             await updateDoc(doc(db, "orders", localOrder.dbId), {
-                                status: info.status,
+                                status: newStatus,
                                 remains: info.remains || localOrder.remains,
                                 start_count: info.start_count || localOrder.start_count
                             });
@@ -743,10 +790,10 @@
                     }
                 } catch(e) { console.error("Bulk Sync Error", e); }
             }
-            if(manual) window.toast("تم تحديث حالات الطلبات بنجاح");
+            if(manual) window.toast("تم تحديث حالة الطلبات");
         };
 
-        // 9. المحفظة ونظام الشحن (Wallet & Coupons)
+        // 9. المحفظة (Wallet & Coupons)
         window.redeemCoupon = async () => {
             const code = document.getElementById('coupon-code').value.trim();
             if(!code) return window.toast("يرجى إدخال رمز الكوبون");
@@ -756,22 +803,20 @@
                 const q = query(collection(db, "coupons"), where("code", "==", code));
                 const snap = await getDocs(q);
                 
-                if(snap.empty) throw new Error("الكوبون غير صحيح أو غير موجود");
+                if(snap.empty) throw new Error("الكوبون غير صحيح");
                 const couponDoc = snap.docs[0];
                 const coupon = couponDoc.data();
                 
-                if(!coupon.active || coupon.used) throw new Error("الكوبون مستخدم سابقاً أو غير فعال");
+                if(!coupon.active || coupon.used) throw new Error("الكوبون غير فعال أو تم استخدامه مسبقاً");
 
-                // إضافة الرصيد وتحديث حالة الكوبون
                 await updateDoc(doc(db, "users", currentUser.uid), { balance: userData.balance + parseFloat(coupon.value) });
                 await updateDoc(doc(db, "coupons", couponDoc.id), { used: true, usedBy: currentUser.uid, usedAt: serverTimestamp() });
                 
-                // تسجيل عملية الشحن
                 await addDoc(collection(db, "deposits"), {
-                    userId: currentUser.uid, amount: parseFloat(coupon.value), method: 'Coupon', code: code, date: serverTimestamp()
+                    userId: currentUser.uid, amount: parseFloat(coupon.value), method: 'شحن عبر كوبون', code: code, date: serverTimestamp()
                 });
 
-                window.toast(`مبروك! تم شحن ${coupon.value}$ إلى محفظتك`);
+                window.toast(`تم شحن ${coupon.value}$ إلى محفظتك بنجاح`);
                 document.getElementById('coupon-code').value = '';
             } catch(e) { window.toast(e.message); }
             window.loader(false);
@@ -785,14 +830,14 @@
                 snap.forEach(d => {
                     const dep = d.data();
                     list.innerHTML += `
-                    <div class="card" style="padding:15px; display:flex; justify-content:space-between; align-items:center;">
+                    <div class="card" style="padding:15px; display:flex; justify-content:space-between; align-items:center; border-radius:14px;">
                         <div style="display:flex; align-items:center; gap:12px;">
                             <div style="background:rgba(16, 185, 129, 0.1); width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; color:var(--success);">
                                 <i class="fas fa-arrow-down"></i>
                             </div>
                             <div>
                                 <span style="display:block; font-weight:bold; font-size:0.95rem;">شحن رصيد</span>
-                                <span style="font-size:0.75rem; color:var(--text-sec);">عبر الكوبون</span>
+                                <span style="font-size:0.75rem; color:var(--text-sec);">${dep.method}</span>
                             </div>
                         </div>
                         <b style="color:var(--success); font-size:1.15rem;">+${dep.amount}$</b>
@@ -801,7 +846,7 @@
             });
         };
 
-        // 10. الشات المباشر مع الدعم الفني (Support Chat)
+        // 10. الشات المباشر (Support Chat)
         window.initChat = () => {
             if(unsubscribeChat) unsubscribeChat();
             
@@ -811,7 +856,7 @@
                 feed.innerHTML = '';
                 
                 if(snap.empty) {
-                    feed.innerHTML = '<div style="text-align:center; color:var(--text-sec); margin-top:50px;"><i class="fas fa-headset" style="font-size:3rem; opacity:0.3; margin-bottom:15px;"></i><br>أهلاً بك في دعم Kaido Follow!<br>كيف يمكننا مساعدتك؟</div>';
+                    feed.innerHTML = '<div style="text-align:center; color:var(--text-sec); margin-top:60px;"><i class="fas fa-headset" style="font-size:3.5rem; opacity:0.2; margin-bottom:15px;"></i><br>أهلاً بك في دعم كايدو فولو!<br>أرسل استفسارك وسنرد عليك قريباً.</div>';
                     return;
                 }
 
@@ -827,7 +872,7 @@
                     </div>`;
                 });
                 
-                feed.scrollTop = feed.scrollHeight; // النزول لآخر رسالة
+                feed.scrollTop = feed.scrollHeight;
             });
         };
 
@@ -838,12 +883,10 @@
             
             input.value = '';
             
-            // إرسال الرسالة
             await addDoc(collection(db, "chats", currentUser.uid, "messages"), {
                 text: txt, sender: 'user', createdAt: serverTimestamp()
             });
             
-            // تحديث الملف الرئيسي لإعطاء إشعار للأدمن
             await setDoc(doc(db, "chats", currentUser.uid), {
                 lastMessage: txt, time: serverTimestamp(), userId: currentUser.uid, name: userData.name, username: userData.username, hasUnread: true
             }, { merge: true });
