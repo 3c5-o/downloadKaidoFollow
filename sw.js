@@ -1,11 +1,11 @@
-// تم تحديث رقم الإصدار ليتوافق مع التحديثات الضخمة (v3.0)
-const CACHE_NAME = 'sdeeratna-cache-v3.0';
+// تم تحديث رقم الإصدار واسم الكاش ليتوافق مع "كايدو فولو" والتصميم الفخم (v4.0)
+const CACHE_NAME = 'kaido-cache-v4.0';
 const urlsToCache = [
     './',
     './index.html',
     './admin.html',
     './manifest.json',
-    './logo.jpg'
+    './logo.jpg' // تأكد أن اسم صورة اللوجو لديك مطابق لهذا
 ];
 
 // حدث التثبيت: إجبار الهاتف على قبول النسخة الجديدة فوراً
@@ -23,7 +23,7 @@ self.addEventListener('activate', event => {
         caches.keys().then(cacheNames => {
             return Promise.all(
                 cacheNames.map(cacheName => {
-                    // إذا كان اسم الكاش القديم لا يطابق الاسم الجديد، قم بحذفه
+                    // إذا كان اسم الكاش القديم لا يطابق الاسم الجديد (kaido-cache-v4.0)، قم بحذفه فوراً
                     if (cacheName !== CACHE_NAME) {
                         return caches.delete(cacheName);
                     }
@@ -48,7 +48,7 @@ self.addEventListener('fetch', event => {
             .catch(() => caches.match(event.request)) // في حال عدم وجود إنترنت، استخدم الذاكرة
         );
     } else {
-        // للملفات الأخرى استخدم الذاكرة أولاً لسرعة التحميل
+        // للملفات الأخرى استخدم الذاكرة أولاً لسرعة التحميل وتوفير باقة الإنترنت
         event.respondWith(
             caches.match(event.request)
             .then(response => response || fetch(event.request))
