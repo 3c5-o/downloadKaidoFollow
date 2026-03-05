@@ -1,8 +1,9 @@
-// تم تحديث رقم الإصدار ليتوافق مع النسخة الجديدة (v2.0)
-const CACHE_NAME = 'kaido-cache-v3.0';
+// تم تحديث رقم الإصدار ليتوافق مع التحديثات الضخمة (v3.0)
+const CACHE_NAME = 'sdeeratna-cache-v3.0';
 const urlsToCache = [
     './',
     './index.html',
+    './admin.html',
     './manifest.json',
     './logo.jpg'
 ];
@@ -22,6 +23,7 @@ self.addEventListener('activate', event => {
         caches.keys().then(cacheNames => {
             return Promise.all(
                 cacheNames.map(cacheName => {
+                    // إذا كان اسم الكاش القديم لا يطابق الاسم الجديد، قم بحذفه
                     if (cacheName !== CACHE_NAME) {
                         return caches.delete(cacheName);
                     }
@@ -31,10 +33,9 @@ self.addEventListener('activate', event => {
     );
 });
 
-// حدث الجلب: استراتيجية "الشبكة أولاً" للملفات الأساسية
+// حدث الجلب: استراتيجية "الشبكة أولاً" لملفات HTML لضمان وصول التحديثات
 self.addEventListener('fetch', event => {
-    // إذا كان الطلب يخص واجهة التطبيق (HTML)، جربه من الإنترنت أولاً لضمان أحدث نسخة
-    if (event.request.mode === 'navigate' || event.request.url.includes('index.html')) {
+    if (event.request.mode === 'navigate' || event.request.url.includes('.html')) {
         event.respondWith(
             fetch(event.request)
             .then(response => {
@@ -47,7 +48,7 @@ self.addEventListener('fetch', event => {
             .catch(() => caches.match(event.request)) // في حال عدم وجود إنترنت، استخدم الذاكرة
         );
     } else {
-        // للملفات الأخرى (الصور والمانيفيست)، استخدم الذاكرة أولاً لسرعة التحميل
+        // للملفات الأخرى استخدم الذاكرة أولاً لسرعة التحميل
         event.respondWith(
             caches.match(event.request)
             .then(response => response || fetch(event.request))
