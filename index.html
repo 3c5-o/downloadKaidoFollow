@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Kaido Follow | Premium SMM</title>
+    <title>كايدو فولو | Premium SMM</title>
     
     <link rel="icon" href="https://e.top4top.io/p_3675vatut1.jpg" type="image/jpeg">
     <link rel="manifest" href="manifest.json">
@@ -27,7 +27,7 @@
             --glow: rgba(139, 92, 246, 0.5);
             --success: #10b981; 
             --danger: #f43f5e; 
-            --warning: #f59e0b; 
+            --warning: #f59e0b; /* اللون الذهبي */
             --info: #3b82f6;
         }
 
@@ -57,7 +57,6 @@
         .accordion-header { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--bg-input); border-radius: 14px; cursor: pointer; border: 1px solid var(--border); transition: 0.3s; margin-bottom: 10px; }
         .accordion-header:hover { border-color: var(--primary); }
         .accordion-title { font-weight: 700; display: flex; align-items: center; gap: 10px; }
-        .accordion-icon { transition: transform 0.3s ease; color: var(--text-sec); }
         .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: rgba(0,0,0,0.2); border-radius: 14px; }
         .accordion-inner { padding: 15px; border: 1px solid var(--border); border-top: none; border-radius: 0 0 14px 14px; margin-top: -10px; margin-bottom: 15px; }
 
@@ -70,9 +69,8 @@
         .dash-greeting { display: flex; flex-direction: column; }
         .dash-greeting span { color: var(--text-sec); font-size: 0.9rem; display: flex; align-items: center; gap: 5px; }
         .dash-greeting h2 { font-weight: 900; font-size: 1.6rem; color: var(--text-main); }
-        .dash-noti-btn { width: 45px; height: 45px; border-radius: 14px; background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--primary); cursor: pointer; position: relative; transition: 0.2s; }
-        .dash-noti-btn:active { transform: scale(0.9); }
-        .noti-dot { position: absolute; top: 8px; right: 10px; width: 10px; height: 10px; background: var(--danger); border-radius: 50%; box-shadow: 0 0 8px var(--danger); display: none; }
+        .dash-noti-btn { width: 45px; height: 45px; border-radius: 14px; background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--primary); cursor: pointer; position: relative; }
+        .noti-dot { position: absolute; top: 8px; right: 10px; width: 10px; height: 10px; background: var(--danger); border-radius: 50%; display: none; }
 
         .dash-main-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); backdrop-filter: blur(20px); position: relative; overflow: hidden; }
         .dash-main-card::before { content: ''; position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%); pointer-events: none; }
@@ -94,12 +92,11 @@
         .nav-item.active { color: var(--primary); transform: translateY(-3px); }
         .nav-item i { font-size: 1.4rem; }
 
-        #splash-screen { position: fixed; inset: 0; background: var(--bg-main); z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.6s cubic-bezier(0.8, 0, 0.2, 1); }
+        #splash-screen { position: fixed; inset: 0; background: var(--bg-main); z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.6s ease; }
         .splash-logo { width: 110px; height: 110px; border-radius: 35px; box-shadow: 0 0 40px var(--glow); animation: float 3s ease-in-out infinite; margin-bottom: 25px; }
         .splash-title { font-weight: 900; font-size: 2.2rem; letter-spacing: 2px; background: var(--gradient-pro); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        /* الأقسام والخدمات (تصميم جديد) */
         .cat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.2s; overflow: hidden; position: relative; }
         .cat-card:active { transform: scale(0.98); border-color: var(--primary); }
         .cat-content { display: flex; align-items: center; gap: 15px; z-index: 2; position: relative; }
@@ -133,7 +130,6 @@
         .qr-wrap { padding: 10px 0; border-top: 1px solid var(--border); display: flex; gap: 10px; overflow-x: auto; margin-top: auto; }
         .qr-wrap::-webkit-scrollbar { display: none; }
         .qr-btn { background: rgba(139, 92, 246, 0.1); border: 1px solid var(--primary); color: var(--primary); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; white-space: nowrap; cursor: pointer; transition: 0.2s; }
-        
         .ticket-closed-msg { text-align: center; background: rgba(244, 63, 94, 0.1); color: var(--danger); padding: 10px; border-radius: 12px; margin-bottom: 10px; font-weight: bold; font-size: 0.9rem; border: 1px solid rgba(244, 63, 94, 0.3); display: none; }
 
         .badge { padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: bold; }
@@ -141,13 +137,27 @@
         .status-wait { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
         .status-fail { background: rgba(244, 63, 94, 0.15); color: var(--danger); }
         .status-info { background: rgba(59, 130, 246, 0.15); color: var(--info); }
-        .copy-icon { margin-right: 8px; color: var(--primary); cursor: pointer; transition: 0.2s; }
-        .copy-icon:active { transform: scale(0.8); }
+        .copy-icon { margin-left: 8px; color: var(--text-sec); cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
+        .copy-icon:active { transform: scale(0.8); color: var(--primary); }
 
         #loader { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 9999; display: none; justify-content: center; align-items: center; }
         .spinner { width: 45px; height: 45px; border: 4px solid var(--bg-input); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         #toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--text-main); color: var(--bg-main); padding: 12px 24px; border-radius: 50px; font-weight: bold; z-index: 10000; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+
+        /* --- تصميم تفاصيل الطلب الفخم (Dark & Gold) --- */
+        .det-header-icon { font-size: 1.5rem; color: var(--info); margin-left: 10px; }
+        .det-title { font-size: 1.1rem; font-weight: 800; color: var(--text-main); margin-bottom: 25px; display: flex; align-items: center; }
+        .det-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .det-label { color: var(--text-sec); font-size: 0.95rem; font-weight: 700; }
+        .det-val { color: var(--text-main); font-size: 0.95rem; font-weight: 800; font-family: monospace; display: flex; align-items: center; }
+        .det-val-link { color: var(--warning); max-width: 180px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; direction: ltr; }
+        .btn-reorder { width: 100%; background: transparent; border: 1px solid rgba(245, 158, 11, 0.4); color: var(--warning); padding: 15px; border-radius: 14px; font-weight: bold; font-size: 1rem; margin-top: 25px; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; transition: 0.2s; }
+        .btn-reorder:active { transform: scale(0.97); background: rgba(245, 158, 11, 0.1); }
+        .det-section-title { font-size: 1.2rem; font-weight: 900; color: var(--text-main); margin: 30px 0 15px 0; font-family: 'Arial', sans-serif; letter-spacing: 1px; } /* لتبدو مثل Details */
+
+        .order-card-compact { padding: 16px; border-radius: 16px; cursor: pointer; border: 1px solid transparent; transition: 0.2s; }
+        .order-card-compact:hover { border-color: var(--border); background: rgba(255,255,255,0.02); }
     </style>
 </head>
 <body>
@@ -158,7 +168,7 @@
     <div id="splash-screen">
         <img src="https://e.top4top.io/p_3675vatut1.jpg" class="splash-logo" alt="كايدو فولو">
         <h1 class="splash-title">كايدو فولو</h1>
-        <p style="color: var(--text-sec); letter-spacing: 2px; font-size: 0.85rem; margin-top: 10px; font-weight: 600;">الإصدار 2.0 المطور</p>
+        <p style="color: var(--text-sec); letter-spacing: 2px; font-size: 0.85rem; margin-top: 10px; font-weight: 600;">Premium SMM Panel</p>
     </div>
 
     <div id="pg-auth" class="full-modal open" style="justify-content: center; padding: 30px; z-index: 5000;">
@@ -277,7 +287,7 @@
             <div class="card" style="text-align: center; padding: 30px 20px; margin-top: 25px;">
                 <img src="https://e.top4top.io/p_3675vatut1.jpg" style="width: 55px; border-radius: 18px; margin-bottom: 12px; opacity: 0.9;">
                 <h3 style="font-weight: 900; letter-spacing: 1px;">كايدو فولو</h3>
-                <p style="color: var(--text-sec); font-size: 0.9rem; margin-bottom: 20px; font-weight: bold;">الإصدار 2.0</p>
+                <p style="color: var(--text-sec); font-size: 0.9rem; margin-bottom: 20px; font-weight: bold;">الإصدار المطور</p>
                 <button onclick="window.logout()" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
             </div>
         </div>
@@ -330,12 +340,54 @@
             </div>
             <button onclick="window.submitOrder()" class="btn btn-pro" style="padding: 18px; font-size: 1.1rem; margin-top: 10px;"><i class="fas fa-paper-plane"></i> إرسال الطلب</button>
         </div>
+    </div>
+
+    <div id="modal-order-details" class="full-modal">
+        <div class="header" style="padding: 25px 20px; border-bottom: 1px solid var(--border);">
+            <i class="fas fa-arrow-right" onclick="window.closeModal('modal-order-details')" style="font-size: 1.5rem; cursor: pointer;"></i>
+        </div>
+        <div style="padding: 25px 20px; padding-bottom: 100px;">
+            <div class="det-title"><i class="fas fa-fingerprint det-header-icon"></i> <span id="det-title-text" style="line-height: 1.5;">...</span></div>
+            
+            <div class="det-row">
+                <span class="det-label">رقم الطلب</span>
+                <span class="det-val"><i class="far fa-copy copy-icon" onclick="window.copyText(document.getElementById('det-id').innerText, 'تم نسخ رقم الطلب')"></i> <span id="det-id">000</span></span>
+            </div>
+            <div class="det-row">
+                <span class="det-label">التاريخ</span>
+                <span class="det-val" id="det-date" style="font-family: 'Cairo', sans-serif;">...</span>
+            </div>
+            <div class="det-row">
+                <span class="det-label">الرابط</span>
+                <span class="det-val"><span id="det-link" class="det-val-link">...</span></span>
+            </div>
+            <div class="det-row">
+                <span class="det-label">تكلفة الطلب</span>
+                <span class="det-val" id="det-cost" style="font-size: 1.2rem;">$0.00</span>
+            </div>
+
+            <button class="btn-reorder" id="btn-reorder">اطلب مجدداً <i class="fas fa-redo" style="font-size: 0.9rem;"></i></button>
+
+            <div class="det-section-title">Details</div>
+            
+            <div class="det-row">
+                <span class="det-label">مقدار</span>
+                <span class="det-val"><span id="det-qty">0</span> <i class="fas fa-fire" style="color: #f97316; margin-right: 5px;"></i></span>
+            </div>
+            <div class="det-row">
+                <span class="det-label">أبدء</span>
+                <span class="det-val" id="det-start">0</span>
+            </div>
+            <div class="det-row" style="border: none;">
+                <span class="det-label">المتبقي</span>
+                <span class="det-val" id="det-remains" style="color: var(--primary);">0</span>
+            </div>
+        </div>
     </div><script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, updateDoc, query, where, orderBy, onSnapshot, serverTimestamp, increment } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-        // إعدادات قاعدة البيانات (تأكد أنها نفس الإعدادات في لوحة الإدارة)
         const app = initializeApp({
             apiKey: "AIzaSyDPNS3dO05la3CpArNwm2KLHWaznog2rS4",
             authDomain: "kaido-follow-508df.firebaseapp.com",
@@ -353,9 +405,8 @@
         let activeOrders = [];
         let unsubscribeChat = null;
         let unsubscribeNoti = null;
-        let unreadNotis = []; // لتتبع الإشعارات غير المقروءة
+        let unreadNotis = [];
 
-        // --- دوال الواجهة الأساسية ---
         window.loader = (show) => document.getElementById('loader').style.display = show ? 'flex' : 'none';
         
         window.toast = (msg) => {
@@ -407,12 +458,11 @@
             setTimeout(() => { const splash = document.getElementById('splash-screen'); if(splash) { splash.style.opacity = '0'; setTimeout(() => splash.style.display = 'none', 600); } }, 2500);
         };
 
-        // --- نظام الإشعارات والمشاهدات الذكي ---
+        // --- الإشعارات ---
         window.listenNotifications = () => {
             if(unsubscribeNoti) unsubscribeNoti();
             unsubscribeNoti = onSnapshot(query(collection(db, "notifications"), orderBy("createdAt", "desc")), (snap) => {
                 const list = document.getElementById('noti-list'); const badge = document.getElementById('noti-badge');
-                
                 if(snap.empty) {
                     list.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-sec);"><i class="fas fa-bell-slash" style="font-size:2rem; margin-bottom:10px; opacity:0.5;"></i><br>لا توجد إشعارات حالياً</div>';
                     badge.style.display = 'none'; return;
@@ -424,13 +474,13 @@
                 
                 snap.forEach(d => {
                     const n = d.data(); const id = d.id;
-                    if(!seenNotis.includes(id)) unreadNotis.push(id); // تخزين الإشعارات الجديدة
+                    if(!seenNotis.includes(id)) unreadNotis.push(id);
                     
                     const dateStr = n.createdAt ? new Date(n.createdAt.seconds * 1000).toLocaleDateString('ar-EG') : '';
-                    const isNew = !seenNotis.includes(id) ? '<span style="width:8px; height:8px; background:var(--danger); border-radius:50%; box-shadow:0 0 5px var(--danger); display:inline-block; margin-right:5px;"></span>' : '';
+                    const isNew = !seenNotis.includes(id) ? '<span style="width:8px; height:8px; background:var(--warning); border-radius:50%; box-shadow:0 0 5px var(--warning); display:inline-block; margin-right:5px;"></span>' : '';
                     
                     list.innerHTML += `
-                    <div class="card" style="padding:15px; margin-bottom:10px; border-right: 3px solid ${!seenNotis.includes(id) ? 'var(--danger)' : 'var(--primary)'}; border-radius: 12px;">
+                    <div class="card" style="padding:15px; margin-bottom:10px; border-right: 3px solid ${!seenNotis.includes(id) ? 'var(--warning)' : 'var(--primary)'}; border-radius: 12px;">
                         <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
                             <b style="color:var(--primary); font-size:0.95rem;">${isNew}<i class="fas fa-bullhorn" style="margin-left:5px;"></i> ${n.title}</b>
                             <span style="font-size:0.75rem; color:var(--text-sec);">${dateStr}</span>
@@ -445,19 +495,15 @@
         window.markNotisAsRead = () => {
             if(unreadNotis.length === 0) return;
             let seenNotis = JSON.parse(localStorage.getItem('seen_notis') || '[]');
-            
             unreadNotis.forEach(async id => {
                 seenNotis.push(id);
-                // رفع عداد المشاهدات في قاعدة البيانات مرة واحدة فقط
                 try { await updateDoc(doc(db, "notifications", id), { views: increment(1) }); } catch(e){}
             });
-            
             localStorage.setItem('seen_notis', JSON.stringify(seenNotis));
-            unreadNotis = [];
-            document.getElementById('noti-badge').style.display = 'none';
+            unreadNotis = []; document.getElementById('noti-badge').style.display = 'none';
         };
 
-        // --- المصادقة والمستخدم ---
+        // --- المصادقة ---
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
@@ -501,7 +547,7 @@
             try {
                 const cred = await createUserWithEmailAndPassword(auth, e, p);
                 await setDoc(doc(db, "users", cred.user.uid), { name: n, username: u, email: e, balance: 0, spent: 0, banned: false, createdAt: serverTimestamp() });
-                await setDoc(doc(db, "chats", cred.user.uid), { lastMessage: "تم إنشاء الحساب بنجاح", time: serverTimestamp(), userId: cred.user.uid, name: n, username: u, status: 'open', hasUnread: false });
+                await setDoc(doc(db, "chats", cred.user.uid), { lastMessage: "تم إنشاء الحساب بنجاح في كايدو فولو", time: serverTimestamp(), userId: cred.user.uid, name: n, username: u, status: 'open', hasUnread: false });
             } catch(err) { window.toast("حدث خطأ أثناء التسجيل"); window.loader(false); }
         };
 
@@ -523,48 +569,37 @@
             catch(e) { window.toast("الكلمة الحالية غير صحيحة"); } window.loader(false);
         };
 
-        // --- الأقسام والخدمات المطورة (ترتيب + صور) ---
+        // --- الأقسام والخدمات ---
         window.loadCategories = async () => {
             const snap = await getDocs(collection(db, "categories"));
-            let cats = [];
-            snap.forEach(d => { const c = d.data(); if(c.visible !== false) { c.id = d.id; cats.push(c); } });
-            
-            // ترتيب الأقسام بناءً على التسلسل
+            let cats = []; snap.forEach(d => { const c = d.data(); if(c.visible !== false) { c.id = d.id; cats.push(c); } });
             cats.sort((a, b) => (a.seq || 0) - (b.seq || 0));
             
             const list = document.getElementById('cats-list'); list.innerHTML = '';
             cats.forEach(c => {
-                const img = c.image || 'https://e.top4top.io/p_3675vatut1.jpg'; // صورة افتراضية إن لم توجد
+                const img = c.image || 'https://e.top4top.io/p_3675vatut1.jpg';
                 list.innerHTML += `
                 <div class="cat-card" onclick="window.openCategory('${c.id}', '${c.name.replace(/'/g, "\\'")}')">
-                    <div class="cat-content">
-                        <img src="${img}" class="cat-img" alt="${c.name}">
-                        <b style="font-size:1.1rem; color:var(--text-main);">${c.name}</b>
-                    </div>
+                    <div class="cat-content"><img src="${img}" class="cat-img" alt="${c.name}"><b style="font-size:1.1rem; color:var(--text-main);">${c.name}</b></div>
                     <i class="fas fa-chevron-left" style="color:var(--text-sec)"></i>
                 </div>`;
             });
         };
 
         window.openCategory = async (id, name) => {
-            document.getElementById('cat-title').innerText = name;
-            document.getElementById('search-sub-services').value = ''; 
+            document.getElementById('cat-title').innerText = name; document.getElementById('search-sub-services').value = ''; 
             window.openModal('modal-services');
             
             const list = document.getElementById('srvs-list');
             list.innerHTML = '<div style="text-align:center; padding:30px;"><div class="spinner" style="margin:0 auto;"></div></div>';
             
             const snap = await getDocs(query(collection(db, "services"), where("categoryId", "==", id)));
-            let srvs = [];
-            snap.forEach(d => { const s = d.data(); if(s.visible !== false) { s.id = d.id; srvs.push(s); } });
-            
-            // ترتيب الخدمات بناءً على التسلسل
+            let srvs = []; snap.forEach(d => { const s = d.data(); if(s.visible !== false) { s.id = d.id; srvs.push(s); } });
             srvs.sort((a, b) => (a.seq || 0) - (b.seq || 0));
             
             list.innerHTML = '';
             srvs.forEach((s, index) => {
-                s.displayId = index + 1; // رقم تسلسلي وهمي متناسق
-                const objStr = encodeURIComponent(JSON.stringify(s));
+                s.displayId = index + 1; const objStr = encodeURIComponent(JSON.stringify(s));
                 list.innerHTML += `
                 <div class="service-card">
                     <span style="display:inline-block; background:rgba(139, 92, 246, 0.1); color:var(--primary); padding:3px 8px; border-radius:6px; font-size:0.75rem; font-weight:bold; margin-bottom:8px; font-family:monospace;">الخدمة #${s.displayId}</span>
@@ -575,10 +610,9 @@
             });
         };
 
-        // --- الطلبات ---
         window.prepOrder = (encodedObj) => {
             currentService = JSON.parse(decodeURIComponent(encodedObj));
-            document.getElementById('ord-id').innerText = "#" + currentService.displayId;
+            document.getElementById('ord-id').innerText = "#" + (currentService.displayId || '...');
             document.getElementById('ord-title').innerText = currentService.name;
             document.getElementById('ord-price').innerText = currentService.price + "$";
             document.getElementById('ord-min').innerText = currentService.min; document.getElementById('ord-max').innerText = currentService.max;
@@ -599,7 +633,7 @@
         };
 
         window.submitOrder = async () => {
-            if(userData.banned) return window.toast("حسابك محظور، يرجى مراجعة الإدارة");
+            if(userData.banned) return window.toast("حسابك محظور، يرجى مراجعة إدارة كايدو فولو");
             
             const link = document.getElementById('ord-link').value.trim(); const qty = parseInt(document.getElementById('ord-qty').value);
             if(!link || !qty) return window.toast("يرجى إدخال الرابط والكمية");
@@ -611,12 +645,10 @@
             window.loader(true);
             try {
                 await updateDoc(doc(db, "users", currentUser.uid), { balance: userData.balance - cost, spent: (userData.spent || 0) + cost });
-                
                 const provDoc = await getDoc(doc(db, "providers", currentService.providerId));
                 if(!provDoc.exists()) throw new Error("المزود غير متاح");
-                const prov = provDoc.data();
                 
-                let apiUrl = prov.url.trim(); if(!apiUrl.startsWith('http')) apiUrl = 'https://' + apiUrl;
+                const prov = provDoc.data(); let apiUrl = prov.url.trim(); if(!apiUrl.startsWith('http')) apiUrl = 'https://' + apiUrl;
                 const proxyUrl = `https://corsproxy.io/?` + encodeURIComponent(`${apiUrl}?key=${prov.key}&action=add&service=${currentService.providerServiceId}&link=${link}&quantity=${qty}`);
                 const res = await fetch(proxyUrl); const apiData = await res.json();
                 if(apiData.error) throw new Error(apiData.error);
@@ -633,15 +665,21 @@
 
         const getStatusArabic = (st) => {
             if(!st) return 'غير معروف'; const s = st.toLowerCase();
-            if(s.includes('pending')) return 'قيد الانتظار'; if(s.includes('processing')) return 'جاري المعالجة';
-            if(s.includes('progress')) return 'قيد التنفيذ'; if(s.includes('completed')) return 'مكتمل';
-            if(s.includes('partial')) return 'مكتمل جزئياً'; if(s.includes('canceled')) return 'ملغي';
-            if(s.includes('fail')) return 'فشل'; if(s.includes('refund')) return 'مسترجع بالكامل';
+            if(s.includes('pending') || s.includes('awaiting')) return 'قيد الانتظار'; 
+            if(s.includes('processing')) return 'جاري المعالجة';
+            if(s.includes('progress')) return 'قيد التنفيذ'; 
+            if(s.includes('completed')) return 'مكتمل';
+            if(s.includes('partial')) return 'مكتمل جزئياً'; 
+            if(s.includes('canceled')) return 'ملغي';
+            if(s.includes('fail')) return 'فشل'; 
+            if(s.includes('refund')) return 'مسترجع بالكامل';
             return st;
         };
 
+        // --- نظام الطلبات الأنيق وعرض التفاصيل الفخمة ---
         window.listenOrders = () => {
-            onSnapshot(query(collection(db, "orders"), where("userId", "==", currentUser.uid), orderBy("createdAt", "desc")), (snap) => {
+            const q = query(collection(db, "orders"), where("userId", "==", currentUser.uid));
+            onSnapshot(q, (snap) => {
                 const list = document.getElementById('orders-list'); list.innerHTML = ''; activeOrders = [];
                 let pendingCount = 0; let completedCount = 0;
 
@@ -650,35 +688,87 @@
                     document.getElementById('stat-pending').innerText = '0'; document.getElementById('stat-completed').innerText = '0'; return;
                 }
 
-                snap.forEach(d => {
-                    const o = d.data(); o.dbId = d.id; activeOrders.push(o);
+                let docsArray = [];
+                snap.forEach(d => docsArray.push({ id: d.id, ...d.data() }));
+                docsArray.sort((a, b) => {
+                    const timeA = a.createdAt ? a.createdAt.seconds : 0;
+                    const timeB = b.createdAt ? b.createdAt.seconds : 0;
+                    return timeB - timeA;
+                });
+
+                docsArray.forEach(o => {
+                    o.dbId = o.id; activeOrders.push(o);
                     const statusStr = o.status.toLowerCase(); let badgeClass = 'status-wait';
+                    
                     if(statusStr.includes('complet')) { badgeClass = 'status-ok'; completedCount++; }
                     else if(statusStr.includes('cancel') || statusStr.includes('fail') || statusStr.includes('refund')) { badgeClass = 'status-fail'; }
                     else { badgeClass = 'status-info'; pendingCount++; }
 
+                    // بطاقة الطلب المصغرة الأنيقة (تفتح شاشة التفاصيل الفخمة عند الضغط)
+                    const encodedOrder = encodeURIComponent(JSON.stringify(o)).replace(/'/g, "%27");
                     list.innerHTML += `
-                    <div class="card" style="padding:16px; border-radius:16px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
-                            <span style="font-family:monospace; color:var(--text-sec); font-size:0.95rem; font-weight:bold;"><i class="fas fa-copy copy-icon" onclick="window.copyOrderId('${o.providerOrderId}')"></i> #${o.providerOrderId}</span>
+                    <div class="card order-card-compact" onclick="window.showOrderDetails('${encodedOrder}')">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <span style="font-family:monospace; color:var(--text-sec); font-size:0.95rem; font-weight:bold;">#${o.providerOrderId}</span>
                             <span class="badge ${badgeClass}">${getStatusArabic(o.status)}</span>
                         </div>
-                        <b style="font-size:1rem; margin:12px 0; display:block; line-height:1.5; color:var(--text-main);">${o.service}</b>
-                        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-sec); background: rgba(0,0,0,0.2); padding: 12px; border-radius: 12px; border: 1px solid var(--border);">
-                            <div style="text-align:center;"><span>الكمية</span><br><b style="color:var(--text-main); font-size:1rem;">${o.qty}</b></div>
-                            <div style="text-align:center;"><span>البدء</span><br><b style="color:var(--text-main); font-size:1rem;">${o.start_count || 0}</b></div>
-                            <div style="text-align:center;"><span>المتبقي</span><br><b style="color:var(--primary); font-size:1rem;">${o.remains || o.qty}</b></div>
+                        <b style="font-size:0.95rem; display:block; line-height:1.5; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${o.service}</b>
+                        <div style="margin-top: 10px; font-size: 0.8rem; color: var(--text-sec);">
+                            انقر لعرض التفاصيل الكاملة <i class="fas fa-chevron-left" style="font-size: 0.7rem; margin-right: 5px;"></i>
                         </div>
                     </div>`;
                 });
+                
                 document.getElementById('stat-pending').innerText = pendingCount; document.getElementById('stat-completed').innerText = completedCount;
             });
         };
 
+        window.showOrderDetails = (encodedOrder) => {
+            const o = JSON.parse(decodeURIComponent(encodedOrder));
+            const dateStr = o.createdAt ? new Date(o.createdAt.seconds * 1000).toLocaleString('ar-EG', { year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' }) : 'غير متوفر';
+            
+            document.getElementById('det-title-text').innerText = o.service;
+            document.getElementById('det-id').innerText = o.providerOrderId;
+            document.getElementById('det-date').innerText = dateStr;
+            document.getElementById('det-link').innerText = o.link;
+            document.getElementById('det-cost').innerText = "$" + parseFloat(o.price).toFixed(4);
+            
+            document.getElementById('det-qty').innerText = o.qty;
+            document.getElementById('det-start').innerText = o.start_count || "0";
+            document.getElementById('det-remains').innerText = o.remains || o.qty;
+            
+            // زر "اطلب مجدداً"
+            document.getElementById('btn-reorder').setAttribute('onclick', `window.reorderService('${o.serviceId}')`);
+            
+            window.openModal('modal-order-details');
+        };
+
+        window.reorderService = async (serviceId) => {
+            window.loader(true);
+            try {
+                const srvSnap = await getDoc(doc(db, "services", serviceId));
+                if(srvSnap.exists()) {
+                    const s = srvSnap.data();
+                    if(s.visible !== false) {
+                        s.id = srvSnap.id;
+                        s.displayId = "إعادة طلب"; // إخفاء التسلسل لأننا نطلبه مباشرة
+                        const encodedObj = encodeURIComponent(JSON.stringify(s));
+                        window.closeModal('modal-order-details');
+                        window.prepOrder(encodedObj);
+                    } else {
+                        window.toast("عذراً، هذه الخدمة تم إيقافها مؤقتاً بواسطة الإدارة.");
+                    }
+                } else {
+                    window.toast("عذراً، هذه الخدمة لم تعد متاحة في كايدو فولو.");
+                }
+            } catch(e) { window.toast("حدث خطأ، يرجى المحاولة لاحقاً."); }
+            window.loader(false);
+        };
+
         window.syncOrders = async (manual = false) => {
             const pending = activeOrders.filter(o => !['completed', 'canceled', 'fail', 'partial', 'refunded'].some(st => o.status.toLowerCase().includes(st)));
-            if(pending.length === 0) { if(manual) window.toast("الطلبات محدثة"); return; }
-            if(manual) window.toast("جاري المزامنة...");
+            if(pending.length === 0) { if(manual) window.toast("طلباتك محدثة بالكامل"); return; }
+            if(manual) window.toast("جاري تحديث حالات الطلبات...");
 
             const groups = {}; 
             for(const order of pending) {
@@ -704,46 +794,51 @@
                     }
                 } catch(e) { console.error("Sync Error", e); }
             }
-            if(manual) window.toast("تم تحديث الحالات");
+            if(manual) window.toast("تم التحديث بنجاح");
         };
 
-        // --- الكوبونات المتعددة والمحفظة ---
+        // --- المحفظة ---
         window.redeemCoupon = async () => {
             const code = document.getElementById('coupon-code').value.trim();
-            if(!code) return window.toast("أدخل الرمز");
+            if(!code) return window.toast("أدخل الرمز أولاً");
             
             window.loader(true);
             try {
                 const q = query(collection(db, "coupons"), where("code", "==", code));
                 const snap = await getDocs(q);
-                if(snap.empty) throw new Error("الرمز غير صحيح");
+                if(snap.empty) throw new Error("الرمز غير صحيح أو غير موجود");
                 
                 const couponDoc = snap.docs[0]; const coupon = couponDoc.data();
                 if(coupon.active === false) throw new Error("الكوبون غير فعال");
-                if(coupon.currentUses >= (coupon.maxUses || 1)) throw new Error("الكوبون وصل للحد الأقصى من الاستخدام");
+                if(coupon.currentUses >= (coupon.maxUses || 1)) throw new Error("عذراً، الكوبون وصل للحد الأقصى من الاستخدام");
                 
                 const usedBy = coupon.usedBy || [];
                 if(usedBy.includes(currentUser.uid)) throw new Error("لقد قمت باستخدام هذا الكوبون مسبقاً!");
 
-                // تحديث الكوبون بزيادة العداد وإضافة المستخدم للقائمة
                 usedBy.push(currentUser.uid);
                 await updateDoc(doc(db, "coupons", couponDoc.id), { currentUses: increment(1), usedBy: usedBy });
-                
-                // تحديث المحفظة
                 await updateDoc(doc(db, "users", currentUser.uid), { balance: userData.balance + parseFloat(coupon.value) });
                 await addDoc(collection(db, "deposits"), { userId: currentUser.uid, amount: parseFloat(coupon.value), method: 'كوبون شحن', code: code, date: serverTimestamp() });
 
-                window.toast(`مبروك! تم شحن ${coupon.value}$ بنجاح`);
+                window.toast(`مبروك! تم شحن ${coupon.value}$ في كايدو فولو بنجاح`);
                 document.getElementById('coupon-code').value = '';
             } catch(e) { window.toast(e.message); }
             window.loader(false);
         };
 
         window.listenWallet = () => {
-            onSnapshot(query(collection(db, "deposits"), where("userId", "==", currentUser.uid), orderBy("date", "desc")), (snap) => {
+            onSnapshot(query(collection(db, "deposits"), where("userId", "==", currentUser.uid)), (snap) => {
                 const list = document.getElementById('wallet-history'); list.innerHTML = '';
-                snap.forEach(d => {
-                    const dep = d.data();
+                
+                let depsArray = [];
+                snap.forEach(d => depsArray.push(d.data()));
+                depsArray.sort((a, b) => {
+                    const timeA = a.date ? a.date.seconds : 0;
+                    const timeB = b.date ? b.date.seconds : 0;
+                    return timeB - timeA;
+                });
+
+                depsArray.forEach(dep => {
                     list.innerHTML += `
                     <div class="card" style="padding:15px; display:flex; justify-content:space-between; align-items:center; border-radius:14px;">
                         <div style="display:flex; align-items:center; gap:12px;">
@@ -756,11 +851,10 @@
             });
         };
 
-        // --- الدعم الفني الذكي (مع إغلاق التذاكر) ---
+        // --- الدعم الفني ---
         window.initChat = () => {
             if(unsubscribeChat) unsubscribeChat();
             
-            // مراقبة حالة التذكرة لتعطيل الإرسال إذا أغلقتها الإدارة
             onSnapshot(doc(db, "chats", currentUser.uid), (docSnap) => {
                 if(docSnap.exists()) {
                     const status = docSnap.data().status;
@@ -778,7 +872,7 @@
 
             unsubscribeChat = onSnapshot(query(collection(db, "chats", currentUser.uid, "messages"), orderBy("createdAt", "asc")), (snap) => {
                 const feed = document.getElementById('chat-feed'); feed.innerHTML = '';
-                if(snap.empty) { feed.innerHTML = '<div style="text-align:center; color:var(--text-sec); margin-top:60px;"><i class="fas fa-headset" style="font-size:3.5rem; opacity:0.2; margin-bottom:15px;"></i><br>أهلاً بك في الدعم الفني</div>'; return; }
+                if(snap.empty) { feed.innerHTML = '<div style="text-align:center; color:var(--text-sec); margin-top:60px;"><i class="fas fa-headset" style="font-size:3.5rem; opacity:0.2; margin-bottom:15px;"></i><br>أهلاً بك في دعم كايدو فولو</div>'; return; }
 
                 snap.forEach(d => {
                     const m = d.data(); const isMe = m.sender === 'user';
@@ -798,7 +892,7 @@
 
         window.sendQuickReply = async (type) => {
             let msg = ""; let reply = "";
-            if(type === 'recharge') { msg = "أريد شحن حسابي"; reply = "نستقبل حاليا زين العراق و اسياسيل\nارسل رقم الكرت مع كمية و يوزر حسابك بدون اي نص ثاني"; } 
+            if(type === 'recharge') { msg = "أريد شحن حسابي"; reply = "أهلاً بك في كايدو فولو. نستقبل حاليا زين العراق و اسياسيل\nارسل رقم الكرت مع كمية و يوزر حسابك بدون اي نص ثاني"; } 
             else if (type === 'problem') { msg = "لدي مشكلة في طلب"; reply = "أهلاً بك، يرجى كتابة رقم الطلب وتوضيح المشكلة باختصار وسنقوم بحلها."; }
 
             await addDoc(collection(db, "chats", currentUser.uid, "messages"), { text: msg, sender: 'user', createdAt: serverTimestamp() });
@@ -810,7 +904,7 @@
             }, 1000);
         };
 
-        // تفعيل ميزة التطبيق PWA مع كاسر الكاش
+        // --- PWA كاسر الكاش ---
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 const swUrl = './sw.js?v=' + new Date().getTime(); 
