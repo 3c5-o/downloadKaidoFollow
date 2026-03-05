@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* المتغيرات والألوان الفخمة */
         :root {
             --bg-main: #09090b; 
             --bg-card: rgba(24, 24, 27, 0.75); 
@@ -32,34 +31,29 @@
             --info: #3b82f6;
         }
 
-        /* الإعدادات العامة */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; outline: none; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg-main); color: var(--text-main); padding-bottom: 90px; overflow-x: hidden; min-height: 100vh; }
         input, button { border: none; background: none; color: inherit; }
         
-        /* إضاءة الخلفية */
         body::before {
             content: ''; position: fixed; top: -20%; left: -10%; width: 60vw; height: 60vw;
             background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 60%);
             z-index: -1; filter: blur(60px); pointer-events: none;
         }
 
-        /* البطاقات والأزرار */
-        .card { background: var(--bg-card); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 20px; padding: 22px; margin-bottom: 16px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15); transition: transform 0.2s; }
+        .card { background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 20px; padding: 22px; margin-bottom: 16px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15); transition: 0.2s; }
         .btn { width: 100%; padding: 15px; border-radius: 14px; font-weight: 700; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s; }
         .btn:active { transform: scale(0.97); }
         .btn-pro { background: var(--gradient-pro); color: white; box-shadow: 0 8px 25px var(--glow); border: 1px solid rgba(255,255,255,0.1); }
         .btn-outline { border: 1px solid var(--border); color: var(--text-sec); background: rgba(255,255,255,0.02); }
         .btn-danger { background: rgba(244, 63, 94, 0.1); color: var(--danger); border: 1px solid rgba(244, 63, 94, 0.3); }
 
-        /* المدخلات */
         .input-group { margin-bottom: 16px; }
         .input-label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-sec); font-weight: 600; }
         .input-box { width: 100%; padding: 15px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 12px; font-size: 1rem; transition: 0.3s; color: var(--text-main); }
         .input-box:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2); }
         .input-box:read-only { opacity: 0.7; cursor: not-allowed; background: rgba(0,0,0,0.2); }
 
-        /* الأكورديون */
         .accordion-header { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--bg-input); border-radius: 14px; cursor: pointer; border: 1px solid var(--border); transition: 0.3s; margin-bottom: 10px; }
         .accordion-header:hover { border-color: var(--primary); }
         .accordion-title { font-weight: 700; display: flex; align-items: center; gap: 10px; }
@@ -67,12 +61,10 @@
         .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: rgba(0,0,0,0.2); border-radius: 14px; }
         .accordion-inner { padding: 15px; border: 1px solid var(--border); border-top: none; border-radius: 0 0 14px 14px; margin-top: -10px; margin-bottom: 15px; }
 
-        /* الصفحات */
         .page { display: none; animation: slideFade 0.4s cubic-bezier(0.16, 1, 0.3, 1); padding: 0 20px; }
         .page.active { display: block; }
         @keyframes slideFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* تصميم لوحة التحكم الرئيسية */
         .dash-header-wrap { padding: 25px 0 10px 0; }
         .dash-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .dash-greeting { display: flex; flex-direction: column; }
@@ -81,14 +73,15 @@
         .dash-noti-btn { width: 45px; height: 45px; border-radius: 14px; background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--primary); cursor: pointer; position: relative; transition: 0.2s; }
         .dash-noti-btn:active { transform: scale(0.9); }
         .noti-dot { position: absolute; top: 8px; right: 10px; width: 10px; height: 10px; background: var(--danger); border-radius: 50%; box-shadow: 0 0 8px var(--danger); display: none; }
+
         .dash-main-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); backdrop-filter: blur(20px); position: relative; overflow: hidden; }
         .dash-main-card::before { content: ''; position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%); pointer-events: none; }
         .dash-bal-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .dash-bal-text span { color: var(--text-sec); font-size: 0.9rem; font-weight: 600; }
         .dash-bal-text h1 { font-size: 2.2rem; font-weight: 900; font-family: monospace; letter-spacing: -1px; }
         .dash-bal-icon { width: 55px; height: 55px; background: var(--gradient-pro); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: white; box-shadow: 0 5px 20px var(--glow); }
-        .dash-add-funds { margin-bottom: 20px; }
-        .dash-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        .dash-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
         .dash-stat-box { background: var(--bg-input); border: 1px solid var(--border); border-radius: 16px; padding: 15px; display: flex; flex-direction: column; align-items: center; text-align: center; }
         .dash-stat-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 10px; }
         .icon-pending { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
@@ -96,30 +89,29 @@
         .dash-stat-box h3 { font-size: 1.6rem; font-weight: 900; margin-bottom: 2px; }
         .dash-stat-box span { font-size: 0.8rem; color: var(--text-sec); font-weight: 600; }
 
-        /* القائمة السفلية */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(24, 24, 27, 0.95); backdrop-filter: blur(20px); border-top: 1px solid var(--border); padding: 12px 0; display: flex; justify-content: space-around; z-index: 900; padding-bottom: max(12px, env(safe-area-inset-bottom)); }
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 5px; color: var(--text-sec); font-size: 0.75rem; transition: 0.3s; cursor: pointer; }
         .nav-item.active { color: var(--primary); transform: translateY(-3px); }
         .nav-item i { font-size: 1.4rem; }
 
-        /* شاشة التحميل */
         #splash-screen { position: fixed; inset: 0; background: var(--bg-main); z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.6s cubic-bezier(0.8, 0, 0.2, 1); }
-        .splash-logo-wrap { width: 110px; height: 110px; position: relative; margin-bottom: 25px; }
-        .splash-logo { width: 100%; height: 100%; border-radius: 35px; position: relative; z-index: 2; box-shadow: 0 0 40px var(--glow); animation: float 3s ease-in-out infinite; }
+        .splash-logo { width: 110px; height: 110px; border-radius: 35px; box-shadow: 0 0 40px var(--glow); animation: float 3s ease-in-out infinite; margin-bottom: 25px; }
         .splash-title { font-weight: 900; font-size: 2.2rem; letter-spacing: 2px; background: var(--gradient-pro); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        /* الأقسام والخدمات */
-        .cat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.2s; }
+        /* الأقسام والخدمات (تصميم جديد) */
+        .cat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: 0.2s; overflow: hidden; position: relative; }
         .cat-card:active { transform: scale(0.98); border-color: var(--primary); }
-        .cat-icon-wrap { width: 50px; height: 50px; background: rgba(139, 92, 246, 0.1); border-radius: 14px; display: flex; justify-content: center; align-items: center; color: var(--primary); font-size: 1.4rem; }
-        .service-card { background: var(--bg-input); border: 1px solid var(--border); border-radius: 16px; padding: 18px; margin-bottom: 15px; }
-        .service-price { color: var(--success); font-weight: 900; font-size: 1.4rem; display: block; margin: 10px 0; }
+        .cat-content { display: flex; align-items: center; gap: 15px; z-index: 2; position: relative; }
+        .cat-img { width: 50px; height: 50px; border-radius: 14px; object-fit: cover; box-shadow: 0 5px 15px rgba(0,0,0,0.3); background: var(--bg-input); }
         
+        .service-card { background: var(--bg-input); border: 1px solid var(--border); border-radius: 16px; padding: 18px; margin-bottom: 15px; position: relative; overflow: hidden; }
+        .service-card::before { content: ''; position: absolute; top: 0; right: 0; width: 4px; height: 100%; background: var(--primary); }
+        .service-price { color: var(--success); font-weight: 900; font-size: 1.4rem; display: block; margin: 10px 0; }
+
         .full-modal { position: fixed; inset: 0; background: var(--bg-main); z-index: 2000; transform: translateX(100%); transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; overflow-y: auto; }
         .full-modal.open { transform: translateX(0); }
 
-        /* نافذة الطلب */
         .order-hero { background: var(--gradient-pro); border-radius: 20px; padding: 25px 20px; text-align: center; margin-bottom: 15px; position: relative; overflow: hidden; box-shadow: 0 10px 30px var(--glow); }
         .order-hero-badge { background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; display: inline-block; margin-bottom: 15px; font-family: monospace; font-weight: bold; }
         .order-hero-title { font-size: 1.15rem; font-weight: 800; color: white; line-height: 1.5; margin-bottom: 20px; }
@@ -127,15 +119,12 @@
         .order-hero-stat { background: rgba(0,0,0,0.2); border-radius: 12px; padding: 12px 5px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
         .order-hero-stat span { display: block; font-size: 0.7rem; color: rgba(255,255,255,0.8); margin-bottom: 5px; }
         .order-hero-stat b { display: block; font-size: 0.95rem; color: white; font-family: monospace; }
+        
         .order-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 20px; margin-bottom: 15px; }
-        .order-section-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; color: var(--primary); }
         .order-summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
         .summary-box { background: var(--bg-input); border: 1px solid var(--border); border-radius: 15px; padding: 15px; text-align: center; }
-        .summary-box span { display: block; font-size: 0.8rem; color: var(--text-sec); margin-bottom: 5px; }
-        .summary-box b { display: block; font-size: 1.2rem; font-family: monospace; }
         .summary-error { background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.3); color: var(--danger); padding: 12px; border-radius: 12px; text-align: center; font-size: 0.85rem; font-weight: bold; display: none; }
 
-        /* المحادثة والردود السريعة */
         .chat-container { height: calc(100vh - 160px); display: flex; flex-direction: column; }
         .chat-feed { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 10px 0; }
         .msg { max-width: 80%; padding: 12px 16px; border-radius: 16px; font-size: 0.95rem; line-height: 1.5; }
@@ -144,7 +133,8 @@
         .qr-wrap { padding: 10px 0; border-top: 1px solid var(--border); display: flex; gap: 10px; overflow-x: auto; margin-top: auto; }
         .qr-wrap::-webkit-scrollbar { display: none; }
         .qr-btn { background: rgba(139, 92, 246, 0.1); border: 1px solid var(--primary); color: var(--primary); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; white-space: nowrap; cursor: pointer; transition: 0.2s; }
-        .qr-btn:active { transform: scale(0.95); }
+        
+        .ticket-closed-msg { text-align: center; background: rgba(244, 63, 94, 0.1); color: var(--danger); padding: 10px; border-radius: 12px; margin-bottom: 10px; font-weight: bold; font-size: 0.9rem; border: 1px solid rgba(244, 63, 94, 0.3); display: none; }
 
         .badge { padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: bold; }
         .status-ok { background: rgba(16, 185, 129, 0.15); color: var(--success); }
@@ -163,38 +153,34 @@
 <body>
 
     <div id="loader"><div class="spinner"></div></div>
-    <div id="toast">جاري التنفيذ...</div>
+    <div id="toast">رسالة النظام</div>
 
     <div id="splash-screen">
-        <div class="splash-logo-wrap">
-            <img src="https://e.top4top.io/p_3675vatut1.jpg" class="splash-logo" alt="كايدو فولو">
-        </div>
+        <img src="https://e.top4top.io/p_3675vatut1.jpg" class="splash-logo" alt="كايدو فولو">
         <h1 class="splash-title">كايدو فولو</h1>
-        <p style="color: var(--text-sec); letter-spacing: 2px; font-size: 0.85rem; margin-top: 10px; font-weight: 600;">الخدمات المميزة</p>
+        <p style="color: var(--text-sec); letter-spacing: 2px; font-size: 0.85rem; margin-top: 10px; font-weight: 600;">الإصدار 2.0 المطور</p>
     </div>
 
     <div id="pg-auth" class="full-modal open" style="justify-content: center; padding: 30px; z-index: 5000;">
         <div style="text-align: center; margin-bottom: 40px;">
             <img src="https://e.top4top.io/p_3675vatut1.jpg" style="width: 90px; border-radius: 25px; box-shadow: 0 10px 30px var(--glow); margin-bottom: 20px;">
             <h1 style="font-weight: 800; letter-spacing: 1px;">كايدو فولو</h1>
-            <p style="color: var(--text-sec); font-size: 0.9rem;">مرحباً بك في منصتك المفضلة</p>
+            <p style="color: var(--text-sec); font-size: 0.9rem;">المنصة الأولى لدعم حساباتك</p>
         </div>
-
         <div class="card" id="form-login">
             <h3 style="margin-bottom: 20px; text-align: center;">تسجيل الدخول</h3>
             <div class="input-group"><label class="input-label">البريد الإلكتروني</label><input type="email" id="l-email" class="input-box" placeholder="أدخل بريدك الإلكتروني"></div>
             <div class="input-group"><label class="input-label">كلمة المرور</label><input type="password" id="l-pass" class="input-box" placeholder="أدخل كلمة المرور"></div>
-            <button onclick="window.doLogin()" class="btn btn-pro">دخول</button>
-            <button onclick="window.toggleAuth('reg')" class="btn btn-outline" style="margin-top: 15px; border: none;">ليس لديك حساب؟ إنشاء جديد</button>
+            <button onclick="window.doLogin()" class="btn btn-pro">دخول <i class="fas fa-sign-in-alt"></i></button>
+            <button onclick="window.toggleAuth('reg')" class="btn btn-outline" style="margin-top: 15px; border: none;">حساب جديد؟ إنشاء حساب</button>
         </div>
-
         <div class="card" id="form-reg" style="display: none;">
             <h3 style="margin-bottom: 20px; text-align: center;">إنشاء حساب جديد</h3>
             <div class="input-group"><label class="input-label">الاسم الكامل</label><input type="text" id="r-name" class="input-box" placeholder="الاسم الظاهر"></div>
             <div class="input-group"><label class="input-label">اسم المستخدم</label><input type="text" id="r-user" class="input-box" placeholder="اسم المستخدم (يوزر)"></div>
             <div class="input-group"><label class="input-label">البريد الإلكتروني</label><input type="email" id="r-email" class="input-box" placeholder="البريد الإلكتروني"></div>
             <div class="input-group"><label class="input-label">كلمة المرور</label><input type="password" id="r-pass" class="input-box" placeholder="كلمة المرور"></div>
-            <button onclick="window.doRegister()" class="btn btn-pro">إنشاء حساب</button>
+            <button onclick="window.doRegister()" class="btn btn-pro">إنشاء حساب <i class="fas fa-user-plus"></i></button>
             <button onclick="window.toggleAuth('login')" class="btn btn-outline" style="margin-top: 15px; border: none;">لدي حساب بالفعل</button>
         </div>
     </div>
@@ -208,28 +194,20 @@
                         <span>مرحباً بعودتك <i class="fas fa-hand-sparkles" style="color: var(--warning); margin-right: 5px;"></i></span>
                         <h2 id="u-name-top">...</h2>
                     </div>
-                    <div class="dash-noti-btn" onclick="window.openModal('modal-noti')">
+                    <div class="dash-noti-btn" onclick="window.openModal('modal-noti'); window.markNotisAsRead();">
                         <i class="fas fa-bell"></i>
                         <span class="noti-dot" id="noti-badge"></span>
                     </div>
                 </div>
-
                 <div class="dash-main-card">
                     <div class="dash-bal-section">
-                        <div class="dash-bal-text">
-                            <span>الرصيد المتاح</span>
-                            <h1 id="u-bal-main">$0.0000</h1>
-                        </div>
-                        <div class="dash-bal-icon">
-                            <i class="fas fa-wallet"></i>
-                        </div>
+                        <div class="dash-bal-text"><span>الرصيد المتاح</span><h1 id="u-bal-main">$0.0000</h1></div>
+                        <div class="dash-bal-icon"><i class="fas fa-wallet"></i></div>
                     </div>
-                    <div class="dash-add-funds">
-                        <button class="btn btn-pro" onclick="window.nav('wallet')" style="padding: 12px; border-radius: 12px;"><i class="fas fa-plus"></i> إضافة رصيد</button>
-                    </div>
+                    <button class="btn btn-pro" onclick="window.nav('wallet')" style="margin-bottom: 20px;"><i class="fas fa-plus"></i> إضافة رصيد</button>
                     <div class="dash-stats-grid">
                         <div class="dash-stat-box"><div class="dash-stat-icon icon-pending"><i class="fas fa-bolt"></i></div><h3 id="stat-pending">0</h3><span>قيد التنفيذ</span></div>
-                        <div class="dash-stat-box"><div class="dash-stat-icon icon-completed"><i class="fas fa-box"></i></div><h3 id="stat-completed">0</h3><span>طلب مكتمل</span></div>
+                        <div class="dash-stat-box"><div class="dash-stat-icon icon-completed"><i class="fas fa-box"></i></div><h3 id="stat-completed">0</h3><span>مكتمل</span></div>
                     </div>
                 </div>
             </div>
@@ -237,17 +215,16 @@
             <h3 style="margin-bottom: 20px; font-weight: 800; font-size: 1.3rem;">الأقسام المتاحة</h3>
             <div style="position: relative; margin-bottom: 20px;">
                 <i class="fas fa-search" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-sec);"></i>
-                <input type="text" id="search-services" class="input-box" style="padding-right: 45px;" placeholder="ابحث عن قسم أو خدمة..." onkeyup="window.filterServices()">
+                <input type="text" id="search-services" class="input-box" style="padding-right: 45px;" placeholder="ابحث عن قسم..." onkeyup="window.filterServices()">
             </div>
+            
             <div id="cats-list"></div>
         </div>
 
         <div id="pg-orders" class="page">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-top: 25px;">
                 <h3 style="font-weight: 800;">سجل الطلبات</h3>
-                <button onclick="window.syncOrders(true)" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--primary); padding: 8px 15px; border-radius: 10px; font-weight: bold; cursor: pointer;">
-                    <i class="fas fa-sync-alt"></i> تحديث
-                </button>
+                <button onclick="window.syncOrders(true)" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--primary); padding: 8px 15px; border-radius: 10px; font-weight: bold; cursor: pointer;"><i class="fas fa-sync-alt"></i> تحديث</button>
             </div>
             <div id="orders-list"></div>
         </div>
@@ -255,21 +232,17 @@
         <div id="pg-wallet" class="page">
             <div style="padding-top: 25px;"></div>
             <div class="card" style="text-align: center; padding: 40px 20px;">
-                <div style="width: 80px; height: 80px; background: rgba(139, 92, 246, 0.1); border-radius: 25px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: var(--primary); font-size: 2.5rem;">
-                    <i class="fas fa-wallet"></i>
-                </div>
+                <div style="width: 80px; height: 80px; background: rgba(139, 92, 246, 0.1); border-radius: 25px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: var(--primary); font-size: 2.5rem;"><i class="fas fa-wallet"></i></div>
                 <h3 style="margin-bottom: 10px;">شحن الرصيد بالكوبون</h3>
-                <p style="color: var(--text-sec); margin-bottom: 25px; font-size: 0.9rem;">أدخل رمز الشحن لإضافة الرصيد إلى محفظتك في كايدو فولو.</p>
+                <p style="color: var(--text-sec); margin-bottom: 25px; font-size: 0.9rem;">أدخل رمز الشحن لإضافة الرصيد إلى محفظتك.</p>
                 <input type="text" id="coupon-code" class="input-box" style="text-align: center; letter-spacing: 2px; font-weight: 800; font-size: 1.2rem; margin-bottom: 20px;" placeholder="أدخل الرمز هنا">
                 <button onclick="window.redeemCoupon()" class="btn btn-pro">تأكيد الشحن</button>
             </div>
-
             <div class="card" style="text-align: center; padding: 25px 20px; border: 1px dashed var(--primary); background: rgba(139, 92, 246, 0.05);">
                 <h4 style="color: var(--primary); margin-bottom: 10px; font-size: 1.1rem;"><i class="fas fa-headset"></i> شحن يدوي</h4>
-                <p style="color: var(--text-sec); font-size: 0.85rem; margin-bottom: 15px;">هل تملك رصيد زين العراق أو آسيا سيل؟ يمكنك مراسلة الدعم الفني للشحن.</p>
-                <button onclick="window.nav('support'); setTimeout(() => window.sendQuickReply('recharge'), 500);" class="btn btn-outline" style="border-color: var(--primary); color: var(--primary);"><i class="fas fa-comment-dots"></i> مراسلة الدعم للشحن</button>
+                <p style="color: var(--text-sec); font-size: 0.85rem; margin-bottom: 15px;">نستقبل زين العراق وآسيا سيل عبر مراسلة الدعم.</p>
+                <button onclick="window.nav('support'); setTimeout(() => window.sendQuickReply('recharge'), 500);" class="btn btn-outline" style="border-color: var(--primary); color: var(--primary);"><i class="fas fa-comment-dots"></i> مراسلة الدعم</button>
             </div>
-
             <h4 style="margin: 25px 0 15px; font-weight: 800;">العمليات السابقة</h4>
             <div id="wallet-history"></div>
         </div>
@@ -277,16 +250,15 @@
         <div id="pg-support" class="page">
             <div style="padding-top: 25px;"></div>
             <div class="chat-container">
+                <div class="ticket-closed-msg" id="ticket-closed-msg"><i class="fas fa-lock"></i> هذه التذكرة مغلقة من قبل الإدارة. أرسل رسالة جديدة لفتح تذكرة أخرى.</div>
                 <div class="chat-feed" id="chat-feed"></div>
-                
-                <div class="qr-wrap">
+                <div class="qr-wrap" id="qr-wrap">
                     <button class="qr-btn" onclick="window.sendQuickReply('recharge')"><i class="fas fa-wallet"></i> أريد شحن حسابي</button>
-                    <button class="qr-btn" onclick="window.sendQuickReply('problem')"><i class="fas fa-exclamation-circle"></i> لدي مشكلة</button>
+                    <button class="qr-btn" onclick="window.sendQuickReply('problem')"><i class="fas fa-exclamation-circle"></i> لدي مشكلة بالطلب</button>
                 </div>
-
                 <div style="display: flex; gap: 10px; background: var(--bg-card); padding: 12px; border-radius: 20px; border: 1px solid var(--border);">
-                    <input type="text" id="chat-input" class="input-box" style="margin: 0; border: none; background: transparent;" placeholder="اكتب رسالتك للدعم الفني...">
-                    <button onclick="window.sendMsg()" style="background: var(--gradient-pro); border: none; width: 55px; border-radius: 14px; color: white; cursor: pointer; font-size: 1.2rem;"><i class="fas fa-paper-plane"></i></button>
+                    <input type="text" id="chat-input" class="input-box" style="margin: 0; border: none; background: transparent;" placeholder="اكتب رسالتك...">
+                    <button id="chat-btn" onclick="window.sendMsg()" style="background: var(--gradient-pro); border: none; width: 55px; border-radius: 14px; color: white; cursor: pointer; font-size: 1.2rem;"><i class="fas fa-paper-plane"></i></button>
                 </div>
             </div>
         </div>
@@ -294,43 +266,18 @@
         <div id="pg-profile" class="page" style="padding-bottom: 120px;">
             <div style="padding-top: 25px;"></div>
             <div style="text-align: center; margin-bottom: 30px;">
-                <div style="width: 90px; height: 90px; background: var(--bg-card); border: 2px solid var(--primary); border-radius: 30px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--primary); box-shadow: 0 5px 20px var(--glow);">
-                    <i class="fas fa-user-tie"></i>
-                </div>
+                <div style="width: 90px; height: 90px; background: var(--bg-card); border: 2px solid var(--primary); border-radius: 30px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--primary); box-shadow: 0 5px 20px var(--glow);"><i class="fas fa-user-tie"></i></div>
                 <h2 id="p-display-name">...</h2>
                 <span class="badge status-ok" style="margin-top: 10px; display: inline-block;">حساب نشط</span>
             </div>
-
-            <div class="accordion-header" onclick="window.toggleAccordion('acc-info', 'icon-info')">
-                <div class="accordion-title"><i class="fas fa-id-card" style="color: var(--primary);"></i> معلومات الحساب</div>
-                <i class="fas fa-chevron-down accordion-icon" id="icon-info"></i>
-            </div>
-            <div class="accordion-content" id="acc-info">
-                <div class="accordion-inner">
-                    <div class="input-group"><label class="input-label">اسم المستخدم</label><input type="text" id="p-username" class="input-box" readonly></div>
-                    <div class="input-group"><label class="input-label">البريد الإلكتروني</label><input type="text" id="p-email" class="input-box" readonly></div>
-                    <div class="input-group"><label class="input-label">الاسم الظاهر</label><input type="text" id="p-name-edit" class="input-box" placeholder="أدخل اسمك الجديد"></div>
-                    <button onclick="window.saveProfileName()" class="btn btn-pro" style="padding: 12px;">حفظ الاسم</button>
-                </div>
-            </div>
-
-            <div class="accordion-header" onclick="window.toggleAccordion('acc-sec', 'icon-sec')">
-                <div class="accordion-title"><i class="fas fa-shield-alt" style="color: var(--warning);"></i> إعدادات الأمان</div>
-                <i class="fas fa-chevron-down accordion-icon" id="icon-sec"></i>
-            </div>
-            <div class="accordion-content" id="acc-sec">
-                <div class="accordion-inner">
-                    <div class="input-group"><input type="password" id="p-old" class="input-box" placeholder="كلمة المرور الحالية"></div>
-                    <div class="input-group"><input type="password" id="p-new" class="input-box" placeholder="كلمة المرور الجديدة"></div>
-                    <div class="input-group"><input type="password" id="p-new-conf" class="input-box" placeholder="تأكيد كلمة المرور"></div>
-                    <button onclick="window.changePass()" class="btn btn-outline" style="padding: 12px; border-color: var(--warning); color: var(--warning);">تحديث</button>
-                </div>
-            </div>
-
+            <div class="accordion-header" onclick="window.toggleAccordion('acc-info', 'icon-info')"><div class="accordion-title"><i class="fas fa-id-card" style="color: var(--primary);"></i> معلومات الحساب</div><i class="fas fa-chevron-down accordion-icon" id="icon-info"></i></div>
+            <div class="accordion-content" id="acc-info"><div class="accordion-inner"><div class="input-group"><label class="input-label">اسم المستخدم</label><input type="text" id="p-username" class="input-box" readonly></div><div class="input-group"><label class="input-label">البريد الإلكتروني</label><input type="text" id="p-email" class="input-box" readonly></div><div class="input-group"><label class="input-label">الاسم الظاهر</label><input type="text" id="p-name-edit" class="input-box"></div><button onclick="window.saveProfileName()" class="btn btn-pro">حفظ الاسم</button></div></div>
+            <div class="accordion-header" onclick="window.toggleAccordion('acc-sec', 'icon-sec')"><div class="accordion-title"><i class="fas fa-shield-alt" style="color: var(--warning);"></i> إعدادات الأمان</div><i class="fas fa-chevron-down accordion-icon" id="icon-sec"></i></div>
+            <div class="accordion-content" id="acc-sec"><div class="accordion-inner"><div class="input-group"><input type="password" id="p-old" class="input-box" placeholder="كلمة المرور الحالية"></div><div class="input-group"><input type="password" id="p-new" class="input-box" placeholder="الجديدة"></div><div class="input-group"><input type="password" id="p-new-conf" class="input-box" placeholder="تأكيد الجديدة"></div><button onclick="window.changePass()" class="btn btn-outline" style="border-color: var(--warning); color: var(--warning);">تحديث السر</button></div></div>
             <div class="card" style="text-align: center; padding: 30px 20px; margin-top: 25px;">
                 <img src="https://e.top4top.io/p_3675vatut1.jpg" style="width: 55px; border-radius: 18px; margin-bottom: 12px; opacity: 0.9;">
                 <h3 style="font-weight: 900; letter-spacing: 1px;">كايدو فولو</h3>
-                <p style="color: var(--text-sec); font-size: 0.9rem; margin-bottom: 20px; font-weight: bold;">الإصدار 1.0</p>
+                <p style="color: var(--text-sec); font-size: 0.9rem; margin-bottom: 20px; font-weight: bold;">الإصدار 2.0</p>
                 <button onclick="window.logout()" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
             </div>
         </div>
@@ -345,14 +292,14 @@
     </div>
 
     <div id="modal-noti" class="full-modal">
-        <div class="header" style="border-bottom: 1px solid var(--border); padding: 25px 20px;"><i class="fas fa-arrow-right" onclick="window.closeModal('modal-noti')" style="font-size: 1.5rem; cursor: pointer;"></i><h3>مركز الإشعارات</h3></div>
+        <div class="header" style="border-bottom: 1px solid var(--border); padding: 25px 20px;"><i class="fas fa-arrow-right" onclick="window.closeModal('modal-noti')" style="font-size: 1.5rem; cursor: pointer;"></i><h3>الإشعارات</h3></div>
         <div id="noti-list" style="padding: 20px; padding-bottom: 100px;"></div>
     </div>
 
     <div id="modal-services" class="full-modal">
         <div class="header" style="border-bottom: 1px solid var(--border); padding: 25px 20px;"><i class="fas fa-arrow-right" onclick="window.closeModal('modal-services')" style="font-size: 1.5rem; cursor: pointer;"></i><h3 id="cat-title">...</h3></div>
         <div style="padding: 15px 20px 0 20px;"><div style="position: relative;"><i class="fas fa-search" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-sec);"></i><input type="text" id="search-sub-services" class="input-box" style="padding-right: 45px; margin-bottom: 0;" placeholder="ابحث في هذا القسم..." onkeyup="window.filterSubServices()"></div></div>
-        <div id="srvs-list" style="padding: 20px;"></div>
+        <div id="srvs-list" style="padding: 20px; padding-bottom: 100px;"></div>
     </div>
 
     <div id="modal-order" class="full-modal">
@@ -362,8 +309,8 @@
                 <div class="order-hero-badge" id="ord-id">#000</div>
                 <h3 class="order-hero-title" id="ord-title">...</h3>
                 <div class="order-hero-stats">
-                    <div class="order-hero-stat"><span>الحد الأدنى <i class="fas fa-arrow-down" style="font-size:0.6rem;"></i></span><b id="ord-min">0</b></div>
-                    <div class="order-hero-stat"><span>الحد الأقصى <i class="fas fa-arrow-up" style="font-size:0.6rem;"></i></span><b id="ord-max">0</b></div>
+                    <div class="order-hero-stat"><span>أقل كمية <i class="fas fa-arrow-down" style="font-size:0.6rem;"></i></span><b id="ord-min">0</b></div>
+                    <div class="order-hero-stat"><span>أقصى كمية <i class="fas fa-arrow-up" style="font-size:0.6rem;"></i></span><b id="ord-max">0</b></div>
                     <div class="order-hero-stat"><span>لكل 1000 <i class="fas fa-dollar-sign" style="color:var(--warning); font-size:0.6rem;"></i></span><b id="ord-price" style="color:var(--warning);">0$</b></div>
                 </div>
             </div>
@@ -371,23 +318,24 @@
             <div class="order-section">
                 <div class="order-section-title"><i class="fas fa-shopping-cart"></i> تفاصيل الطلب</div>
                 <div class="input-group"><label class="input-label">الرابط أو اسم المستخدم</label><div style="position:relative;"><i class="fas fa-link" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); color:var(--text-sec);"></i><input type="text" id="ord-link" class="input-box" style="padding-right:40px;" placeholder="أدخل الرابط هنا..."></div></div>
-                <div class="input-group"><label class="input-label">الكمية</label><div style="position:relative;"><i class="fas fa-hashtag" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); color:var(--text-sec);"></i><input type="number" id="ord-qty" class="input-box" style="padding-right:40px;" placeholder="0" oninput="window.calcTotal()"></div></div>
+                <div class="input-group"><label class="input-label">الكمية المطلوبة</label><div style="position:relative;"><i class="fas fa-hashtag" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); color:var(--text-sec);"></i><input type="number" id="ord-qty" class="input-box" style="padding-right:40px;" placeholder="0" oninput="window.calcTotal()"></div></div>
             </div>
             <div class="order-section">
                 <div class="order-section-title"><i class="fas fa-dollar-sign" style="color:var(--success);"></i> ملخص الطلب</div>
                 <div class="order-summary-grid">
-                    <div class="summary-box"><span>رصيدك <i class="fas fa-wallet" style="margin-right:3px;"></i></span><b id="ord-bal" style="color:var(--info);">0.0000$</b></div>
-                    <div class="summary-box"><span>التكلفة <i class="fas fa-dollar-sign" style="margin-right:3px;"></i></span><b id="ord-total" style="color:var(--success);">0.0000$</b></div>
+                    <div class="summary-box"><span>رصيدك الحالي</span><b id="ord-bal" style="color:var(--info);">0.0000$</b></div>
+                    <div class="summary-box"><span>التكلفة الإجمالية</span><b id="ord-total" style="color:var(--success);">0.0000$</b></div>
                 </div>
-                <div id="ord-error" class="summary-error"><i class="fas fa-exclamation-circle"></i> رصيد غير كاف! اشحن رصيدك الآن</div>
+                <div id="ord-error" class="summary-error"><i class="fas fa-exclamation-circle"></i> الرصيد غير كاف! يرجى الشحن.</div>
             </div>
             <button onclick="window.submitOrder()" class="btn btn-pro" style="padding: 18px; font-size: 1.1rem; margin-top: 10px;"><i class="fas fa-paper-plane"></i> إرسال الطلب</button>
         </div>
     </div><script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, updateDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, updateDoc, query, where, orderBy, onSnapshot, serverTimestamp, increment } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
+        // إعدادات قاعدة البيانات (تأكد أنها نفس الإعدادات في لوحة الإدارة)
         const app = initializeApp({
             apiKey: "AIzaSyDPNS3dO05la3CpArNwm2KLHWaznog2rS4",
             authDomain: "kaido-follow-508df.firebaseapp.com",
@@ -405,13 +353,14 @@
         let activeOrders = [];
         let unsubscribeChat = null;
         let unsubscribeNoti = null;
+        let unreadNotis = []; // لتتبع الإشعارات غير المقروءة
 
+        // --- دوال الواجهة الأساسية ---
         window.loader = (show) => document.getElementById('loader').style.display = show ? 'flex' : 'none';
         
         window.toast = (msg) => {
             const t = document.getElementById('toast');
-            t.innerText = msg;
-            t.style.display = 'block';
+            t.innerText = msg; t.style.display = 'block';
             setTimeout(() => t.style.display = 'none', 3000);
         };
 
@@ -436,89 +385,79 @@
         window.closeModal = (id) => document.getElementById(id).classList.remove('open');
 
         window.toggleAccordion = (contentId, iconId) => {
-            const content = document.getElementById(contentId);
-            const icon = document.getElementById(iconId);
-            if (content.style.maxHeight) {
-                content.style.maxHeight = null;
-                icon.style.transform = 'rotate(0deg)';
-                content.style.marginBottom = '0';
-            } else {
-                content.style.maxHeight = content.scrollHeight + 20 + "px";
-                icon.style.transform = 'rotate(180deg)';
-                content.style.marginBottom = '10px';
-            }
+            const content = document.getElementById(contentId); const icon = document.getElementById(iconId);
+            if (content.style.maxHeight) { content.style.maxHeight = null; icon.style.transform = 'rotate(0deg)'; content.style.marginBottom = '0'; } 
+            else { content.style.maxHeight = content.scrollHeight + 20 + "px"; icon.style.transform = 'rotate(180deg)'; content.style.marginBottom = '10px'; }
         };
 
-        window.copyText = (text, successMsg) => {
-            navigator.clipboard.writeText(text).then(() => {
-                window.toast(successMsg || "تم النسخ بنجاح");
-            }).catch(() => {
-                window.toast("تعذر النسخ، يرجى المحاولة يدوياً");
-            });
-        };
-
-        window.copyOrderId = (id) => { window.copyText(id, "تم نسخ رقم الطلب بنجاح"); };
+        window.copyText = (text, successMsg) => { navigator.clipboard.writeText(text).then(() => window.toast(successMsg || "تم النسخ")).catch(() => window.toast("تعذر النسخ")); };
+        window.copyOrderId = (id) => { window.copyText(id, "تم نسخ رقم الطلب"); };
 
         window.filterServices = () => {
             const queryText = document.getElementById('search-services').value.toLowerCase();
-            const cards = document.querySelectorAll('#cats-list .cat-card');
-            cards.forEach(card => {
-                const title = card.innerText.toLowerCase();
-                card.style.display = title.includes(queryText) ? 'flex' : 'none';
-            });
+            document.querySelectorAll('#cats-list .cat-card').forEach(card => card.style.display = card.innerText.toLowerCase().includes(queryText) ? 'flex' : 'none');
         };
 
         window.filterSubServices = () => {
             const queryText = document.getElementById('search-sub-services').value.toLowerCase();
-            const cards = document.querySelectorAll('#srvs-list .service-card');
-            cards.forEach(card => {
-                const title = card.innerText.toLowerCase();
-                card.style.display = title.includes(queryText) ? 'block' : 'none';
-            });
+            document.querySelectorAll('#srvs-list .service-card').forEach(card => card.style.display = card.innerText.toLowerCase().includes(queryText) ? 'block' : 'none');
         };
 
         window.onload = () => {
-            setTimeout(() => {
-                const splash = document.getElementById('splash-screen');
-                if(splash) {
-                    splash.style.opacity = '0';
-                    setTimeout(() => splash.style.display = 'none', 600);
-                }
-            }, 2500);
+            setTimeout(() => { const splash = document.getElementById('splash-screen'); if(splash) { splash.style.opacity = '0'; setTimeout(() => splash.style.display = 'none', 600); } }, 2500);
         };
 
+        // --- نظام الإشعارات والمشاهدات الذكي ---
         window.listenNotifications = () => {
             if(unsubscribeNoti) unsubscribeNoti();
-            const q = query(collection(db, "notifications"), orderBy("createdAt", "desc"));
-            
-            unsubscribeNoti = onSnapshot(q, (snap) => {
-                const list = document.getElementById('noti-list');
-                const badge = document.getElementById('noti-badge');
+            unsubscribeNoti = onSnapshot(query(collection(db, "notifications"), orderBy("createdAt", "desc")), (snap) => {
+                const list = document.getElementById('noti-list'); const badge = document.getElementById('noti-badge');
                 
                 if(snap.empty) {
                     list.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-sec);"><i class="fas fa-bell-slash" style="font-size:2rem; margin-bottom:10px; opacity:0.5;"></i><br>لا توجد إشعارات حالياً</div>';
-                    badge.style.display = 'none';
-                    return;
+                    badge.style.display = 'none'; return;
                 }
 
-                badge.style.display = 'block';
                 list.innerHTML = '';
+                let seenNotis = JSON.parse(localStorage.getItem('seen_notis') || '[]');
+                unreadNotis = [];
                 
                 snap.forEach(d => {
-                    const n = d.data();
+                    const n = d.data(); const id = d.id;
+                    if(!seenNotis.includes(id)) unreadNotis.push(id); // تخزين الإشعارات الجديدة
+                    
                     const dateStr = n.createdAt ? new Date(n.createdAt.seconds * 1000).toLocaleDateString('ar-EG') : '';
+                    const isNew = !seenNotis.includes(id) ? '<span style="width:8px; height:8px; background:var(--danger); border-radius:50%; box-shadow:0 0 5px var(--danger); display:inline-block; margin-right:5px;"></span>' : '';
+                    
                     list.innerHTML += `
-                    <div class="card" style="padding:15px; margin-bottom:10px; border-right: 3px solid var(--primary); border-radius: 12px;">
+                    <div class="card" style="padding:15px; margin-bottom:10px; border-right: 3px solid ${!seenNotis.includes(id) ? 'var(--danger)' : 'var(--primary)'}; border-radius: 12px;">
                         <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-                            <b style="color:var(--primary); font-size:0.95rem;"><i class="fas fa-bullhorn" style="margin-left:5px;"></i> ${n.title}</b>
+                            <b style="color:var(--primary); font-size:0.95rem;">${isNew}<i class="fas fa-bullhorn" style="margin-left:5px;"></i> ${n.title}</b>
                             <span style="font-size:0.75rem; color:var(--text-sec);">${dateStr}</span>
                         </div>
                         <p style="font-size:0.85rem; color:var(--text-main); line-height:1.5;">${n.message}</p>
                     </div>`;
                 });
+                badge.style.display = unreadNotis.length > 0 ? 'block' : 'none';
             });
         };
 
+        window.markNotisAsRead = () => {
+            if(unreadNotis.length === 0) return;
+            let seenNotis = JSON.parse(localStorage.getItem('seen_notis') || '[]');
+            
+            unreadNotis.forEach(async id => {
+                seenNotis.push(id);
+                // رفع عداد المشاهدات في قاعدة البيانات مرة واحدة فقط
+                try { await updateDoc(doc(db, "notifications", id), { views: increment(1) }); } catch(e){}
+            });
+            
+            localStorage.setItem('seen_notis', JSON.stringify(seenNotis));
+            unreadNotis = [];
+            document.getElementById('noti-badge').style.display = 'none';
+        };
+
+        // --- المصادقة والمستخدم ---
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
@@ -528,7 +467,6 @@
                 onSnapshot(doc(db, "users", user.uid), (docSnap) => {
                     if (docSnap.exists()) {
                         userData = docSnap.data();
-                        
                         document.getElementById('u-name-top').innerText = userData.name.split(' ')[0];
                         document.getElementById('p-display-name').innerText = userData.name;
                         
@@ -538,17 +476,10 @@
                         
                         document.getElementById('p-username').value = "@" + (userData.username || "user");
                         document.getElementById('p-email').value = userData.email;
-                        
-                        if(!document.getElementById('p-name-edit').value) {
-                            document.getElementById('p-name-edit').value = userData.name;
-                        }
+                        if(!document.getElementById('p-name-edit').value) document.getElementById('p-name-edit').value = userData.name;
                     }
                 });
-
-                window.loadCategories();
-                window.listenOrders();
-                window.listenWallet();
-                window.listenNotifications();
+                window.loadCategories(); window.listenOrders(); window.listenWallet(); window.listenNotifications();
             } else {
                 document.getElementById('app-wrap').style.display = 'none';
                 document.getElementById('pg-auth').classList.add('open');
@@ -557,80 +488,57 @@
         });
 
         window.doLogin = async () => {
-            const e = document.getElementById('l-email').value.trim();
-            const p = document.getElementById('l-pass').value.trim();
-            if(!e || !p) return window.toast("يرجى إدخال البريد الإلكتروني وكلمة المرور");
-            window.loader(true);
-            try { await signInWithEmailAndPassword(auth, e, p); }
-            catch(err) { window.toast("بيانات الدخول غير صحيحة"); window.loader(false); }
+            const e = document.getElementById('l-email').value.trim(); const p = document.getElementById('l-pass').value.trim();
+            if(!e || !p) return window.toast("يرجى إدخال البيانات");
+            window.loader(true); try { await signInWithEmailAndPassword(auth, e, p); } catch(err) { window.toast("بيانات الدخول غير صحيحة"); window.loader(false); }
         };
 
         window.doRegister = async () => {
-            const n = document.getElementById('r-name').value.trim();
-            const u = document.getElementById('r-user').value.trim();
-            const e = document.getElementById('r-email').value.trim();
-            const p = document.getElementById('r-pass').value.trim();
-            
-            if(!n || !u || !e || !p) return window.toast("يرجى إكمال جميع الحقول");
+            const n = document.getElementById('r-name').value.trim(); const u = document.getElementById('r-user').value.trim();
+            const e = document.getElementById('r-email').value.trim(); const p = document.getElementById('r-pass').value.trim();
+            if(!n || !u || !e || !p) return window.toast("أكمل جميع الحقول");
             window.loader(true);
             try {
                 const cred = await createUserWithEmailAndPassword(auth, e, p);
-                await setDoc(doc(db, "users", cred.user.uid), { name: n, username: u, email: e, balance: 0, spent: 0, createdAt: serverTimestamp() });
-                await setDoc(doc(db, "chats", cred.user.uid), { lastMessage: "تم إنشاء الحساب بنجاح", time: serverTimestamp(), userId: cred.user.uid, name: n, username: u, hasUnread: false });
-            } catch(err) { window.toast("حدث خطأ أثناء التسجيل، يرجى المحاولة لاحقاً"); window.loader(false); }
+                await setDoc(doc(db, "users", cred.user.uid), { name: n, username: u, email: e, balance: 0, spent: 0, banned: false, createdAt: serverTimestamp() });
+                await setDoc(doc(db, "chats", cred.user.uid), { lastMessage: "تم إنشاء الحساب بنجاح", time: serverTimestamp(), userId: cred.user.uid, name: n, username: u, status: 'open', hasUnread: false });
+            } catch(err) { window.toast("حدث خطأ أثناء التسجيل"); window.loader(false); }
         };
 
-        window.logout = async () => {
-            window.loader(true);
-            await signOut(auth);
-            location.reload();
-        };
+        window.logout = async () => { window.loader(true); await signOut(auth); location.reload(); };
 
         window.saveProfileName = async () => {
             const newName = document.getElementById('p-name-edit').value.trim();
             if(!newName || newName === userData.name) return;
-            window.loader(true);
-            try {
-                await updateDoc(doc(db, "users", currentUser.uid), { name: newName });
-                window.toast("تم تحديث الاسم بنجاح");
-            } catch(e) { window.toast("حدث خطأ أثناء التحديث"); }
-            window.loader(false);
+            window.loader(true); try { await updateDoc(doc(db, "users", currentUser.uid), { name: newName }); window.toast("تم تحديث الاسم"); } catch(e) { window.toast("خطأ في التحديث"); } window.loader(false);
         };
 
         window.changePass = async () => {
-            const oldP = document.getElementById('p-old').value;
-            const newP = document.getElementById('p-new').value;
-            const confP = document.getElementById('p-new-conf').value;
-            
-            if(!oldP || !newP || !confP) return window.toast("يرجى إكمال جميع حقول كلمة المرور");
-            if(newP !== confP) return window.toast("كلمة المرور الجديدة غير متطابقة");
-            if(newP.length < 6) return window.toast("كلمة المرور يجب أن تتكون من 6 أحرف على الأقل");
-
+            const oldP = document.getElementById('p-old').value; const newP = document.getElementById('p-new').value; const confP = document.getElementById('p-new-conf').value;
+            if(!oldP || !newP || !confP) return window.toast("أكمل حقول كلمة المرور");
+            if(newP !== confP) return window.toast("الكلمات غير متطابقة");
+            if(newP.length < 6) return window.toast("يجب أن تتكون من 6 أحرف على الأقل");
             window.loader(true);
-            try {
-                const credential = EmailAuthProvider.credential(currentUser.email, oldP);
-                await reauthenticateWithCredential(currentUser, credential);
-                await updatePassword(currentUser, newP);
-                window.toast("تم تحديث كلمة المرور بأمان");
-                document.getElementById('p-old').value = '';
-                document.getElementById('p-new').value = '';
-                document.getElementById('p-new-conf').value = '';
-                window.toggleAccordion('acc-sec', 'icon-sec');
-            } catch(e) { window.toast("كلمة المرور الحالية غير صحيحة"); }
-            window.loader(false);
+            try { const cred = EmailAuthProvider.credential(currentUser.email, oldP); await reauthenticateWithCredential(currentUser, cred); await updatePassword(currentUser, newP); window.toast("تم التحديث بنجاح"); document.getElementById('p-old').value=''; document.getElementById('p-new').value=''; document.getElementById('p-new-conf').value=''; window.toggleAccordion('acc-sec', 'icon-sec'); } 
+            catch(e) { window.toast("الكلمة الحالية غير صحيحة"); } window.loader(false);
         };
 
+        // --- الأقسام والخدمات المطورة (ترتيب + صور) ---
         window.loadCategories = async () => {
-            const q = query(collection(db, "categories"), where("visible", "==", true));
-            const snap = await getDocs(q);
-            const list = document.getElementById('cats-list');
-            list.innerHTML = '';
-            snap.forEach(d => {
-                const c = d.data();
+            const snap = await getDocs(collection(db, "categories"));
+            let cats = [];
+            snap.forEach(d => { const c = d.data(); if(c.visible !== false) { c.id = d.id; cats.push(c); } });
+            
+            // ترتيب الأقسام بناءً على التسلسل
+            cats.sort((a, b) => (a.seq || 0) - (b.seq || 0));
+            
+            const list = document.getElementById('cats-list'); list.innerHTML = '';
+            cats.forEach(c => {
+                const img = c.image || 'https://e.top4top.io/p_3675vatut1.jpg'; // صورة افتراضية إن لم توجد
                 list.innerHTML += `
-                <div class="cat-card" onclick="window.openCategory('${d.id}', '${c.name}')">
-                    <div style="display:flex; align-items:center; gap:15px;">
-                        <div class="cat-icon-wrap"><i class="fas fa-layer-group"></i></div>
+                <div class="cat-card" onclick="window.openCategory('${c.id}', '${c.name.replace(/'/g, "\\'")}')">
+                    <div class="cat-content">
+                        <img src="${img}" class="cat-img" alt="${c.name}">
                         <b style="font-size:1.1rem; color:var(--text-main);">${c.name}</b>
                     </div>
                     <i class="fas fa-chevron-left" style="color:var(--text-sec)"></i>
@@ -646,17 +554,17 @@
             const list = document.getElementById('srvs-list');
             list.innerHTML = '<div style="text-align:center; padding:30px;"><div class="spinner" style="margin:0 auto;"></div></div>';
             
-            const snap = await getDocs(query(collection(db, "services"), where("categoryId", "==", id), where("visible", "==", true)));
+            const snap = await getDocs(query(collection(db, "services"), where("categoryId", "==", id)));
+            let srvs = [];
+            snap.forEach(d => { const s = d.data(); if(s.visible !== false) { s.id = d.id; srvs.push(s); } });
+            
+            // ترتيب الخدمات بناءً على التسلسل
+            srvs.sort((a, b) => (a.seq || 0) - (b.seq || 0));
+            
             list.innerHTML = '';
-            
-            // إضافة تسلسل للخدمات وإخفاء ID المزود
-            let sequenceCounter = 1;
-            
-            snap.forEach(d => {
-                const s = d.data();
-                s.displayId = sequenceCounter++; // إضافة التسلسل كـ ID ظاهري
-                
-                const objStr = encodeURIComponent(JSON.stringify({id: d.id, ...s}));
+            srvs.forEach((s, index) => {
+                s.displayId = index + 1; // رقم تسلسلي وهمي متناسق
+                const objStr = encodeURIComponent(JSON.stringify(s));
                 list.innerHTML += `
                 <div class="service-card">
                     <span style="display:inline-block; background:rgba(139, 92, 246, 0.1); color:var(--primary); padding:3px 8px; border-radius:6px; font-size:0.75rem; font-weight:bold; margin-bottom:8px; font-family:monospace;">الخدمة #${s.displayId}</span>
@@ -667,274 +575,180 @@
             });
         };
 
+        // --- الطلبات ---
         window.prepOrder = (encodedObj) => {
             currentService = JSON.parse(decodeURIComponent(encodedObj));
-            
-            // عرض التسلسل الوهمي للمستخدم بدلاً من ID المزود
             document.getElementById('ord-id').innerText = "#" + currentService.displayId;
             document.getElementById('ord-title').innerText = currentService.name;
             document.getElementById('ord-price').innerText = currentService.price + "$";
-            document.getElementById('ord-min').innerText = currentService.min;
-            document.getElementById('ord-max').innerText = currentService.max;
+            document.getElementById('ord-min').innerText = currentService.min; document.getElementById('ord-max').innerText = currentService.max;
             document.getElementById('ord-desc').innerHTML = currentService.description ? currentService.description.replace(/\n/g, '<br>') : 'لا يوجد تفاصيل إضافية للخدمة حالياً.';
             
-            document.getElementById('ord-link').value = '';
-            document.getElementById('ord-qty').value = '';
-            document.getElementById('ord-total').innerText = '0.0000$';
-            document.getElementById('ord-error').style.display = 'none';
-            
+            document.getElementById('ord-link').value = ''; document.getElementById('ord-qty').value = '';
+            document.getElementById('ord-total').innerText = '0.0000$'; document.getElementById('ord-error').style.display = 'none';
             window.openModal('modal-order');
         };
 
         window.calcTotal = () => {
-            const qty = parseInt(document.getElementById('ord-qty').value) || 0;
-            const errorBox = document.getElementById('ord-error');
-            
+            const qty = parseInt(document.getElementById('ord-qty').value) || 0; const errorBox = document.getElementById('ord-error');
             if(qty > 0 && currentService) {
                 const total = (qty / 1000) * currentService.price;
                 document.getElementById('ord-total').innerText = total.toFixed(4) + "$";
-                
-                if(total > userData.balance) { errorBox.style.display = 'block'; } 
-                else { errorBox.style.display = 'none'; }
-            } else {
-                document.getElementById('ord-total').innerText = "0.0000$";
-                errorBox.style.display = 'none';
-            }
+                if(total > userData.balance) errorBox.style.display = 'block'; else errorBox.style.display = 'none';
+            } else { document.getElementById('ord-total').innerText = "0.0000$"; errorBox.style.display = 'none'; }
         };
 
         window.submitOrder = async () => {
-            const link = document.getElementById('ord-link').value.trim();
-            const qty = parseInt(document.getElementById('ord-qty').value);
+            if(userData.banned) return window.toast("حسابك محظور، يرجى مراجعة الإدارة");
             
-            if(!link || !qty) return window.toast("يرجى إدخال الرابط والكمية بشكل صحيح");
+            const link = document.getElementById('ord-link').value.trim(); const qty = parseInt(document.getElementById('ord-qty').value);
+            if(!link || !qty) return window.toast("يرجى إدخال الرابط والكمية");
             if(qty < currentService.min || qty > currentService.max) return window.toast(`الكمية المسموحة: ${currentService.min} إلى ${currentService.max}`);
             
             const cost = parseFloat(((qty / 1000) * currentService.price).toFixed(4));
-            if(userData.balance < cost) {
-                document.getElementById('ord-error').style.display = 'block';
-                return window.toast("عذراً، الرصيد غير كافٍ لإتمام الطلب");
-            }
+            if(userData.balance < cost) { document.getElementById('ord-error').style.display = 'block'; return window.toast("الرصيد غير كافٍ"); }
 
             window.loader(true);
             try {
-                await updateDoc(doc(db, "users", currentUser.uid), {
-                    balance: userData.balance - cost,
-                    spent: (userData.spent || 0) + cost
-                });
-
+                await updateDoc(doc(db, "users", currentUser.uid), { balance: userData.balance - cost, spent: (userData.spent || 0) + cost });
+                
                 const provDoc = await getDoc(doc(db, "providers", currentService.providerId));
-                if(!provDoc.exists()) throw new Error("المزود غير متاح حالياً");
+                if(!provDoc.exists()) throw new Error("المزود غير متاح");
                 const prov = provDoc.data();
                 
-                let apiUrl = prov.url.trim();
-                if(!apiUrl.startsWith('http')) apiUrl = 'https://' + apiUrl;
-                
-                // إرسال providerServiceId الحقيقي للمزود
-                const targetUrl = `${apiUrl}?key=${prov.key}&action=add&service=${currentService.providerServiceId}&link=${link}&quantity=${qty}`;
-                const proxyUrl = `https://corsproxy.io/?` + encodeURIComponent(targetUrl);
-                
-                const res = await fetch(proxyUrl);
-                const apiData = await res.json();
-
+                let apiUrl = prov.url.trim(); if(!apiUrl.startsWith('http')) apiUrl = 'https://' + apiUrl;
+                const proxyUrl = `https://corsproxy.io/?` + encodeURIComponent(`${apiUrl}?key=${prov.key}&action=add&service=${currentService.providerServiceId}&link=${link}&quantity=${qty}`);
+                const res = await fetch(proxyUrl); const apiData = await res.json();
                 if(apiData.error) throw new Error(apiData.error);
 
                 await addDoc(collection(db, "orders"), {
                     userId: currentUser.uid, service: currentService.name, serviceId: currentService.id,
-                    qty: qty, link: link, price: cost, providerOrderId: apiData.order,
+                    qty: qty, link: link, price: cost, originalCost: currentService.originalCost || (cost * 0.7), providerOrderId: apiData.order,
                     status: 'Pending', remains: qty, start_count: 0, createdAt: serverTimestamp()
                 });
-
-                window.toast("تم إرسال الطلب بنجاح");
-                window.closeModal('modal-order');
-                window.closeModal('modal-services');
-                window.nav('orders');
-
-            } catch(e) {
-                await updateDoc(doc(db, "users", currentUser.uid), { balance: userData.balance });
-                window.toast("تعذر إرسال الطلب، تم استرجاع الرصيد.");
-                console.error(e);
-            }
+                window.toast("تم إرسال الطلب بنجاح"); window.closeModal('modal-order'); window.closeModal('modal-services'); window.nav('orders');
+            } catch(e) { await updateDoc(doc(db, "users", currentUser.uid), { balance: userData.balance }); window.toast("تعذر إرسال الطلب، تم استرجاع الرصيد."); console.error(e); }
             window.loader(false);
         };
 
         const getStatusArabic = (st) => {
-            if(!st) return 'غير معروف';
-            const s = st.toLowerCase();
-            if(s.includes('pending')) return 'قيد الانتظار';
-            if(s.includes('processing')) return 'جاري المعالجة';
-            if(s.includes('progress')) return 'قيد التنفيذ';
-            if(s.includes('completed')) return 'مكتمل';
-            if(s.includes('partial')) return 'مكتمل جزئياً';
-            if(s.includes('canceled')) return 'ملغي';
-            if(s.includes('fail')) return 'فشل';
+            if(!st) return 'غير معروف'; const s = st.toLowerCase();
+            if(s.includes('pending')) return 'قيد الانتظار'; if(s.includes('processing')) return 'جاري المعالجة';
+            if(s.includes('progress')) return 'قيد التنفيذ'; if(s.includes('completed')) return 'مكتمل';
+            if(s.includes('partial')) return 'مكتمل جزئياً'; if(s.includes('canceled')) return 'ملغي';
+            if(s.includes('fail')) return 'فشل'; if(s.includes('refund')) return 'مسترجع بالكامل';
             return st;
         };
 
         window.listenOrders = () => {
-            const q = query(collection(db, "orders"), where("userId", "==", currentUser.uid), orderBy("createdAt", "desc"));
-            onSnapshot(q, (snap) => {
-                const list = document.getElementById('orders-list');
-                list.innerHTML = '';
-                activeOrders = [];
+            onSnapshot(query(collection(db, "orders"), where("userId", "==", currentUser.uid), orderBy("createdAt", "desc")), (snap) => {
+                const list = document.getElementById('orders-list'); list.innerHTML = ''; activeOrders = [];
                 let pendingCount = 0; let completedCount = 0;
 
                 if(snap.empty) {
-                    list.innerHTML = '<div style="text-align:center; padding:50px; color:var(--text-sec); font-size:1.1rem;"><i class="fas fa-box-open" style="font-size:3rem; margin-bottom:15px; opacity:0.3;"></i><br>لا توجد أي طلبات سابقة.</div>';
-                    document.getElementById('stat-pending').innerText = '0';
-                    document.getElementById('stat-completed').innerText = '0';
-                    return;
+                    list.innerHTML = '<div style="text-align:center; padding:50px; color:var(--text-sec); font-size:1.1rem;"><i class="fas fa-box-open" style="font-size:3rem; margin-bottom:15px; opacity:0.3;"></i><br>لا توجد طلبات.</div>';
+                    document.getElementById('stat-pending').innerText = '0'; document.getElementById('stat-completed').innerText = '0'; return;
                 }
 
                 snap.forEach(d => {
-                    const o = d.data();
-                    o.dbId = d.id;
-                    activeOrders.push(o);
-
-                    const statusStr = o.status.toLowerCase();
-                    let badgeClass = 'status-wait';
-                    
+                    const o = d.data(); o.dbId = d.id; activeOrders.push(o);
+                    const statusStr = o.status.toLowerCase(); let badgeClass = 'status-wait';
                     if(statusStr.includes('complet')) { badgeClass = 'status-ok'; completedCount++; }
-                    else if(statusStr.includes('cancel') || statusStr.includes('fail')) { badgeClass = 'status-fail'; }
+                    else if(statusStr.includes('cancel') || statusStr.includes('fail') || statusStr.includes('refund')) { badgeClass = 'status-fail'; }
                     else { badgeClass = 'status-info'; pendingCount++; }
 
                     list.innerHTML += `
                     <div class="card" style="padding:16px; border-radius:16px;">
                         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
-                            <span style="font-family:monospace; color:var(--text-sec); font-size:0.95rem; font-weight:bold;">
-                                <i class="fas fa-copy copy-icon" onclick="window.copyOrderId('${o.providerOrderId}')"></i>
-                                #${o.providerOrderId}
-                            </span>
+                            <span style="font-family:monospace; color:var(--text-sec); font-size:0.95rem; font-weight:bold;"><i class="fas fa-copy copy-icon" onclick="window.copyOrderId('${o.providerOrderId}')"></i> #${o.providerOrderId}</span>
                             <span class="badge ${badgeClass}">${getStatusArabic(o.status)}</span>
                         </div>
                         <b style="font-size:1rem; margin:12px 0; display:block; line-height:1.5; color:var(--text-main);">${o.service}</b>
                         <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-sec); background: rgba(0,0,0,0.2); padding: 12px; border-radius: 12px; border: 1px solid var(--border);">
-                            <div style="display:flex; flex-direction:column; gap:4px; text-align:center;">
-                                <span>الكمية</span><b style="color:var(--text-main); font-size:1rem;">${o.qty}</b>
-                            </div>
-                            <div style="display:flex; flex-direction:column; gap:4px; text-align:center;">
-                                <span>البدء</span><b style="color:var(--text-main); font-size:1rem;">${o.start_count || 0}</b>
-                            </div>
-                            <div style="display:flex; flex-direction:column; gap:4px; text-align:center;">
-                                <span>المتبقي</span><b style="color:var(--primary); font-size:1rem;">${o.remains || o.qty}</b>
-                            </div>
+                            <div style="text-align:center;"><span>الكمية</span><br><b style="color:var(--text-main); font-size:1rem;">${o.qty}</b></div>
+                            <div style="text-align:center;"><span>البدء</span><br><b style="color:var(--text-main); font-size:1rem;">${o.start_count || 0}</b></div>
+                            <div style="text-align:center;"><span>المتبقي</span><br><b style="color:var(--primary); font-size:1rem;">${o.remains || o.qty}</b></div>
                         </div>
                     </div>`;
                 });
-                
-                document.getElementById('stat-pending').innerText = pendingCount;
-                document.getElementById('stat-completed').innerText = completedCount;
+                document.getElementById('stat-pending').innerText = pendingCount; document.getElementById('stat-completed').innerText = completedCount;
             });
         };
 
         window.syncOrders = async (manual = false) => {
-            const pending = activeOrders.filter(o => {
-                const s = o.status.toLowerCase();
-                return !['completed', 'canceled', 'fail', 'partial'].some(st => s.includes(st));
-            });
-            
-            if(pending.length === 0) {
-                if(manual) window.toast("جميع الطلبات محدثة بالفعل");
-                return;
-            }
-            if(manual) window.toast("جاري المزامنة مع المزود...");
+            const pending = activeOrders.filter(o => !['completed', 'canceled', 'fail', 'partial', 'refunded'].some(st => o.status.toLowerCase().includes(st)));
+            if(pending.length === 0) { if(manual) window.toast("الطلبات محدثة"); return; }
+            if(manual) window.toast("جاري المزامنة...");
 
             const groups = {}; 
             for(const order of pending) {
                 try {
-                    const srvSnap = await getDoc(doc(db, "services", order.serviceId));
-                    if(!srvSnap.exists()) continue;
-                    const provSnap = await getDoc(doc(db, "providers", srvSnap.data().providerId));
-                    if(!provSnap.exists()) continue;
-                    
-                    const prov = provSnap.data();
-                    const key = prov.url + prov.key; 
-                    
+                    const srvSnap = await getDoc(doc(db, "services", order.serviceId)); if(!srvSnap.exists()) continue;
+                    const provSnap = await getDoc(doc(db, "providers", srvSnap.data().providerId)); if(!provSnap.exists()) continue;
+                    const prov = provSnap.data(); const key = prov.url + prov.key; 
                     if(!groups[key]) groups[key] = { prov: prov, orderIds: [], orderMap: {} };
-                    groups[key].orderIds.push(order.providerOrderId);
-                    groups[key].orderMap[order.providerOrderId] = order; 
+                    groups[key].orderIds.push(order.providerOrderId); groups[key].orderMap[order.providerOrderId] = order; 
                 } catch(e) {}
             }
 
             for(const key in groups) {
-                const group = groups[key];
-                let apiUrl = group.prov.url;
-                if(!apiUrl.startsWith('http')) apiUrl = 'https://' + apiUrl;
-                
-                const idsString = group.orderIds.join(',');
-                const targetUrl = `${apiUrl}?key=${group.prov.key}&action=status&orders=${idsString}`;
-                const proxyUrl = `https://corsproxy.io/?` + encodeURIComponent(targetUrl);
-
+                const group = groups[key]; let apiUrl = group.prov.url; if(!apiUrl.startsWith('http')) apiUrl = 'https://' + apiUrl;
+                const proxyUrl = `https://corsproxy.io/?` + encodeURIComponent(`${apiUrl}?key=${group.prov.key}&action=status&orders=${group.orderIds.join(',')}`);
                 try {
-                    const res = await fetch(proxyUrl);
-                    const apiData = await res.json(); 
-
+                    const res = await fetch(proxyUrl); const apiData = await res.json(); 
                     for(const apiOrderId in apiData) {
-                        const info = apiData[apiOrderId];
-                        const localOrder = group.orderMap[apiOrderId];
-                        
+                        const info = apiData[apiOrderId]; const localOrder = group.orderMap[apiOrderId];
                         if(info && typeof info === 'object' && info.status && localOrder) {
-                            const newStatus = info.status;
-                            
-                            if((newStatus === 'Canceled' || newStatus === 'Fail') && localOrder.status !== 'Canceled') {
-                                const currentBal = (await getDoc(doc(db, "users", currentUser.uid))).data().balance;
-                                await updateDoc(doc(db, "users", currentUser.uid), { balance: currentBal + localOrder.price });
-                            }
-                            
-                            await updateDoc(doc(db, "orders", localOrder.dbId), {
-                                status: newStatus, remains: info.remains || localOrder.remains, start_count: info.start_count || localOrder.start_count
-                            });
+                            await updateDoc(doc(db, "orders", localOrder.dbId), { status: info.status, remains: info.remains || localOrder.remains, start_count: info.start_count || localOrder.start_count });
                         }
                     }
                 } catch(e) { console.error("Sync Error", e); }
             }
-            if(manual) window.toast("تم تحديث حالة الطلبات بنجاح");
+            if(manual) window.toast("تم تحديث الحالات");
         };
 
+        // --- الكوبونات المتعددة والمحفظة ---
         window.redeemCoupon = async () => {
             const code = document.getElementById('coupon-code').value.trim();
-            if(!code) return window.toast("يرجى إدخال رمز الشحن");
+            if(!code) return window.toast("أدخل الرمز");
             
             window.loader(true);
             try {
                 const q = query(collection(db, "coupons"), where("code", "==", code));
                 const snap = await getDocs(q);
-                
                 if(snap.empty) throw new Error("الرمز غير صحيح");
-                const couponDoc = snap.docs[0];
-                const coupon = couponDoc.data();
                 
-                if(!coupon.active || coupon.used) throw new Error("الرمز غير فعال أو تم استخدامه مسبقاً");
+                const couponDoc = snap.docs[0]; const coupon = couponDoc.data();
+                if(coupon.active === false) throw new Error("الكوبون غير فعال");
+                if(coupon.currentUses >= (coupon.maxUses || 1)) throw new Error("الكوبون وصل للحد الأقصى من الاستخدام");
+                
+                const usedBy = coupon.usedBy || [];
+                if(usedBy.includes(currentUser.uid)) throw new Error("لقد قمت باستخدام هذا الكوبون مسبقاً!");
 
+                // تحديث الكوبون بزيادة العداد وإضافة المستخدم للقائمة
+                usedBy.push(currentUser.uid);
+                await updateDoc(doc(db, "coupons", couponDoc.id), { currentUses: increment(1), usedBy: usedBy });
+                
+                // تحديث المحفظة
                 await updateDoc(doc(db, "users", currentUser.uid), { balance: userData.balance + parseFloat(coupon.value) });
-                await updateDoc(doc(db, "coupons", couponDoc.id), { used: true, usedBy: currentUser.uid, usedAt: serverTimestamp() });
-                
-                await addDoc(collection(db, "deposits"), {
-                    userId: currentUser.uid, amount: parseFloat(coupon.value), method: 'شحن مباشر', code: code, date: serverTimestamp()
-                });
+                await addDoc(collection(db, "deposits"), { userId: currentUser.uid, amount: parseFloat(coupon.value), method: 'كوبون شحن', code: code, date: serverTimestamp() });
 
-                window.toast(`تم إضافة ${coupon.value}$ إلى رصيدك بنجاح`);
+                window.toast(`مبروك! تم شحن ${coupon.value}$ بنجاح`);
                 document.getElementById('coupon-code').value = '';
             } catch(e) { window.toast(e.message); }
             window.loader(false);
         };
 
         window.listenWallet = () => {
-            const q = query(collection(db, "deposits"), where("userId", "==", currentUser.uid), orderBy("date", "desc"));
-            onSnapshot(q, (snap) => {
-                const list = document.getElementById('wallet-history');
-                list.innerHTML = '';
+            onSnapshot(query(collection(db, "deposits"), where("userId", "==", currentUser.uid), orderBy("date", "desc")), (snap) => {
+                const list = document.getElementById('wallet-history'); list.innerHTML = '';
                 snap.forEach(d => {
                     const dep = d.data();
                     list.innerHTML += `
                     <div class="card" style="padding:15px; display:flex; justify-content:space-between; align-items:center; border-radius:14px;">
                         <div style="display:flex; align-items:center; gap:12px;">
-                            <div style="background:rgba(16, 185, 129, 0.1); width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; color:var(--success);">
-                                <i class="fas fa-arrow-down"></i>
-                            </div>
-                            <div>
-                                <span style="display:block; font-weight:bold; font-size:0.95rem;">عملية شحن</span>
-                                <span style="font-size:0.75rem; color:var(--text-sec);">${dep.method}</span>
-                            </div>
+                            <div style="background:rgba(16, 185, 129, 0.1); width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; color:var(--success);"><i class="fas fa-arrow-down"></i></div>
+                            <div><span style="display:block; font-weight:bold; font-size:0.95rem;">عملية شحن</span><span style="font-size:0.75rem; color:var(--text-sec);">${dep.method}</span></div>
                         </div>
                         <b style="color:var(--success); font-size:1.15rem;">+${dep.amount}$</b>
                     </div>`;
@@ -942,76 +756,71 @@
             });
         };
 
+        // --- الدعم الفني الذكي (مع إغلاق التذاكر) ---
         window.initChat = () => {
             if(unsubscribeChat) unsubscribeChat();
-            const q = query(collection(db, "chats", currentUser.uid, "messages"), orderBy("createdAt", "asc"));
-            unsubscribeChat = onSnapshot(q, (snap) => {
-                const feed = document.getElementById('chat-feed');
-                feed.innerHTML = '';
-                
-                if(snap.empty) {
-                    feed.innerHTML = '<div style="text-align:center; color:var(--text-sec); margin-top:60px;"><i class="fas fa-headset" style="font-size:3.5rem; opacity:0.2; margin-bottom:15px;"></i><br>أهلاً بك في دعم كايدو فولو<br>نحن هنا لخدمتك</div>';
-                    return;
+            
+            // مراقبة حالة التذكرة لتعطيل الإرسال إذا أغلقتها الإدارة
+            onSnapshot(doc(db, "chats", currentUser.uid), (docSnap) => {
+                if(docSnap.exists()) {
+                    const status = docSnap.data().status;
+                    if(status === 'closed') {
+                        document.getElementById('ticket-closed-msg').style.display = 'block';
+                        document.getElementById('chat-input').disabled = true; document.getElementById('chat-btn').disabled = true;
+                        document.getElementById('qr-wrap').style.display = 'none';
+                    } else {
+                        document.getElementById('ticket-closed-msg').style.display = 'none';
+                        document.getElementById('chat-input').disabled = false; document.getElementById('chat-btn').disabled = false;
+                        document.getElementById('qr-wrap').style.display = 'flex';
+                    }
                 }
+            });
+
+            unsubscribeChat = onSnapshot(query(collection(db, "chats", currentUser.uid, "messages"), orderBy("createdAt", "asc")), (snap) => {
+                const feed = document.getElementById('chat-feed'); feed.innerHTML = '';
+                if(snap.empty) { feed.innerHTML = '<div style="text-align:center; color:var(--text-sec); margin-top:60px;"><i class="fas fa-headset" style="font-size:3.5rem; opacity:0.2; margin-bottom:15px;"></i><br>أهلاً بك في الدعم الفني</div>'; return; }
 
                 snap.forEach(d => {
-                    const m = d.data();
-                    const isMe = m.sender === 'user';
+                    const m = d.data(); const isMe = m.sender === 'user';
                     const time = m.createdAt ? new Date(m.createdAt.seconds * 1000).toLocaleTimeString('ar-EG', {hour: '2-digit', minute:'2-digit'}) : '';
-                    feed.innerHTML += `
-                    <div style="display:flex; flex-direction:column; align-items: ${isMe ? 'flex-end' : 'flex-start'}; margin-bottom: 5px;">
-                        <div class="msg ${isMe ? 'msg-me' : 'msg-admin'}">${m.text}</div>
-                        <span style="font-size:0.65rem; color:var(--text-sec); margin-top:4px; padding:0 5px;">${time}</span>
-                    </div>`;
+                    feed.innerHTML += `<div style="display:flex; flex-direction:column; align-items: ${isMe ? 'flex-end' : 'flex-start'}; margin-bottom: 5px;"><div class="msg ${isMe ? 'msg-me' : 'msg-admin'}">${m.text}</div><span style="font-size:0.65rem; color:var(--text-sec); margin-top:4px; padding:0 5px;">${time}</span></div>`;
                 });
                 feed.scrollTop = feed.scrollHeight;
             });
         };
 
         window.sendMsg = async () => {
-            const input = document.getElementById('chat-input');
-            const txt = input.value.trim();
-            if(!txt) return;
+            const input = document.getElementById('chat-input'); const txt = input.value.trim(); if(!txt) return;
             input.value = '';
             await addDoc(collection(db, "chats", currentUser.uid, "messages"), { text: txt, sender: 'user', createdAt: serverTimestamp() });
-            await setDoc(doc(db, "chats", currentUser.uid), { lastMessage: txt, time: serverTimestamp(), userId: currentUser.uid, name: userData.name, username: userData.username, hasUnread: true }, { merge: true });
+            await setDoc(doc(db, "chats", currentUser.uid), { lastMessage: txt, time: serverTimestamp(), userId: currentUser.uid, name: userData.name, username: userData.username, hasUnread: true, status: 'open' }, { merge: true });
         };
 
-        // الردود السريعة والرد الآلي الذكي
         window.sendQuickReply = async (type) => {
-            let msg = "";
-            let reply = "";
-            
-            if(type === 'recharge') {
-                msg = "أريد شحن حسابي";
-                reply = "نستقبل حاليا زين العراق و اسياسيل\nارسل رقم الكرت مع كمية و يوزر حسابك";
-            } else if (type === 'problem') {
-                msg = "لدي مشكلة";
-                reply = "يمكنك مراسلة الدعم و حل مشكلة";
-            }
+            let msg = ""; let reply = "";
+            if(type === 'recharge') { msg = "أريد شحن حسابي"; reply = "نستقبل حاليا زين العراق و اسياسيل\nارسل رقم الكرت مع كمية و يوزر حسابك بدون اي نص ثاني"; } 
+            else if (type === 'problem') { msg = "لدي مشكلة في طلب"; reply = "أهلاً بك، يرجى كتابة رقم الطلب وتوضيح المشكلة باختصار وسنقوم بحلها."; }
 
-            // 1. إرسال رسالة المستخدم
             await addDoc(collection(db, "chats", currentUser.uid, "messages"), { text: msg, sender: 'user', createdAt: serverTimestamp() });
-            await setDoc(doc(db, "chats", currentUser.uid), { lastMessage: msg, time: serverTimestamp(), userId: currentUser.uid, name: userData.name, username: userData.username, hasUnread: true }, { merge: true });
+            await setDoc(doc(db, "chats", currentUser.uid), { lastMessage: msg, time: serverTimestamp(), userId: currentUser.uid, name: userData.name, username: userData.username, hasUnread: true, status: 'open' }, { merge: true });
 
-            // 2. تفعيل الرد الآلي بعد ثانية واحدة بالضبط
             setTimeout(async () => {
                 await addDoc(collection(db, "chats", currentUser.uid, "messages"), { text: reply, sender: 'admin', createdAt: serverTimestamp() });
-                await setDoc(doc(db, "chats", currentUser.uid), { lastMessage: reply, time: serverTimestamp() }, { merge: true });
+                await setDoc(doc(db, "chats", currentUser.uid), { lastMessage: reply, time: serverTimestamp(), status: 'open' }, { merge: true });
             }, 1000);
         };
 
-        // تفعيل ميزة التطبيق PWA مع نظام التحديث التلقائي الإجباري (كاسر الكاش)
+        // تفعيل ميزة التطبيق PWA مع كاسر الكاش
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                const swUrl = './sw.js?v=' + new Date().getTime(); // خدعة الوقت لإجبار التحميل
+                const swUrl = './sw.js?v=' + new Date().getTime(); 
                 navigator.serviceWorker.register(swUrl).then(reg => {
                     reg.update();
                     reg.addEventListener('updatefound', () => {
                         const newWorker = reg.installing;
                         newWorker.addEventListener('statechange', () => {
                             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                window.toast("يوجد تحديث جديد للتطبيق، جاري التحديث...");
+                                window.toast("يوجد تحديث جديد، جاري التحديث...");
                                 setTimeout(() => window.location.reload(true), 1500);
                             }
                         });
