@@ -1,5 +1,5 @@
 // تم تحديث رقم1 الإصدار واسم الكاش ليتوافق مع "كايدو فولو" والتصميم الفخم (v4.0)
-const CACHE_NAME = 'kaido-cache-v4.0';
+const CACHE_NAME = 'kaido-cache-v5.0';
 const urlsToCache = [
     './',
     './index.html',
