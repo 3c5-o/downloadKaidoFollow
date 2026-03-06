@@ -191,7 +191,6 @@
             <div class="input-group"><label class="input-label">البريد الإلكتروني</label><input type="email" id="r-email" class="input-box" placeholder="البريد الإلكتروني"></div>
             <div class="input-group"><label class="input-label">كلمة المرور</label><input type="password" id="r-pass" class="input-box" placeholder="كلمة المرور"></div>
             <div class="input-group"><label class="input-label">كود الدعوة (اختياري)</label><input type="text" id="r-invite" class="input-box" placeholder="إذا دعاك صديق أدخل كوده هنا"></div>
-            
             <button onclick="window.doRegister()" class="btn btn-pro">إنشاء حساب <i class="fas fa-user-plus"></i></button>
             <button onclick="window.toggleAuth('login')" class="btn btn-outline" style="margin-top: 15px; border: none;">لدي حساب بالفعل</button>
         </div>
@@ -331,9 +330,23 @@
         <div id="noti-list" style="padding: 20px; padding-bottom: 100px;"></div>
     </div>
 
+    <div id="modal-subcats" class="full-modal">
+        <div class="header" style="border-bottom: 1px solid var(--border); padding: 25px 20px;">
+            <i class="fas fa-arrow-right" onclick="window.closeModal('modal-subcats')" style="font-size: 1.5rem; cursor: pointer;"></i>
+            <h3 id="subcat-title">...</h3>
+        </div>
+        <div style="padding: 15px 20px 0 20px;">
+            <div style="position: relative;">
+                <i class="fas fa-search" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-sec);"></i>
+                <input type="text" id="search-inner-cats" class="input-box" style="padding-right: 45px; margin-bottom: 0;" placeholder="ابحث في هذا القسم..." onkeyup="window.filterSubCats()">
+            </div>
+        </div>
+        <div id="subcats-list" style="padding: 20px; padding-bottom: 100px;"></div>
+    </div>
+
     <div id="modal-services" class="full-modal">
         <div class="header" style="border-bottom: 1px solid var(--border); padding: 25px 20px;"><i class="fas fa-arrow-right" onclick="window.closeModal('modal-services')" style="font-size: 1.5rem; cursor: pointer;"></i><h3 id="cat-title">...</h3></div>
-        <div style="padding: 15px 20px 0 20px;"><div style="position: relative;"><i class="fas fa-search" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-sec);"></i><input type="text" id="search-sub-services" class="input-box" style="padding-right: 45px; margin-bottom: 0;" placeholder="ابحث في هذا القسم..." onkeyup="window.filterSubServices()"></div></div>
+        <div style="padding: 15px 20px 0 20px;"><div style="position: relative;"><i class="fas fa-search" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-sec);"></i><input type="text" id="search-sub-services" class="input-box" style="padding-right: 45px; margin-bottom: 0;" placeholder="ابحث عن خدمة..." onkeyup="window.filterSubServices()"></div></div>
         <div id="srvs-list" style="padding: 20px; padding-bottom: 100px;"></div>
     </div>
 
@@ -386,6 +399,7 @@
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, updateDoc, query, where, orderBy, onSnapshot, serverTimestamp, increment } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
+        // إعدادات فايربيس الخاصة بك
         const app = initializeApp({
             apiKey: "AIzaSyDPNS3dO05la3CpArNwm2KLHWaznog2rS4",
             authDomain: "kaido-follow-508df.firebaseapp.com",
@@ -405,6 +419,7 @@
         let unsubscribeNoti = null;
         let unreadNotis = [];
         let autoSyncInterval = null;
+        window.allCategories = []; // مصفوفة لحفظ كل الأقسام بذكاء
 
         window.loader = (show) => document.getElementById('loader').style.display = show ? 'flex' : 'none';
         
@@ -442,11 +457,15 @@
 
         window.copyText = (text, successMsg) => { navigator.clipboard.writeText(text).then(() => window.toast(successMsg || "تم النسخ")).catch(() => window.toast("تعذر النسخ")); };
 
+        // دوال الفلترة والبحث السريع للأقسام والخدمات
         window.filterServices = () => {
             const queryText = document.getElementById('search-services').value.toLowerCase();
             document.querySelectorAll('#cats-list .cat-card').forEach(card => card.style.display = card.innerText.toLowerCase().includes(queryText) ? 'flex' : 'none');
         };
-
+        window.filterSubCats = () => {
+            const queryText = document.getElementById('search-inner-cats').value.toLowerCase();
+            document.querySelectorAll('#subcats-list .sub-cat-item').forEach(card => card.style.display = card.innerText.toLowerCase().includes(queryText) ? 'flex' : 'none');
+        };
         window.filterSubServices = () => {
             const queryText = document.getElementById('search-sub-services').value.toLowerCase();
             document.querySelectorAll('#srvs-list .service-card').forEach(card => card.style.display = card.innerText.toLowerCase().includes(queryText) ? 'block' : 'none');
@@ -457,10 +476,8 @@
         };
 
         const generateInviteCode = () => {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let code = 'KF-';
-            for (let i = 0; i < 6; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
-            return code;
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; let code = 'KF-';
+            for (let i = 0; i < 6; i++) code += chars.charAt(Math.floor(Math.random() * chars.length)); return code;
         };
 
         // --- الإشعارات ---
@@ -468,179 +485,140 @@
             if(unsubscribeNoti) unsubscribeNoti();
             unsubscribeNoti = onSnapshot(query(collection(db, "notifications"), orderBy("createdAt", "desc")), (snap) => {
                 const list = document.getElementById('noti-list'); const badge = document.getElementById('noti-badge');
-                if(snap.empty) {
-                    list.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-sec);"><i class="fas fa-bell-slash" style="font-size:2rem; margin-bottom:10px; opacity:0.5;"></i><br>لا توجد إشعارات حالياً</div>';
-                    badge.style.display = 'none'; return;
-                }
-
-                list.innerHTML = '';
-                let seenNotis = JSON.parse(localStorage.getItem('seen_notis') || '[]');
-                unreadNotis = [];
-                
+                if(snap.empty) { list.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-sec);"><i class="fas fa-bell-slash" style="font-size:2rem; margin-bottom:10px; opacity:0.5;"></i><br>لا توجد إشعارات حالياً</div>'; badge.style.display = 'none'; return; }
+                list.innerHTML = ''; let seenNotis = JSON.parse(localStorage.getItem('seen_notis') || '[]'); unreadNotis = [];
                 snap.forEach(d => {
-                    const n = d.data(); const id = d.id;
-                    if(!seenNotis.includes(id)) unreadNotis.push(id);
-                    
+                    const n = d.data(); const id = d.id; if(!seenNotis.includes(id)) unreadNotis.push(id);
                     const dateStr = n.createdAt ? new Date(n.createdAt.seconds * 1000).toLocaleDateString('ar-EG') : '';
                     const isNew = !seenNotis.includes(id) ? '<span style="width:8px; height:8px; background:var(--warning); border-radius:50%; box-shadow:0 0 5px var(--warning); display:inline-block; margin-right:5px;"></span>' : '';
-                    
-                    list.innerHTML += `
-                    <div class="card" style="padding:15px; margin-bottom:10px; border-right: 3px solid ${!seenNotis.includes(id) ? 'var(--warning)' : 'var(--primary)'}; border-radius: 12px;">
-                        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-                            <b style="color:var(--primary); font-size:0.95rem;">${isNew}<i class="fas fa-bullhorn" style="margin-left:5px;"></i> ${n.title}</b>
-                            <span style="font-size:0.75rem; color:var(--text-sec);">${dateStr}</span>
-                        </div>
-                        <p style="font-size:0.85rem; color:var(--text-main); line-height:1.5;">${n.message}</p>
-                    </div>`;
+                    list.innerHTML += `<div class="card" style="padding:15px; margin-bottom:10px; border-right: 3px solid ${!seenNotis.includes(id) ? 'var(--warning)' : 'var(--primary)'}; border-radius: 12px;"><div style="display:flex; justify-content:space-between; margin-bottom:8px;"><b style="color:var(--primary); font-size:0.95rem;">${isNew}<i class="fas fa-bullhorn" style="margin-left:5px;"></i> ${n.title}</b><span style="font-size:0.75rem; color:var(--text-sec);">${dateStr}</span></div><p style="font-size:0.85rem; color:var(--text-main); line-height:1.5;">${n.message}</p></div>`;
                 });
                 badge.style.display = unreadNotis.length > 0 ? 'block' : 'none';
             });
         };
 
         window.markNotisAsRead = () => {
-            if(unreadNotis.length === 0) return;
-            let seenNotis = JSON.parse(localStorage.getItem('seen_notis') || '[]');
-            unreadNotis.forEach(async id => {
-                seenNotis.push(id);
-                try { await updateDoc(doc(db, "notifications", id), { views: increment(1) }); } catch(e){}
-            });
-            localStorage.setItem('seen_notis', JSON.stringify(seenNotis));
-            unreadNotis = []; document.getElementById('noti-badge').style.display = 'none';
+            if(unreadNotis.length === 0) return; let seenNotis = JSON.parse(localStorage.getItem('seen_notis') || '[]');
+            unreadNotis.forEach(async id => { seenNotis.push(id); try { await updateDoc(doc(db, "notifications", id), { views: increment(1) }); } catch(e){} });
+            localStorage.setItem('seen_notis', JSON.stringify(seenNotis)); unreadNotis = []; document.getElementById('noti-badge').style.display = 'none';
         };
 
         // --- المصادقة والمستخدم ---
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                currentUser = user;
-                document.getElementById('pg-auth').classList.remove('open');
-                document.getElementById('app-wrap').style.display = 'block';
+                currentUser = user; document.getElementById('pg-auth').classList.remove('open'); document.getElementById('app-wrap').style.display = 'block';
 
                 onSnapshot(doc(db, "users", user.uid), async (docSnap) => {
                     if (docSnap.exists()) {
                         userData = docSnap.data();
-                        
                         if (!userData.inviteCode) {
                             const newInviteCode = generateInviteCode();
-                            try {
-                                await updateDoc(doc(db, "users", user.uid), { inviteCode: newInviteCode, inviteCount: 0, inviteEarnings: 0 });
-                                userData.inviteCode = newInviteCode; userData.inviteCount = 0; userData.inviteEarnings = 0;
-                            } catch(e) { console.error("Error generating code", e); }
+                            try { await updateDoc(doc(db, "users", user.uid), { inviteCode: newInviteCode, inviteCount: 0, inviteEarnings: 0 }); userData.inviteCode = newInviteCode; userData.inviteCount = 0; userData.inviteEarnings = 0; } catch(e) {}
                         }
-
-                        document.getElementById('u-name-top').innerText = userData.name.split(' ')[0];
-                        document.getElementById('p-display-name').innerText = userData.name;
-                        
+                        document.getElementById('u-name-top').innerText = userData.name.split(' ')[0]; document.getElementById('p-display-name').innerText = userData.name;
                         const balanceText = userData.balance.toFixed(4) + "$";
-                        document.getElementById('u-bal-main').innerText = balanceText;
-                        document.getElementById('ord-bal').innerText = balanceText;
-                        
-                        document.getElementById('p-username').value = "@" + (userData.username || "user");
-                        document.getElementById('p-email').value = userData.email;
+                        document.getElementById('u-bal-main').innerText = balanceText; document.getElementById('ord-bal').innerText = balanceText;
+                        document.getElementById('p-username').value = "@" + (userData.username || "user"); document.getElementById('p-email').value = userData.email;
                         if(!document.getElementById('p-name-edit').value) document.getElementById('p-name-edit').value = userData.name;
-
-                        document.getElementById('p-invite-code').innerText = userData.inviteCode || "...";
-                        document.getElementById('p-invite-count').innerText = userData.inviteCount || "0";
-                        document.getElementById('p-invite-earn').innerText = "$" + (userData.inviteEarnings || 0).toFixed(4);
+                        document.getElementById('p-invite-code').innerText = userData.inviteCode || "..."; document.getElementById('p-invite-count').innerText = userData.inviteCount || "0"; document.getElementById('p-invite-earn').innerText = "$" + (userData.inviteEarnings || 0).toFixed(4);
                     }
                 });
                 window.loadCategories(); window.listenOrders(); window.listenWallet(); window.listenNotifications();
                 
-                // تشغيل النبض التلقائي لتحديث الطلبات كل 30 ثانية
                 if(autoSyncInterval) clearInterval(autoSyncInterval);
-                autoSyncInterval = setInterval(() => { window.syncOrders(false); }, 30000);
+                autoSyncInterval = setInterval(() => { window.syncOrders(false); }, 30000); // تحديث الطلبات صامتاً كل 30 ثانية
             } else {
-                if(autoSyncInterval) clearInterval(autoSyncInterval);
-                document.getElementById('app-wrap').style.display = 'none';
-                document.getElementById('pg-auth').classList.add('open');
+                if(autoSyncInterval) clearInterval(autoSyncInterval); document.getElementById('app-wrap').style.display = 'none'; document.getElementById('pg-auth').classList.add('open');
             }
             window.loader(false);
         });
 
-        window.doLogin = async () => {
-            const e = document.getElementById('l-email').value.trim(); const p = document.getElementById('l-pass').value.trim();
-            if(!e || !p) return window.toast("يرجى إدخال البيانات");
-            window.loader(true); try { await signInWithEmailAndPassword(auth, e, p); } catch(err) { window.toast("بيانات الدخول غير صحيحة"); window.loader(false); }
-        };
-
+        window.doLogin = async () => { const e = document.getElementById('l-email').value.trim(); const p = document.getElementById('l-pass').value.trim(); if(!e || !p) return window.toast("يرجى إدخال البيانات"); window.loader(true); try { await signInWithEmailAndPassword(auth, e, p); } catch(err) { window.toast("بيانات الدخول غير صحيحة"); window.loader(false); } };
         window.doRegister = async () => {
-            const n = document.getElementById('r-name').value.trim(); const u = document.getElementById('r-user').value.trim();
-            const e = document.getElementById('r-email').value.trim(); const p = document.getElementById('r-pass').value.trim();
-            const inviteCodeInput = document.getElementById('r-invite').value.trim().toUpperCase();
-            
-            if(!n || !u || !e || !p) return window.toast("أكمل جميع الحقول الأساسية");
-            window.loader(true);
-            
+            const n = document.getElementById('r-name').value.trim(); const u = document.getElementById('r-user').value.trim(); const e = document.getElementById('r-email').value.trim(); const p = document.getElementById('r-pass').value.trim(); const inviteCodeInput = document.getElementById('r-invite').value.trim().toUpperCase();
+            if(!n || !u || !e || !p) return window.toast("أكمل جميع الحقول الأساسية"); window.loader(true);
             let inviterUid = null;
-            if (inviteCodeInput) {
-                try {
-                    const q = query(collection(db, "users"), where("inviteCode", "==", inviteCodeInput));
-                    const snap = await getDocs(q);
-                    if (!snap.empty) { inviterUid = snap.docs[0].id; } 
-                    else { window.loader(false); return window.toast("كود الدعوة غير صحيح، تأكد منه أو اتركه فارغاً"); }
-                } catch(err) { console.error(err); }
-            }
-
+            if (inviteCodeInput) { try { const q = query(collection(db, "users"), where("inviteCode", "==", inviteCodeInput)); const snap = await getDocs(q); if (!snap.empty) { inviterUid = snap.docs[0].id; } else { window.loader(false); return window.toast("كود الدعوة غير صحيح، تأكد منه أو اتركه فارغاً"); } } catch(err) { console.error(err); } }
             try {
-                const cred = await createUserWithEmailAndPassword(auth, e, p);
-                const myNewInviteCode = generateInviteCode();
-                
-                await setDoc(doc(db, "users", cred.user.uid), { 
-                    name: n, username: u, email: e, balance: 0, spent: 0, banned: false, 
-                    createdAt: serverTimestamp(), inviteCode: myNewInviteCode, invitedBy: inviterUid, inviteCount: 0, inviteEarnings: 0
-                });
-
+                const cred = await createUserWithEmailAndPassword(auth, e, p); const myNewInviteCode = generateInviteCode();
+                await setDoc(doc(db, "users", cred.user.uid), { name: n, username: u, email: e, balance: 0, spent: 0, banned: false, createdAt: serverTimestamp(), inviteCode: myNewInviteCode, invitedBy: inviterUid, inviteCount: 0, inviteEarnings: 0 });
                 if (inviterUid) { await updateDoc(doc(db, "users", inviterUid), { inviteCount: increment(1) }); }
                 await setDoc(doc(db, "chats", cred.user.uid), { lastMessage: "تم إنشاء الحساب بنجاح في كايدو فولو", time: serverTimestamp(), userId: cred.user.uid, name: n, username: u, status: 'open', hasUnread: false });
             } catch(err) { window.toast("حدث خطأ أثناء التسجيل. قد يكون البريد مستخدم."); window.loader(false); }
         };
-
         window.logout = async () => { window.loader(true); await signOut(auth); location.reload(); };
 
-        window.saveProfileName = async () => {
-            const newName = document.getElementById('p-name-edit').value.trim();
-            if(!newName || newName === userData.name) return;
-            window.loader(true); try { await updateDoc(doc(db, "users", currentUser.uid), { name: newName }); window.toast("تم تحديث الاسم"); } catch(e) { window.toast("خطأ في التحديث"); } window.loader(false);
-        };
+        window.saveProfileName = async () => { const newName = document.getElementById('p-name-edit').value.trim(); if(!newName || newName === userData.name) return; window.loader(true); try { await updateDoc(doc(db, "users", currentUser.uid), { name: newName }); window.toast("تم تحديث الاسم"); } catch(e) { window.toast("خطأ في التحديث"); } window.loader(false); };
+        window.changePass = async () => { const oldP = document.getElementById('p-old').value; const newP = document.getElementById('p-new').value; const confP = document.getElementById('p-new-conf').value; if(!oldP || !newP || !confP) return window.toast("أكمل حقول كلمة المرور"); if(newP !== confP) return window.toast("الكلمات غير متطابقة"); if(newP.length < 6) return window.toast("يجب أن تتكون من 6 أحرف على الأقل"); window.loader(true); try { const cred = EmailAuthProvider.credential(currentUser.email, oldP); await reauthenticateWithCredential(currentUser, cred); await updatePassword(currentUser, newP); window.toast("تم التحديث بنجاح"); document.getElementById('p-old').value=''; document.getElementById('p-new').value=''; document.getElementById('p-new-conf').value=''; window.toggleAccordion('acc-sec', 'icon-sec'); } catch(e) { window.toast("الكلمة الحالية غير صحيحة"); } window.loader(false); };
 
-        window.changePass = async () => {
-            const oldP = document.getElementById('p-old').value; const newP = document.getElementById('p-new').value; const confP = document.getElementById('p-new-conf').value;
-            if(!oldP || !newP || !confP) return window.toast("أكمل حقول كلمة المرور");
-            if(newP !== confP) return window.toast("الكلمات غير متطابقة");
-            if(newP.length < 6) return window.toast("يجب أن تتكون من 6 أحرف على الأقل");
-            window.loader(true);
-            try { const cred = EmailAuthProvider.credential(currentUser.email, oldP); await reauthenticateWithCredential(currentUser, cred); await updatePassword(currentUser, newP); window.toast("تم التحديث بنجاح"); document.getElementById('p-old').value=''; document.getElementById('p-new').value=''; document.getElementById('p-new-conf').value=''; window.toggleAccordion('acc-sec', 'icon-sec'); } 
-            catch(e) { window.toast("الكلمة الحالية غير صحيحة"); } window.loader(false);
-        };
-
-        // --- الأقسام والخدمات ---
+        // --- نظام المجلدات والأقسام المتداخلة (الجديد كلياً) ---
         window.loadCategories = async () => {
             const snap = await getDocs(collection(db, "categories"));
-            let cats = []; snap.forEach(d => { const c = d.data(); if(c.visible !== false) { c.id = d.id; cats.push(c); } });
-            cats.sort((a, b) => (a.seq || 0) - (b.seq || 0));
+            window.allCategories = []; // حفظ كل الأقسام محلياً لسرعة التصفح
+            snap.forEach(d => { const c = d.data(); if(c.visible !== false) { c.id = d.id; window.allCategories.push(c); } });
+            window.allCategories.sort((a, b) => (a.seq || 0) - (b.seq || 0));
             
             const list = document.getElementById('cats-list'); list.innerHTML = '';
-            cats.forEach(c => {
+            // الأقسام الرئيسية هي التي لا تمتلك أب (parentId فارغ)
+            const mainCats = window.allCategories.filter(c => !c.parentId || c.parentId === "");
+            
+            mainCats.forEach(c => {
                 const img = c.image || 'https://e.top4top.io/p_3675vatut1.jpg';
                 list.innerHTML += `
-                <div class="cat-card" onclick="window.openCategory('${c.id}', '${c.name.replace(/'/g, "\\'")}')">
+                <div class="cat-card" onclick="window.openCategoryLevel('${c.id}', '${c.name.replace(/'/g, "\\'")}')">
                     <div class="cat-content"><img src="${img}" class="cat-img" alt="${c.name}"><b style="font-size:1.1rem; color:var(--text-main);">${c.name}</b></div>
                     <i class="fas fa-chevron-left" style="color:var(--text-sec)"></i>
                 </div>`;
             });
         };
 
-        window.openCategory = async (id, name) => {
-            document.getElementById('cat-title').innerText = name; document.getElementById('search-sub-services').value = ''; 
+        // دالة الفحص الذكية (تحدد هل يفتح مجلد أم خدمات مباشرة)
+        window.openCategoryLevel = async (id, name) => {
+            // نبحث إذا كان هذا القسم لديه أبناء (أقسام فرعية)
+            const childCats = window.allCategories.filter(c => c.parentId === id);
+
+            if (childCats.length > 0) {
+                // إذا كان لديه أبناء، نفتح نافذة الأقسام الفرعية (المجلد)
+                document.getElementById('subcat-title').innerText = name;
+                document.getElementById('search-inner-cats').value = '';
+                window.openModal('modal-subcats');
+                
+                const list = document.getElementById('subcats-list');
+                list.innerHTML = '';
+                childCats.forEach(c => {
+                    const img = c.image || 'https://e.top4top.io/p_3675vatut1.jpg';
+                    list.innerHTML += `
+                    <div class="cat-card sub-cat-item" onclick="window.openServices('${c.id}', '${c.name.replace(/'/g, "\\'")}')">
+                        <div class="cat-content"><img src="${img}" class="cat-img" style="width:40px; height:40px; border-radius:10px;"><b style="font-size:1rem; color:var(--text-main);">${c.name}</b></div>
+                        <i class="fas fa-layer-group" style="color:var(--primary); opacity:0.7;"></i>
+                    </div>`;
+                });
+            } else {
+                // إذا لم يكن لديه أبناء، نفتح نافذة الخدمات الخاصة به مباشرة اختصاراً للوقت!
+                window.openServices(id, name);
+            }
+        };
+
+        // دالة جلب وعرض الخدمات النهائية
+        window.openServices = async (id, name) => {
+            document.getElementById('cat-title').innerText = name;
+            document.getElementById('search-sub-services').value = ''; 
             window.openModal('modal-services');
             
             const list = document.getElementById('srvs-list');
             list.innerHTML = '<div style="text-align:center; padding:30px;"><div class="spinner" style="margin:0 auto;"></div></div>';
             
+            // جلب الخدمات التي تتبع لـ ID هذا القسم
             const snap = await getDocs(query(collection(db, "services"), where("categoryId", "==", id)));
             let srvs = []; snap.forEach(d => { const s = d.data(); if(s.visible !== false) { s.id = d.id; srvs.push(s); } });
             srvs.sort((a, b) => (a.seq || 0) - (b.seq || 0));
             
             list.innerHTML = '';
+            if (srvs.length === 0) {
+                list.innerHTML = '<div style="text-align:center; color:var(--text-sec); padding:30px;">لا توجد خدمات في هذا القسم حالياً.</div>';
+                return;
+            }
+
             srvs.forEach((s, index) => {
                 s.displayId = index + 1; const objStr = encodeURIComponent(JSON.stringify(s));
                 list.innerHTML += `
@@ -660,7 +638,6 @@
             document.getElementById('ord-price').innerText = currentService.price + "$";
             document.getElementById('ord-min').innerText = currentService.min; document.getElementById('ord-max').innerText = currentService.max;
             document.getElementById('ord-desc').innerHTML = currentService.description ? currentService.description.replace(/\n/g, '<br>') : 'لا يوجد تفاصيل إضافية للخدمة حالياً.';
-            
             document.getElementById('ord-link').value = ''; document.getElementById('ord-qty').value = '';
             document.getElementById('ord-total').innerText = '0.0000$'; document.getElementById('ord-error').style.display = 'none';
             window.openModal('modal-order');
@@ -676,21 +653,16 @@
         };
 
         window.submitOrder = async () => {
-            if(userData.banned) return window.toast("حسابك محظور، يرجى مراجعة إدارة كايدو فولو");
-            
+            if(userData.banned) return window.toast("حسابك محظور، يرجى مراجعة الإدارة");
             const link = document.getElementById('ord-link').value.trim(); const qty = parseInt(document.getElementById('ord-qty').value);
             if(!link || !qty) return window.toast("يرجى إدخال الرابط والكمية");
             if(qty < currentService.min || qty > currentService.max) return window.toast(`الكمية المسموحة: ${currentService.min} إلى ${currentService.max}`);
-            
             const cost = parseFloat(((qty / 1000) * currentService.price).toFixed(4));
             if(userData.balance < cost) { document.getElementById('ord-error').style.display = 'block'; return window.toast("الرصيد غير كافٍ"); }
-
             window.loader(true);
             try {
                 await updateDoc(doc(db, "users", currentUser.uid), { balance: userData.balance - cost, spent: (userData.spent || 0) + cost });
-                const provDoc = await getDoc(doc(db, "providers", currentService.providerId));
-                if(!provDoc.exists()) throw new Error("المزود غير متاح");
-                
+                const provDoc = await getDoc(doc(db, "providers", currentService.providerId)); if(!provDoc.exists()) throw new Error("المزود غير متاح");
                 const prov = provDoc.data(); let apiUrl = prov.url.trim(); if(!apiUrl.startsWith('http')) apiUrl = 'https://' + apiUrl;
                 const proxyUrl = `https://corsproxy.io/?` + encodeURIComponent(`${apiUrl}?key=${prov.key}&action=add&service=${currentService.providerServiceId}&link=${link}&quantity=${qty}`);
                 const res = await fetch(proxyUrl); const apiData = await res.json();
@@ -701,7 +673,7 @@
                     qty: qty, link: link, price: cost, originalCost: currentService.originalCost || (cost * 0.7), providerOrderId: apiData.order,
                     status: 'Pending', remains: qty, start_count: 0, createdAt: serverTimestamp()
                 });
-                window.toast("تم إرسال الطلب بنجاح"); window.closeModal('modal-order'); window.closeModal('modal-services'); window.nav('orders');
+                window.toast("تم إرسال الطلب بنجاح"); window.closeModal('modal-order'); window.closeModal('modal-services'); window.closeModal('modal-subcats'); window.nav('orders');
             } catch(e) { await updateDoc(doc(db, "users", currentUser.uid), { balance: userData.balance }); window.toast("تعذر إرسال الطلب، تم استرجاع الرصيد."); console.error(e); }
             window.loader(false);
         };
@@ -719,30 +691,20 @@
             return st;
         };
 
-        // --- نظام الطلبات والمزامنة التلقائية ---
+        // --- سجل الطلبات والمزامنة التلقائية ---
         window.listenOrders = () => {
             const q = query(collection(db, "orders"), where("userId", "==", currentUser.uid));
             onSnapshot(q, (snap) => {
                 const list = document.getElementById('orders-list'); list.innerHTML = ''; activeOrders = [];
                 let pendingCount = 0; let completedCount = 0;
+                if(snap.empty) { list.innerHTML = '<div style="text-align:center; padding:50px; color:var(--text-sec); font-size:1.1rem;"><i class="fas fa-box-open" style="font-size:3rem; margin-bottom:15px; opacity:0.3;"></i><br>لا توجد طلبات.</div>'; document.getElementById('stat-pending').innerText = '0'; document.getElementById('stat-completed').innerText = '0'; return; }
 
-                if(snap.empty) {
-                    list.innerHTML = '<div style="text-align:center; padding:50px; color:var(--text-sec); font-size:1.1rem;"><i class="fas fa-box-open" style="font-size:3rem; margin-bottom:15px; opacity:0.3;"></i><br>لا توجد طلبات.</div>';
-                    document.getElementById('stat-pending').innerText = '0'; document.getElementById('stat-completed').innerText = '0'; return;
-                }
-
-                let docsArray = [];
-                snap.forEach(d => docsArray.push({ id: d.id, ...d.data() }));
-                docsArray.sort((a, b) => {
-                    const timeA = a.createdAt ? a.createdAt.seconds : 0;
-                    const timeB = b.createdAt ? b.createdAt.seconds : 0;
-                    return timeB - timeA;
-                });
+                let docsArray = []; snap.forEach(d => docsArray.push({ id: d.id, ...d.data() }));
+                docsArray.sort((a, b) => { const timeA = a.createdAt ? a.createdAt.seconds : 0; const timeB = b.createdAt ? b.createdAt.seconds : 0; return timeB - timeA; });
 
                 docsArray.forEach(o => {
                     o.dbId = o.id; activeOrders.push(o);
                     const statusStr = o.status.toLowerCase(); let badgeClass = 'status-wait';
-                    
                     if(statusStr.includes('complet')) { badgeClass = 'status-ok'; completedCount++; }
                     else if(statusStr.includes('cancel') || statusStr.includes('fail') || statusStr.includes('refund')) { badgeClass = 'status-fail'; }
                     else { badgeClass = 'status-info'; pendingCount++; }
@@ -755,9 +717,7 @@
                             <span class="badge ${badgeClass}">${getStatusArabic(o.status)}</span>
                         </div>
                         <b style="font-size:0.95rem; display:block; line-height:1.5; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${o.service}</b>
-                        <div style="margin-top: 10px; font-size: 0.8rem; color: var(--text-sec);">
-                            انقر لعرض التفاصيل الكاملة <i class="fas fa-chevron-left" style="font-size: 0.7rem; margin-right: 5px;"></i>
-                        </div>
+                        <div style="margin-top: 10px; font-size: 0.8rem; color: var(--text-sec);">انقر لعرض التفاصيل <i class="fas fa-chevron-left" style="font-size: 0.7rem; margin-right: 5px;"></i></div>
                     </div>`;
                 });
                 document.getElementById('stat-pending').innerText = pendingCount; document.getElementById('stat-completed').innerText = completedCount;
@@ -767,42 +727,23 @@
         window.showOrderDetails = (encodedOrder) => {
             const o = JSON.parse(decodeURIComponent(encodedOrder));
             const dateStr = o.createdAt ? new Date(o.createdAt.seconds * 1000).toLocaleString('ar-EG', { year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' }) : 'غير متوفر';
-            
-            document.getElementById('det-title-text').innerText = o.service;
-            document.getElementById('det-id').innerText = o.providerOrderId;
-            document.getElementById('det-date').innerText = dateStr;
-            document.getElementById('det-link').innerText = o.link;
-            document.getElementById('det-cost').innerText = "$" + parseFloat(o.price).toFixed(4);
-            
-            document.getElementById('det-qty').innerText = o.qty;
-            document.getElementById('det-start').innerText = o.start_count || "0";
-            document.getElementById('det-remains').innerText = o.remains || o.qty;
-            
+            document.getElementById('det-title-text').innerText = o.service; document.getElementById('det-id').innerText = o.providerOrderId; document.getElementById('det-date').innerText = dateStr; document.getElementById('det-link').innerText = o.link; document.getElementById('det-cost').innerText = "$" + parseFloat(o.price).toFixed(4);
+            document.getElementById('det-qty').innerText = o.qty; document.getElementById('det-start').innerText = o.start_count || "0"; document.getElementById('det-remains').innerText = o.remains || o.qty;
             document.getElementById('btn-reorder').setAttribute('onclick', `window.reorderService('${o.serviceId}')`);
             window.openModal('modal-order-details');
         };
 
         window.reorderService = async (serviceId) => {
             window.loader(true);
-            try {
-                const srvSnap = await getDoc(doc(db, "services", serviceId));
-                if(srvSnap.exists()) {
-                    const s = srvSnap.data();
-                    if(s.visible !== false) {
-                        s.id = srvSnap.id; s.displayId = "إعادة طلب";
-                        const encodedObj = encodeURIComponent(JSON.stringify(s));
-                        window.closeModal('modal-order-details');
-                        window.prepOrder(encodedObj);
-                    } else { window.toast("عذراً، هذه الخدمة تم إيقافها مؤقتاً."); }
-                } else { window.toast("عذراً، هذه الخدمة لم تعد متاحة."); }
-            } catch(e) { window.toast("حدث خطأ، يرجى المحاولة لاحقاً."); }
-            window.loader(false);
+            try { const srvSnap = await getDoc(doc(db, "services", serviceId));
+                if(srvSnap.exists()) { const s = srvSnap.data(); if(s.visible !== false) { s.id = srvSnap.id; s.displayId = "إعادة طلب"; const encodedObj = encodeURIComponent(JSON.stringify(s)); window.closeModal('modal-order-details'); window.prepOrder(encodedObj); } else { window.toast("عذراً، الخدمة متوقفة حالياً."); } } else { window.toast("عذراً، الخدمة لم تعد متاحة."); }
+            } catch(e) { window.toast("حدث خطأ، يرجى المحاولة."); } window.loader(false);
         };
 
         window.syncOrders = async (manual = false) => {
             const pending = activeOrders.filter(o => !['completed', 'canceled', 'fail', 'partial', 'refunded'].some(st => o.status.toLowerCase().includes(st)));
             if(pending.length === 0) { if(manual) window.toast("طلباتك محدثة بالكامل"); return; }
-            if(manual) window.toast("جاري تحديث حالات الطلبات...");
+            if(manual) window.toast("جاري تحديث الطلبات...");
 
             const groups = {}; 
             for(const order of pending) {
@@ -814,7 +755,6 @@
                     groups[key].orderIds.push(order.providerOrderId); groups[key].orderMap[order.providerOrderId] = order; 
                 } catch(e) {}
             }
-
             for(const key in groups) {
                 const group = groups[key]; let apiUrl = group.prov.url; if(!apiUrl.startsWith('http')) apiUrl = 'https://' + apiUrl;
                 const proxyUrl = `https://corsproxy.io/?` + encodeURIComponent(`${apiUrl}?key=${group.prov.key}&action=status&orders=${group.orderIds.join(',')}`);
@@ -826,125 +766,59 @@
                             await updateDoc(doc(db, "orders", localOrder.dbId), { status: info.status, remains: info.remains || localOrder.remains, start_count: info.start_count || localOrder.start_count });
                         }
                     }
-                } catch(e) { console.error("Sync Error", e); }
+                } catch(e) {}
             }
             if(manual) window.toast("تم التحديث بنجاح");
         };
 
-        // --- تحويل الأرباح للمحفظة ---
+        // --- نظام الدعوات والمحفظة ---
         window.transferEarnings = async () => {
-            if (!userData || userData.inviteEarnings < 5) {
-                return window.toast("يجب أن تصل أرباحك إلى 5.00$ على الأقل لتتمكن من تحويلها!");
-            }
-
+            if (!userData || userData.inviteEarnings < 5) return window.toast("يجب أن تصل أرباحك إلى 5.00$ على الأقل!");
             window.loader(true);
             try {
                 const amountToTransfer = userData.inviteEarnings;
-                // تصفير الأرباح وإضافة الرصيد للمحفظة
-                await updateDoc(doc(db, "users", currentUser.uid), {
-                    balance: increment(amountToTransfer),
-                    inviteEarnings: 0
-                });
-                
-                // تسجيل العملية في المحفظة
-                await addDoc(collection(db, "deposits"), {
-                    userId: currentUser.uid,
-                    amount: amountToTransfer,
-                    method: 'سحب أرباح الدعوات',
-                    date: serverTimestamp()
-                });
-
-                window.toast(`تم تحويل ${amountToTransfer.toFixed(2)}$ إلى رصيدك بنجاح!`);
-            } catch (e) {
-                window.toast("حدث خطأ أثناء محاولة التحويل، يرجى المحاولة لاحقاً.");
-                console.error(e);
-            }
-            window.loader(false);
+                await updateDoc(doc(db, "users", currentUser.uid), { balance: increment(amountToTransfer), inviteEarnings: 0 });
+                await addDoc(collection(db, "deposits"), { userId: currentUser.uid, amount: amountToTransfer, method: 'سحب أرباح الدعوات', date: serverTimestamp() });
+                window.toast(`تم تحويل ${amountToTransfer.toFixed(2)}$ إلى رصيدك!`);
+            } catch (e) { window.toast("حدث خطأ بالتحويل."); } window.loader(false);
         };
 
-        // --- المحفظة ونظام عمولة الدعوات الذكي ---
         window.redeemCoupon = async () => {
-            const code = document.getElementById('coupon-code').value.trim();
-            if(!code) return window.toast("أدخل الرمز أولاً");
-            
+            const code = document.getElementById('coupon-code').value.trim(); if(!code) return window.toast("أدخل الرمز أولاً");
             window.loader(true);
             try {
-                const q = query(collection(db, "coupons"), where("code", "==", code));
-                const snap = await getDocs(q);
-                if(snap.empty) throw new Error("الرمز غير صحيح أو غير موجود");
-                
+                const q = query(collection(db, "coupons"), where("code", "==", code)); const snap = await getDocs(q);
+                if(snap.empty) throw new Error("الرمز غير صحيح");
                 const couponDoc = snap.docs[0]; const coupon = couponDoc.data();
                 if(coupon.active === false) throw new Error("الكوبون غير فعال");
-                if(coupon.currentUses >= (coupon.maxUses || 1)) throw new Error("عذراً، الكوبون وصل للحد الأقصى");
-                
-                const usedBy = coupon.usedBy || [];
-                if(usedBy.includes(currentUser.uid)) throw new Error("لقد قمت باستخدام هذا الكوبون مسبقاً!");
+                if(coupon.currentUses >= (coupon.maxUses || 1)) throw new Error("الكوبون مستخدم بالكامل");
+                const usedBy = coupon.usedBy || []; if(usedBy.includes(currentUser.uid)) throw new Error("لقد استخدمت هذا الكوبون مسبقاً!");
 
-                // 1. تحديث الكوبون وإضافة الرصيد للمستخدم
-                usedBy.push(currentUser.uid);
-                await updateDoc(doc(db, "coupons", couponDoc.id), { currentUses: increment(1), usedBy: usedBy });
-                const couponAmount = parseFloat(coupon.value);
-                await updateDoc(doc(db, "users", currentUser.uid), { balance: userData.balance + couponAmount });
+                usedBy.push(currentUser.uid); await updateDoc(doc(db, "coupons", couponDoc.id), { currentUses: increment(1), usedBy: usedBy });
+                const couponAmount = parseFloat(coupon.value); await updateDoc(doc(db, "users", currentUser.uid), { balance: userData.balance + couponAmount });
                 await addDoc(collection(db, "deposits"), { userId: currentUser.uid, amount: couponAmount, method: 'كوبون شحن', code: code, date: serverTimestamp() });
 
-                // 2. إعطاء العمولة ديناميكياً للشخص الذي دعاه
                 if (userData.invitedBy) {
                     try {
-                        let commRate = 0.05; // 5% الافتراضي
-                        try {
-                            const settingsSnap = await getDoc(doc(db, "settings", "general"));
-                            if (settingsSnap.exists() && settingsSnap.data().affiliatePercent) {
-                                commRate = parseFloat(settingsSnap.data().affiliatePercent) / 100;
-                            }
-                        } catch(se){} // في حال عدم وجود الإعداد يستمر على 5%
-
+                        let commRate = 0.05; try { const settingsSnap = await getDoc(doc(db, "settings", "general")); if (settingsSnap.exists() && settingsSnap.data().affiliatePercent) { commRate = parseFloat(settingsSnap.data().affiliatePercent) / 100; } } catch(se){}
                         const commission = couponAmount * commRate;
-                        await updateDoc(doc(db, "users", userData.invitedBy), { 
-                            inviteEarnings: increment(commission) 
-                        });
-                        
-                        // تسجيل العملية للداعي كأرباح دعوات غير محولة
-                        await addDoc(collection(db, "deposits"), { 
-                            userId: userData.invitedBy, 
-                            amount: commission, 
-                            method: `أرباح دعوة صديق (${commRate * 100}%)`, 
-                            date: serverTimestamp() 
-                        });
-                    } catch(affiliateErr) { console.error("Affiliate reward failed:", affiliateErr); }
+                        await updateDoc(doc(db, "users", userData.invitedBy), { inviteEarnings: increment(commission) });
+                        await addDoc(collection(db, "deposits"), { userId: userData.invitedBy, amount: commission, method: `أرباح دعوة صديق (${commRate * 100}%)`, date: serverTimestamp() });
+                    } catch(affiliateErr) {}
                 }
-
-                window.toast(`مبروك! تم شحن ${coupon.value}$ في كايدو فولو بنجاح`);
-                document.getElementById('coupon-code').value = '';
-            } catch(e) { window.toast(e.message); }
-            window.loader(false);
+                window.toast(`تم شحن ${coupon.value}$ بنجاح`); document.getElementById('coupon-code').value = '';
+            } catch(e) { window.toast(e.message); } window.loader(false);
         };
 
         window.listenWallet = () => {
             onSnapshot(query(collection(db, "deposits"), where("userId", "==", currentUser.uid)), (snap) => {
                 const list = document.getElementById('wallet-history'); list.innerHTML = '';
-                
-                let depsArray = [];
-                snap.forEach(d => depsArray.push(d.data()));
-                depsArray.sort((a, b) => {
-                    const timeA = a.date ? a.date.seconds : 0;
-                    const timeB = b.date ? b.date.seconds : 0;
-                    return timeB - timeA;
-                });
-
+                let depsArray = []; snap.forEach(d => depsArray.push(d.data()));
+                depsArray.sort((a, b) => { const timeA = a.date ? a.date.seconds : 0; const timeB = b.date ? b.date.seconds : 0; return timeB - timeA; });
                 depsArray.forEach(dep => {
                     const isComm = dep.method.includes('أرباح دعوة') || dep.method.includes('سحب أرباح');
-                    const iconColor = isComm ? 'var(--warning)' : 'var(--success)';
-                    const bgColor = isComm ? 'rgba(245, 158, 11, 0.1)' : 'rgba(16, 185, 129, 0.1)';
-                    const iconClass = isComm ? 'fa-gift' : 'fa-arrow-down';
-
-                    list.innerHTML += `
-                    <div class="card" style="padding:15px; display:flex; justify-content:space-between; align-items:center; border-radius:14px;">
-                        <div style="display:flex; align-items:center; gap:12px;">
-                            <div style="background:${bgColor}; width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; color:${iconColor};"><i class="fas ${iconClass}"></i></div>
-                            <div><span style="display:block; font-weight:bold; font-size:0.95rem;">عملية إيداع</span><span style="font-size:0.75rem; color:var(--text-sec);">${dep.method}</span></div>
-                        </div>
-                        <b style="color:${iconColor}; font-size:1.15rem;">+${dep.amount.toFixed(4)}$</b>
-                    </div>`;
+                    const iconColor = isComm ? 'var(--warning)' : 'var(--success)'; const bgColor = isComm ? 'rgba(245, 158, 11, 0.1)' : 'rgba(16, 185, 129, 0.1)'; const iconClass = isComm ? 'fa-gift' : 'fa-arrow-down';
+                    list.innerHTML += `<div class="card" style="padding:15px; display:flex; justify-content:space-between; align-items:center; border-radius:14px;"><div style="display:flex; align-items:center; gap:12px;"><div style="background:${bgColor}; width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; color:${iconColor};"><i class="fas ${iconClass}"></i></div><div><span style="display:block; font-weight:bold; font-size:0.95rem;">عملية إيداع</span><span style="font-size:0.75rem; color:var(--text-sec);">${dep.method}</span></div></div><b style="color:${iconColor}; font-size:1.15rem;">+${dep.amount.toFixed(4)}$</b></div>`;
                 });
             });
         };
@@ -955,67 +829,21 @@
             onSnapshot(doc(db, "chats", currentUser.uid), (docSnap) => {
                 if(docSnap.exists()) {
                     const status = docSnap.data().status;
-                    if(status === 'closed') {
-                        document.getElementById('ticket-closed-msg').style.display = 'block';
-                        document.getElementById('chat-input').disabled = true; document.getElementById('chat-btn').disabled = true; document.getElementById('qr-wrap').style.display = 'none';
-                    } else {
-                        document.getElementById('ticket-closed-msg').style.display = 'none';
-                        document.getElementById('chat-input').disabled = false; document.getElementById('chat-btn').disabled = false; document.getElementById('qr-wrap').style.display = 'flex';
-                    }
+                    if(status === 'closed') { document.getElementById('ticket-closed-msg').style.display = 'block'; document.getElementById('chat-input').disabled = true; document.getElementById('chat-btn').disabled = true; document.getElementById('qr-wrap').style.display = 'none'; } 
+                    else { document.getElementById('ticket-closed-msg').style.display = 'none'; document.getElementById('chat-input').disabled = false; document.getElementById('chat-btn').disabled = false; document.getElementById('qr-wrap').style.display = 'flex'; }
                 }
             });
-
             unsubscribeChat = onSnapshot(query(collection(db, "chats", currentUser.uid, "messages"), orderBy("createdAt", "asc")), (snap) => {
                 const feed = document.getElementById('chat-feed'); feed.innerHTML = '';
                 if(snap.empty) { feed.innerHTML = '<div style="text-align:center; color:var(--text-sec); margin-top:60px;"><i class="fas fa-headset" style="font-size:3.5rem; opacity:0.2; margin-bottom:15px;"></i><br>أهلاً بك في دعم كايدو فولو</div>'; return; }
-
-                snap.forEach(d => {
-                    const m = d.data(); const isMe = m.sender === 'user';
-                    const time = m.createdAt ? new Date(m.createdAt.seconds * 1000).toLocaleTimeString('ar-EG', {hour: '2-digit', minute:'2-digit'}) : '';
-                    feed.innerHTML += `<div style="display:flex; flex-direction:column; align-items: ${isMe ? 'flex-end' : 'flex-start'}; margin-bottom: 5px;"><div class="msg ${isMe ? 'msg-me' : 'msg-admin'}">${m.text}</div><span style="font-size:0.65rem; color:var(--text-sec); margin-top:4px; padding:0 5px;">${time}</span></div>`;
-                });
+                snap.forEach(d => { const m = d.data(); const isMe = m.sender === 'user'; const time = m.createdAt ? new Date(m.createdAt.seconds * 1000).toLocaleTimeString('ar-EG', {hour: '2-digit', minute:'2-digit'}) : ''; feed.innerHTML += `<div style="display:flex; flex-direction:column; align-items: ${isMe ? 'flex-end' : 'flex-start'}; margin-bottom: 5px;"><div class="msg ${isMe ? 'msg-me' : 'msg-admin'}">${m.text}</div><span style="font-size:0.65rem; color:var(--text-sec); margin-top:4px; padding:0 5px;">${time}</span></div>`; });
                 feed.scrollTop = feed.scrollHeight;
             });
         };
+        window.sendMsg = async () => { const input = document.getElementById('chat-input'); const txt = input.value.trim(); if(!txt) return; input.value = ''; await addDoc(collection(db, "chats", currentUser.uid, "messages"), { text: txt, sender: 'user', createdAt: serverTimestamp() }); await setDoc(doc(db, "chats", currentUser.uid), { lastMessage: txt, time: serverTimestamp(), userId: currentUser.uid, name: userData.name, username: userData.username, hasUnread: true, status: 'open' }, { merge: true }); };
+        window.sendQuickReply = async (type) => { let msg = ""; let reply = ""; if(type === 'recharge') { msg = "أريد شحن حسابي"; reply = "أهلاً بك في كايدو فولو. نستقبل حاليا زين العراق و اسياسيل\nارسل رقم الكرت مع كمية و يوزر حسابك بدون اي نص ثاني"; } else if (type === 'problem') { msg = "لدي مشكلة في طلب"; reply = "أهلاً بك، يرجى كتابة رقم الطلب وتوضيح المشكلة باختصار وسنقوم بحلها."; } await addDoc(collection(db, "chats", currentUser.uid, "messages"), { text: msg, sender: 'user', createdAt: serverTimestamp() }); await setDoc(doc(db, "chats", currentUser.uid), { lastMessage: msg, time: serverTimestamp(), userId: currentUser.uid, name: userData.name, username: userData.username, hasUnread: true, status: 'open' }, { merge: true }); setTimeout(async () => { await addDoc(collection(db, "chats", currentUser.uid, "messages"), { text: reply, sender: 'admin', createdAt: serverTimestamp() }); await setDoc(doc(db, "chats", currentUser.uid), { lastMessage: reply, time: serverTimestamp(), status: 'open' }, { merge: true }); }, 1000); };
 
-        window.sendMsg = async () => {
-            const input = document.getElementById('chat-input'); const txt = input.value.trim(); if(!txt) return;
-            input.value = '';
-            await addDoc(collection(db, "chats", currentUser.uid, "messages"), { text: txt, sender: 'user', createdAt: serverTimestamp() });
-            await setDoc(doc(db, "chats", currentUser.uid), { lastMessage: txt, time: serverTimestamp(), userId: currentUser.uid, name: userData.name, username: userData.username, hasUnread: true, status: 'open' }, { merge: true });
-        };
-
-        window.sendQuickReply = async (type) => {
-            let msg = ""; let reply = "";
-            if(type === 'recharge') { msg = "أريد شحن حسابي"; reply = "أهلاً بك في كايدو فولو. نستقبل حاليا زين العراق و اسياسيل\nارسل رقم الكرت مع كمية و يوزر حسابك بدون اي نص ثاني"; } 
-            else if (type === 'problem') { msg = "لدي مشكلة في طلب"; reply = "أهلاً بك، يرجى كتابة رقم الطلب وتوضيح المشكلة باختصار وسنقوم بحلها."; }
-
-            await addDoc(collection(db, "chats", currentUser.uid, "messages"), { text: msg, sender: 'user', createdAt: serverTimestamp() });
-            await setDoc(doc(db, "chats", currentUser.uid), { lastMessage: msg, time: serverTimestamp(), userId: currentUser.uid, name: userData.name, username: userData.username, hasUnread: true, status: 'open' }, { merge: true });
-
-            setTimeout(async () => {
-                await addDoc(collection(db, "chats", currentUser.uid, "messages"), { text: reply, sender: 'admin', createdAt: serverTimestamp() });
-                await setDoc(doc(db, "chats", currentUser.uid), { lastMessage: reply, time: serverTimestamp(), status: 'open' }, { merge: true });
-            }, 1000);
-        };
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                const swUrl = './sw.js?v=' + new Date().getTime(); 
-                navigator.serviceWorker.register(swUrl).then(reg => {
-                    reg.update();
-                    reg.addEventListener('updatefound', () => {
-                        const newWorker = reg.installing;
-                        newWorker.addEventListener('statechange', () => {
-                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                window.toast("يوجد تحديث جديد، جاري التحديث...");
-                                setTimeout(() => window.location.reload(true), 1500);
-                            }
-                        });
-                    });
-                }).catch(err => console.log('SW Error:', err));
-            });
-        }
+        if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js?v=' + new Date().getTime()).then(reg => { reg.update(); reg.addEventListener('updatefound', () => { const newWorker = reg.installing; newWorker.addEventListener('statechange', () => { if (newWorker.state === 'installed' && navigator.serviceWorker.controller) { window.toast("يوجد تحديث جديد..."); setTimeout(() => window.location.reload(true), 1500); } }); }); }); }); }
     </script>
 </body>
 </html>
