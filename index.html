@@ -27,7 +27,7 @@
             --glow: rgba(139, 92, 246, 0.5);
             --success: #10b981; 
             --danger: #f43f5e; 
-            --warning: #f59e0b; /* اللون الذهبي */
+            --warning: #f59e0b;
             --info: #3b82f6;
         }
 
@@ -69,7 +69,8 @@
         .dash-greeting { display: flex; flex-direction: column; }
         .dash-greeting span { color: var(--text-sec); font-size: 0.9rem; display: flex; align-items: center; gap: 5px; }
         .dash-greeting h2 { font-weight: 900; font-size: 1.6rem; color: var(--text-main); }
-        .dash-noti-btn { width: 45px; height: 45px; border-radius: 14px; background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--primary); cursor: pointer; position: relative; }
+        .dash-noti-btn { width: 45px; height: 45px; border-radius: 14px; background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--primary); cursor: pointer; position: relative; transition: 0.2s; }
+        .dash-noti-btn:active { transform: scale(0.9); }
         .noti-dot { position: absolute; top: 8px; right: 10px; width: 10px; height: 10px; background: var(--danger); border-radius: 50%; display: none; }
 
         .dash-main-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); backdrop-filter: blur(20px); position: relative; overflow: hidden; }
@@ -145,7 +146,6 @@
         @keyframes spin { to { transform: rotate(360deg); } }
         #toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--text-main); color: var(--bg-main); padding: 12px 24px; border-radius: 50px; font-weight: bold; z-index: 10000; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
-        /* --- تصميم تفاصيل الطلب الفخم (Dark & Gold) --- */
         .det-header-icon { font-size: 1.5rem; color: var(--info); margin-left: 10px; }
         .det-title { font-size: 1.1rem; font-weight: 800; color: var(--text-main); margin-bottom: 25px; display: flex; align-items: center; }
         .det-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
@@ -154,7 +154,7 @@
         .det-val-link { color: var(--warning); max-width: 180px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; direction: ltr; }
         .btn-reorder { width: 100%; background: transparent; border: 1px solid rgba(245, 158, 11, 0.4); color: var(--warning); padding: 15px; border-radius: 14px; font-weight: bold; font-size: 1rem; margin-top: 25px; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; transition: 0.2s; }
         .btn-reorder:active { transform: scale(0.97); background: rgba(245, 158, 11, 0.1); }
-        .det-section-title { font-size: 1.2rem; font-weight: 900; color: var(--text-main); margin: 30px 0 15px 0; font-family: 'Arial', sans-serif; letter-spacing: 1px; } /* لتبدو مثل Details */
+        .det-section-title { font-size: 1.2rem; font-weight: 900; color: var(--text-main); margin: 30px 0 15px 0; font-family: 'Arial', sans-serif; letter-spacing: 1px; }
 
         .order-card-compact { padding: 16px; border-radius: 16px; cursor: pointer; border: 1px solid transparent; transition: 0.2s; }
         .order-card-compact:hover { border-color: var(--border); background: rgba(255,255,255,0.02); }
@@ -190,6 +190,8 @@
             <div class="input-group"><label class="input-label">اسم المستخدم</label><input type="text" id="r-user" class="input-box" placeholder="اسم المستخدم (يوزر)"></div>
             <div class="input-group"><label class="input-label">البريد الإلكتروني</label><input type="email" id="r-email" class="input-box" placeholder="البريد الإلكتروني"></div>
             <div class="input-group"><label class="input-label">كلمة المرور</label><input type="password" id="r-pass" class="input-box" placeholder="كلمة المرور"></div>
+            <div class="input-group"><label class="input-label">كود الدعوة (اختياري)</label><input type="text" id="r-invite" class="input-box" placeholder="إذا دعاك صديق أدخل كوده هنا"></div>
+            
             <button onclick="window.doRegister()" class="btn btn-pro">إنشاء حساب <i class="fas fa-user-plus"></i></button>
             <button onclick="window.toggleAuth('login')" class="btn btn-outline" style="margin-top: 15px; border: none;">لدي حساب بالفعل</button>
         </div>
@@ -280,10 +282,31 @@
                 <h2 id="p-display-name">...</h2>
                 <span class="badge status-ok" style="margin-top: 10px; display: inline-block;">حساب نشط</span>
             </div>
+
+            <div class="accordion-header" onclick="window.toggleAccordion('acc-affiliate', 'icon-aff')">
+                <div class="accordion-title"><i class="fas fa-handshake" style="color: var(--success);"></i> اربح معنا (نظام الدعوات)</div>
+                <i class="fas fa-chevron-down accordion-icon" id="icon-aff"></i>
+            </div>
+            <div class="accordion-content" id="acc-affiliate">
+                <div class="accordion-inner" style="text-align: center;">
+                    <p style="color: var(--text-sec); font-size: 0.85rem; margin-bottom: 10px;">شارك كودك مع أصدقائك واربح عمولة من كل شحن يقومون به!</p>
+                    <div style="background: rgba(139, 92, 246, 0.1); border: 1px dashed var(--primary); padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: center; align-items: center; gap: 15px;">
+                        <b style="font-size: 1.3rem; letter-spacing: 2px; color: var(--primary);" id="p-invite-code">...</b>
+                        <i class="far fa-copy copy-icon" style="font-size: 1.2rem; margin: 0; color: var(--text-main);" onclick="window.copyText(document.getElementById('p-invite-code').innerText, 'تم نسخ كود الدعوة بنجاح')"></i>
+                    </div>
+                    <div style="display: flex; justify-content: space-around; background: var(--bg-card); padding: 12px; border-radius: 12px; border: 1px solid var(--border);">
+                        <div><span style="font-size: 0.8rem; color: var(--text-sec);">عدد الدعوات</span><br><b id="p-invite-count" style="color: var(--text-main); font-size: 1.1rem;">0</b></div>
+                        <div><span style="font-size: 0.8rem; color: var(--text-sec);">أرباحك الكلية</span><br><b id="p-invite-earn" style="color: var(--success); font-size: 1.1rem;">$0.00</b></div>
+                    </div>
+                </div>
+            </div>
+
             <div class="accordion-header" onclick="window.toggleAccordion('acc-info', 'icon-info')"><div class="accordion-title"><i class="fas fa-id-card" style="color: var(--primary);"></i> معلومات الحساب</div><i class="fas fa-chevron-down accordion-icon" id="icon-info"></i></div>
             <div class="accordion-content" id="acc-info"><div class="accordion-inner"><div class="input-group"><label class="input-label">اسم المستخدم</label><input type="text" id="p-username" class="input-box" readonly></div><div class="input-group"><label class="input-label">البريد الإلكتروني</label><input type="text" id="p-email" class="input-box" readonly></div><div class="input-group"><label class="input-label">الاسم الظاهر</label><input type="text" id="p-name-edit" class="input-box"></div><button onclick="window.saveProfileName()" class="btn btn-pro">حفظ الاسم</button></div></div>
+            
             <div class="accordion-header" onclick="window.toggleAccordion('acc-sec', 'icon-sec')"><div class="accordion-title"><i class="fas fa-shield-alt" style="color: var(--warning);"></i> إعدادات الأمان</div><i class="fas fa-chevron-down accordion-icon" id="icon-sec"></i></div>
             <div class="accordion-content" id="acc-sec"><div class="accordion-inner"><div class="input-group"><input type="password" id="p-old" class="input-box" placeholder="كلمة المرور الحالية"></div><div class="input-group"><input type="password" id="p-new" class="input-box" placeholder="الجديدة"></div><div class="input-group"><input type="password" id="p-new-conf" class="input-box" placeholder="تأكيد الجديدة"></div><button onclick="window.changePass()" class="btn btn-outline" style="border-color: var(--warning); color: var(--warning);">تحديث السر</button></div></div>
+            
             <div class="card" style="text-align: center; padding: 30px 20px; margin-top: 25px;">
                 <img src="https://e.top4top.io/p_3675vatut1.jpg" style="width: 55px; border-radius: 18px; margin-bottom: 12px; opacity: 0.9;">
                 <h3 style="font-weight: 900; letter-spacing: 1px;">كايدو فولو</h3>
@@ -343,45 +366,18 @@
     </div>
 
     <div id="modal-order-details" class="full-modal">
-        <div class="header" style="padding: 25px 20px; border-bottom: 1px solid var(--border);">
-            <i class="fas fa-arrow-right" onclick="window.closeModal('modal-order-details')" style="font-size: 1.5rem; cursor: pointer;"></i>
-        </div>
+        <div class="header" style="padding: 25px 20px; border-bottom: 1px solid var(--border);"><i class="fas fa-arrow-right" onclick="window.closeModal('modal-order-details')" style="font-size: 1.5rem; cursor: pointer;"></i></div>
         <div style="padding: 25px 20px; padding-bottom: 100px;">
             <div class="det-title"><i class="fas fa-fingerprint det-header-icon"></i> <span id="det-title-text" style="line-height: 1.5;">...</span></div>
-            
-            <div class="det-row">
-                <span class="det-label">رقم الطلب</span>
-                <span class="det-val"><i class="far fa-copy copy-icon" onclick="window.copyText(document.getElementById('det-id').innerText, 'تم نسخ رقم الطلب')"></i> <span id="det-id">000</span></span>
-            </div>
-            <div class="det-row">
-                <span class="det-label">التاريخ</span>
-                <span class="det-val" id="det-date" style="font-family: 'Cairo', sans-serif;">...</span>
-            </div>
-            <div class="det-row">
-                <span class="det-label">الرابط</span>
-                <span class="det-val"><span id="det-link" class="det-val-link">...</span></span>
-            </div>
-            <div class="det-row">
-                <span class="det-label">تكلفة الطلب</span>
-                <span class="det-val" id="det-cost" style="font-size: 1.2rem;">$0.00</span>
-            </div>
-
+            <div class="det-row"><span class="det-label">رقم الطلب</span><span class="det-val"><i class="far fa-copy copy-icon" onclick="window.copyText(document.getElementById('det-id').innerText, 'تم نسخ رقم الطلب')"></i> <span id="det-id">000</span></span></div>
+            <div class="det-row"><span class="det-label">التاريخ</span><span class="det-val" id="det-date" style="font-family: 'Cairo', sans-serif;">...</span></div>
+            <div class="det-row"><span class="det-label">الرابط</span><span class="det-val"><span id="det-link" class="det-val-link">...</span></span></div>
+            <div class="det-row"><span class="det-label">تكلفة الطلب</span><span class="det-val" id="det-cost" style="font-size: 1.2rem;">$0.00</span></div>
             <button class="btn-reorder" id="btn-reorder">اطلب مجدداً <i class="fas fa-redo" style="font-size: 0.9rem;"></i></button>
-
             <div class="det-section-title">Details</div>
-            
-            <div class="det-row">
-                <span class="det-label">مقدار</span>
-                <span class="det-val"><span id="det-qty">0</span> <i class="fas fa-fire" style="color: #f97316; margin-right: 5px;"></i></span>
-            </div>
-            <div class="det-row">
-                <span class="det-label">أبدء</span>
-                <span class="det-val" id="det-start">0</span>
-            </div>
-            <div class="det-row" style="border: none;">
-                <span class="det-label">المتبقي</span>
-                <span class="det-val" id="det-remains" style="color: var(--primary);">0</span>
-            </div>
+            <div class="det-row"><span class="det-label">مقدار</span><span class="det-val"><span id="det-qty">0</span> <i class="fas fa-fire" style="color: #f97316; margin-right: 5px;"></i></span></div>
+            <div class="det-row"><span class="det-label">أبدء</span><span class="det-val" id="det-start">0</span></div>
+            <div class="det-row" style="border: none;"><span class="det-label">المتبقي</span><span class="det-val" id="det-remains" style="color: var(--primary);">0</span></div>
         </div>
     </div><script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
@@ -442,7 +438,6 @@
         };
 
         window.copyText = (text, successMsg) => { navigator.clipboard.writeText(text).then(() => window.toast(successMsg || "تم النسخ")).catch(() => window.toast("تعذر النسخ")); };
-        window.copyOrderId = (id) => { window.copyText(id, "تم نسخ رقم الطلب"); };
 
         window.filterServices = () => {
             const queryText = document.getElementById('search-services').value.toLowerCase();
@@ -456,6 +451,14 @@
 
         window.onload = () => {
             setTimeout(() => { const splash = document.getElementById('splash-screen'); if(splash) { splash.style.opacity = '0'; setTimeout(() => splash.style.display = 'none', 600); } }, 2500);
+        };
+
+        // --- دالة توليد كود الدعوة ---
+        const generateInviteCode = () => {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = 'KF-';
+            for (let i = 0; i < 6; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
+            return code;
         };
 
         // --- الإشعارات ---
@@ -503,16 +506,26 @@
             unreadNotis = []; document.getElementById('noti-badge').style.display = 'none';
         };
 
-        // --- المصادقة ---
+        // --- المصادقة والمستخدم (مع التوليد التلقائي لأكواد الدعوة) ---
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
                 document.getElementById('pg-auth').classList.remove('open');
                 document.getElementById('app-wrap').style.display = 'block';
 
-                onSnapshot(doc(db, "users", user.uid), (docSnap) => {
+                onSnapshot(doc(db, "users", user.uid), async (docSnap) => {
                     if (docSnap.exists()) {
                         userData = docSnap.data();
+                        
+                        // التوليد التلقائي للكود إذا كان الحساب قديماً ولا يملك كود دعوة
+                        if (!userData.inviteCode) {
+                            const newInviteCode = generateInviteCode();
+                            try {
+                                await updateDoc(doc(db, "users", user.uid), { inviteCode: newInviteCode, inviteCount: 0, inviteEarnings: 0 });
+                                userData.inviteCode = newInviteCode; userData.inviteCount = 0; userData.inviteEarnings = 0;
+                            } catch(e) { console.error("Error generating code", e); }
+                        }
+
                         document.getElementById('u-name-top').innerText = userData.name.split(' ')[0];
                         document.getElementById('p-display-name').innerText = userData.name;
                         
@@ -523,6 +536,11 @@
                         document.getElementById('p-username').value = "@" + (userData.username || "user");
                         document.getElementById('p-email').value = userData.email;
                         if(!document.getElementById('p-name-edit').value) document.getElementById('p-name-edit').value = userData.name;
+
+                        // تحديث واجهة الدعوات
+                        document.getElementById('p-invite-code').innerText = userData.inviteCode || "...";
+                        document.getElementById('p-invite-count').innerText = userData.inviteCount || "0";
+                        document.getElementById('p-invite-earn').innerText = "$" + (userData.inviteEarnings || 0).toFixed(4);
                     }
                 });
                 window.loadCategories(); window.listenOrders(); window.listenWallet(); window.listenNotifications();
@@ -542,13 +560,46 @@
         window.doRegister = async () => {
             const n = document.getElementById('r-name').value.trim(); const u = document.getElementById('r-user').value.trim();
             const e = document.getElementById('r-email').value.trim(); const p = document.getElementById('r-pass').value.trim();
-            if(!n || !u || !e || !p) return window.toast("أكمل جميع الحقول");
+            const inviteCodeInput = document.getElementById('r-invite').value.trim().toUpperCase();
+            
+            if(!n || !u || !e || !p) return window.toast("أكمل جميع الحقول الأساسية");
             window.loader(true);
+            
+            let inviterUid = null;
+            // فحص كود الدعوة إذا تم إدخاله
+            if (inviteCodeInput) {
+                try {
+                    const q = query(collection(db, "users"), where("inviteCode", "==", inviteCodeInput));
+                    const snap = await getDocs(q);
+                    if (!snap.empty) {
+                        inviterUid = snap.docs[0].id; // جلب آيدي الداعي
+                    } else {
+                        window.loader(false);
+                        return window.toast("كود الدعوة غير صحيح، تأكد منه أو اتركه فارغاً");
+                    }
+                } catch(err) { console.error(err); }
+            }
+
             try {
                 const cred = await createUserWithEmailAndPassword(auth, e, p);
-                await setDoc(doc(db, "users", cred.user.uid), { name: n, username: u, email: e, balance: 0, spent: 0, banned: false, createdAt: serverTimestamp() });
+                const myNewInviteCode = generateInviteCode();
+                
+                await setDoc(doc(db, "users", cred.user.uid), { 
+                    name: n, username: u, email: e, balance: 0, spent: 0, banned: false, 
+                    createdAt: serverTimestamp(),
+                    inviteCode: myNewInviteCode,
+                    invitedBy: inviterUid, // حفظ الآيدي للشخص الذي دعاه
+                    inviteCount: 0,
+                    inviteEarnings: 0
+                });
+
+                // إذا كان مسجل عن طريق شخص، نزيد عداد دعوات ذلك الشخص
+                if (inviterUid) {
+                    await updateDoc(doc(db, "users", inviterUid), { inviteCount: increment(1) });
+                }
+
                 await setDoc(doc(db, "chats", cred.user.uid), { lastMessage: "تم إنشاء الحساب بنجاح في كايدو فولو", time: serverTimestamp(), userId: cred.user.uid, name: n, username: u, status: 'open', hasUnread: false });
-            } catch(err) { window.toast("حدث خطأ أثناء التسجيل"); window.loader(false); }
+            } catch(err) { window.toast("حدث خطأ أثناء التسجيل. قد يكون البريد مستخدم."); window.loader(false); }
         };
 
         window.logout = async () => { window.loader(true); await signOut(auth); location.reload(); };
@@ -676,7 +727,7 @@
             return st;
         };
 
-        // --- نظام الطلبات الأنيق وعرض التفاصيل الفخمة ---
+        // --- نظام الطلبات الأنيق ---
         window.listenOrders = () => {
             const q = query(collection(db, "orders"), where("userId", "==", currentUser.uid));
             onSnapshot(q, (snap) => {
@@ -704,7 +755,6 @@
                     else if(statusStr.includes('cancel') || statusStr.includes('fail') || statusStr.includes('refund')) { badgeClass = 'status-fail'; }
                     else { badgeClass = 'status-info'; pendingCount++; }
 
-                    // بطاقة الطلب المصغرة الأنيقة (تفتح شاشة التفاصيل الفخمة عند الضغط)
                     const encodedOrder = encodeURIComponent(JSON.stringify(o)).replace(/'/g, "%27");
                     list.innerHTML += `
                     <div class="card order-card-compact" onclick="window.showOrderDetails('${encodedOrder}')">
@@ -718,7 +768,6 @@
                         </div>
                     </div>`;
                 });
-                
                 document.getElementById('stat-pending').innerText = pendingCount; document.getElementById('stat-completed').innerText = completedCount;
             });
         };
@@ -737,9 +786,7 @@
             document.getElementById('det-start').innerText = o.start_count || "0";
             document.getElementById('det-remains').innerText = o.remains || o.qty;
             
-            // زر "اطلب مجدداً"
             document.getElementById('btn-reorder').setAttribute('onclick', `window.reorderService('${o.serviceId}')`);
-            
             window.openModal('modal-order-details');
         };
 
@@ -750,17 +797,12 @@
                 if(srvSnap.exists()) {
                     const s = srvSnap.data();
                     if(s.visible !== false) {
-                        s.id = srvSnap.id;
-                        s.displayId = "إعادة طلب"; // إخفاء التسلسل لأننا نطلبه مباشرة
+                        s.id = srvSnap.id; s.displayId = "إعادة طلب";
                         const encodedObj = encodeURIComponent(JSON.stringify(s));
                         window.closeModal('modal-order-details');
                         window.prepOrder(encodedObj);
-                    } else {
-                        window.toast("عذراً، هذه الخدمة تم إيقافها مؤقتاً بواسطة الإدارة.");
-                    }
-                } else {
-                    window.toast("عذراً، هذه الخدمة لم تعد متاحة في كايدو فولو.");
-                }
+                    } else { window.toast("عذراً، هذه الخدمة تم إيقافها مؤقتاً."); }
+                } else { window.toast("عذراً، هذه الخدمة لم تعد متاحة."); }
             } catch(e) { window.toast("حدث خطأ، يرجى المحاولة لاحقاً."); }
             window.loader(false);
         };
@@ -797,7 +839,7 @@
             if(manual) window.toast("تم التحديث بنجاح");
         };
 
-        // --- المحفظة ---
+        // --- المحفظة ونظام عمولة الدعوات التلقائي ---
         window.redeemCoupon = async () => {
             const code = document.getElementById('coupon-code').value.trim();
             if(!code) return window.toast("أدخل الرمز أولاً");
@@ -810,15 +852,35 @@
                 
                 const couponDoc = snap.docs[0]; const coupon = couponDoc.data();
                 if(coupon.active === false) throw new Error("الكوبون غير فعال");
-                if(coupon.currentUses >= (coupon.maxUses || 1)) throw new Error("عذراً، الكوبون وصل للحد الأقصى من الاستخدام");
+                if(coupon.currentUses >= (coupon.maxUses || 1)) throw new Error("عذراً، الكوبون وصل للحد الأقصى");
                 
                 const usedBy = coupon.usedBy || [];
                 if(usedBy.includes(currentUser.uid)) throw new Error("لقد قمت باستخدام هذا الكوبون مسبقاً!");
 
+                // 1. تحديث الكوبون وإضافة الرصيد للمستخدم
                 usedBy.push(currentUser.uid);
                 await updateDoc(doc(db, "coupons", couponDoc.id), { currentUses: increment(1), usedBy: usedBy });
-                await updateDoc(doc(db, "users", currentUser.uid), { balance: userData.balance + parseFloat(coupon.value) });
-                await addDoc(collection(db, "deposits"), { userId: currentUser.uid, amount: parseFloat(coupon.value), method: 'كوبون شحن', code: code, date: serverTimestamp() });
+                const couponAmount = parseFloat(coupon.value);
+                await updateDoc(doc(db, "users", currentUser.uid), { balance: userData.balance + couponAmount });
+                await addDoc(collection(db, "deposits"), { userId: currentUser.uid, amount: couponAmount, method: 'كوبون شحن', code: code, date: serverTimestamp() });
+
+                // 2. إعطاء العمولة 5% للشخص الذي دعاه (Affiliate System)
+                if (userData.invitedBy) {
+                    try {
+                        const commission = couponAmount * 0.05; // حساب 5%
+                        await updateDoc(doc(db, "users", userData.invitedBy), { 
+                            balance: increment(commission), 
+                            inviteEarnings: increment(commission) 
+                        });
+                        // تسجيل العملية في محفظة الشخص الداعي
+                        await addDoc(collection(db, "deposits"), { 
+                            userId: userData.invitedBy, 
+                            amount: commission, 
+                            method: 'عمولة دعوة صديق (5%)', 
+                            date: serverTimestamp() 
+                        });
+                    } catch(affiliateErr) { console.error("Affiliate reward failed:", affiliateErr); }
+                }
 
                 window.toast(`مبروك! تم شحن ${coupon.value}$ في كايدو فولو بنجاح`);
                 document.getElementById('coupon-code').value = '';
@@ -839,13 +901,18 @@
                 });
 
                 depsArray.forEach(dep => {
+                    const isComm = dep.method.includes('دعوة');
+                    const iconColor = isComm ? 'var(--warning)' : 'var(--success)';
+                    const bgColor = isComm ? 'rgba(245, 158, 11, 0.1)' : 'rgba(16, 185, 129, 0.1)';
+                    const iconClass = isComm ? 'fa-gift' : 'fa-arrow-down';
+
                     list.innerHTML += `
                     <div class="card" style="padding:15px; display:flex; justify-content:space-between; align-items:center; border-radius:14px;">
                         <div style="display:flex; align-items:center; gap:12px;">
-                            <div style="background:rgba(16, 185, 129, 0.1); width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; color:var(--success);"><i class="fas fa-arrow-down"></i></div>
-                            <div><span style="display:block; font-weight:bold; font-size:0.95rem;">عملية شحن</span><span style="font-size:0.75rem; color:var(--text-sec);">${dep.method}</span></div>
+                            <div style="background:${bgColor}; width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; color:${iconColor};"><i class="fas ${iconClass}"></i></div>
+                            <div><span style="display:block; font-weight:bold; font-size:0.95rem;">عملية إيداع</span><span style="font-size:0.75rem; color:var(--text-sec);">${dep.method}</span></div>
                         </div>
-                        <b style="color:var(--success); font-size:1.15rem;">+${dep.amount}$</b>
+                        <b style="color:${iconColor}; font-size:1.15rem;">+${dep.amount.toFixed(4)}$</b>
                     </div>`;
                 });
             });
@@ -854,18 +921,15 @@
         // --- الدعم الفني ---
         window.initChat = () => {
             if(unsubscribeChat) unsubscribeChat();
-            
             onSnapshot(doc(db, "chats", currentUser.uid), (docSnap) => {
                 if(docSnap.exists()) {
                     const status = docSnap.data().status;
                     if(status === 'closed') {
                         document.getElementById('ticket-closed-msg').style.display = 'block';
-                        document.getElementById('chat-input').disabled = true; document.getElementById('chat-btn').disabled = true;
-                        document.getElementById('qr-wrap').style.display = 'none';
+                        document.getElementById('chat-input').disabled = true; document.getElementById('chat-btn').disabled = true; document.getElementById('qr-wrap').style.display = 'none';
                     } else {
                         document.getElementById('ticket-closed-msg').style.display = 'none';
-                        document.getElementById('chat-input').disabled = false; document.getElementById('chat-btn').disabled = false;
-                        document.getElementById('qr-wrap').style.display = 'flex';
+                        document.getElementById('chat-input').disabled = false; document.getElementById('chat-btn').disabled = false; document.getElementById('qr-wrap').style.display = 'flex';
                     }
                 }
             });
@@ -904,7 +968,6 @@
             }, 1000);
         };
 
-        // --- PWA كاسر الكاش ---
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 const swUrl = './sw.js?v=' + new Date().getTime(); 
