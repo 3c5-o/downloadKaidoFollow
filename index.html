@@ -238,6 +238,7 @@
                 <h3 style="font-weight: 800;">سجل الطلبات</h3>
                 <button onclick="window.syncOrders(true)" style="background: var(--bg-card); border: 1px solid var(--border); color: var(--primary); padding: 8px 15px; border-radius: 10px; font-weight: bold; cursor: pointer;"><i class="fas fa-sync-alt"></i> تحديث</button>
             </div>
+            <p style="text-align: center; color: var(--text-sec); font-size: 0.8rem; margin-bottom: 15px;"><i class="fas fa-sync fa-spin"></i> يتم تحديث الطلبات تلقائياً كل 30 ثانية</p>
             <div id="orders-list"></div>
         </div>
 
@@ -296,8 +297,9 @@
                     </div>
                     <div style="display: flex; justify-content: space-around; background: var(--bg-card); padding: 12px; border-radius: 12px; border: 1px solid var(--border);">
                         <div><span style="font-size: 0.8rem; color: var(--text-sec);">عدد الدعوات</span><br><b id="p-invite-count" style="color: var(--text-main); font-size: 1.1rem;">0</b></div>
-                        <div><span style="font-size: 0.8rem; color: var(--text-sec);">أرباحك الكلية</span><br><b id="p-invite-earn" style="color: var(--success); font-size: 1.1rem;">$0.00</b></div>
+                        <div><span style="font-size: 0.8rem; color: var(--text-sec);">أرباحك القابلة للسحب</span><br><b id="p-invite-earn" style="color: var(--success); font-size: 1.1rem;">$0.00</b></div>
                     </div>
+                    <button onclick="window.transferEarnings()" class="btn btn-pro" style="padding: 12px; font-size: 0.95rem; margin-top: 15px; width: 100%; border-radius: 12px;"><i class="fas fa-exchange-alt"></i> تحويل إلى الرصيد (الحد 5$)</button>
                 </div>
             </div>
 
@@ -402,6 +404,7 @@
         let unsubscribeChat = null;
         let unsubscribeNoti = null;
         let unreadNotis = [];
+        let autoSyncInterval = null;
 
         window.loader = (show) => document.getElementById('loader').style.display = show ? 'flex' : 'none';
         
@@ -420,7 +423,7 @@
             document.querySelectorAll('.nav-item')[tabMap[pageId]].classList.add('active');
 
             if(pageId === 'support') window.initChat();
-            if(pageId === 'orders') window.syncOrders(); 
+            if(pageId === 'orders') window.syncOrders(true); 
         };
 
         window.toggleAuth = (type) => {
@@ -453,7 +456,6 @@
             setTimeout(() => { const splash = document.getElementById('splash-screen'); if(splash) { splash.style.opacity = '0'; setTimeout(() => splash.style.display = 'none', 600); } }, 2500);
         };
 
-        // --- دالة توليد كود الدعوة ---
         const generateInviteCode = () => {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let code = 'KF-';
@@ -506,7 +508,7 @@
             unreadNotis = []; document.getElementById('noti-badge').style.display = 'none';
         };
 
-        // --- المصادقة والمستخدم (مع التوليد التلقائي لأكواد الدعوة) ---
+        // --- المصادقة والمستخدم ---
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
@@ -517,7 +519,6 @@
                     if (docSnap.exists()) {
                         userData = docSnap.data();
                         
-                        // التوليد التلقائي للكود إذا كان الحساب قديماً ولا يملك كود دعوة
                         if (!userData.inviteCode) {
                             const newInviteCode = generateInviteCode();
                             try {
@@ -537,14 +538,18 @@
                         document.getElementById('p-email').value = userData.email;
                         if(!document.getElementById('p-name-edit').value) document.getElementById('p-name-edit').value = userData.name;
 
-                        // تحديث واجهة الدعوات
                         document.getElementById('p-invite-code').innerText = userData.inviteCode || "...";
                         document.getElementById('p-invite-count').innerText = userData.inviteCount || "0";
                         document.getElementById('p-invite-earn').innerText = "$" + (userData.inviteEarnings || 0).toFixed(4);
                     }
                 });
                 window.loadCategories(); window.listenOrders(); window.listenWallet(); window.listenNotifications();
+                
+                // تشغيل النبض التلقائي لتحديث الطلبات كل 30 ثانية
+                if(autoSyncInterval) clearInterval(autoSyncInterval);
+                autoSyncInterval = setInterval(() => { window.syncOrders(false); }, 30000);
             } else {
+                if(autoSyncInterval) clearInterval(autoSyncInterval);
                 document.getElementById('app-wrap').style.display = 'none';
                 document.getElementById('pg-auth').classList.add('open');
             }
@@ -566,17 +571,12 @@
             window.loader(true);
             
             let inviterUid = null;
-            // فحص كود الدعوة إذا تم إدخاله
             if (inviteCodeInput) {
                 try {
                     const q = query(collection(db, "users"), where("inviteCode", "==", inviteCodeInput));
                     const snap = await getDocs(q);
-                    if (!snap.empty) {
-                        inviterUid = snap.docs[0].id; // جلب آيدي الداعي
-                    } else {
-                        window.loader(false);
-                        return window.toast("كود الدعوة غير صحيح، تأكد منه أو اتركه فارغاً");
-                    }
+                    if (!snap.empty) { inviterUid = snap.docs[0].id; } 
+                    else { window.loader(false); return window.toast("كود الدعوة غير صحيح، تأكد منه أو اتركه فارغاً"); }
                 } catch(err) { console.error(err); }
             }
 
@@ -586,18 +586,10 @@
                 
                 await setDoc(doc(db, "users", cred.user.uid), { 
                     name: n, username: u, email: e, balance: 0, spent: 0, banned: false, 
-                    createdAt: serverTimestamp(),
-                    inviteCode: myNewInviteCode,
-                    invitedBy: inviterUid, // حفظ الآيدي للشخص الذي دعاه
-                    inviteCount: 0,
-                    inviteEarnings: 0
+                    createdAt: serverTimestamp(), inviteCode: myNewInviteCode, invitedBy: inviterUid, inviteCount: 0, inviteEarnings: 0
                 });
 
-                // إذا كان مسجل عن طريق شخص، نزيد عداد دعوات ذلك الشخص
-                if (inviterUid) {
-                    await updateDoc(doc(db, "users", inviterUid), { inviteCount: increment(1) });
-                }
-
+                if (inviterUid) { await updateDoc(doc(db, "users", inviterUid), { inviteCount: increment(1) }); }
                 await setDoc(doc(db, "chats", cred.user.uid), { lastMessage: "تم إنشاء الحساب بنجاح في كايدو فولو", time: serverTimestamp(), userId: cred.user.uid, name: n, username: u, status: 'open', hasUnread: false });
             } catch(err) { window.toast("حدث خطأ أثناء التسجيل. قد يكون البريد مستخدم."); window.loader(false); }
         };
@@ -727,7 +719,7 @@
             return st;
         };
 
-        // --- نظام الطلبات الأنيق ---
+        // --- نظام الطلبات والمزامنة التلقائية ---
         window.listenOrders = () => {
             const q = query(collection(db, "orders"), where("userId", "==", currentUser.uid));
             onSnapshot(q, (snap) => {
@@ -839,7 +831,38 @@
             if(manual) window.toast("تم التحديث بنجاح");
         };
 
-        // --- المحفظة ونظام عمولة الدعوات التلقائي ---
+        // --- تحويل الأرباح للمحفظة ---
+        window.transferEarnings = async () => {
+            if (!userData || userData.inviteEarnings < 5) {
+                return window.toast("يجب أن تصل أرباحك إلى 5.00$ على الأقل لتتمكن من تحويلها!");
+            }
+
+            window.loader(true);
+            try {
+                const amountToTransfer = userData.inviteEarnings;
+                // تصفير الأرباح وإضافة الرصيد للمحفظة
+                await updateDoc(doc(db, "users", currentUser.uid), {
+                    balance: increment(amountToTransfer),
+                    inviteEarnings: 0
+                });
+                
+                // تسجيل العملية في المحفظة
+                await addDoc(collection(db, "deposits"), {
+                    userId: currentUser.uid,
+                    amount: amountToTransfer,
+                    method: 'سحب أرباح الدعوات',
+                    date: serverTimestamp()
+                });
+
+                window.toast(`تم تحويل ${amountToTransfer.toFixed(2)}$ إلى رصيدك بنجاح!`);
+            } catch (e) {
+                window.toast("حدث خطأ أثناء محاولة التحويل، يرجى المحاولة لاحقاً.");
+                console.error(e);
+            }
+            window.loader(false);
+        };
+
+        // --- المحفظة ونظام عمولة الدعوات الذكي ---
         window.redeemCoupon = async () => {
             const code = document.getElementById('coupon-code').value.trim();
             if(!code) return window.toast("أدخل الرمز أولاً");
@@ -864,19 +887,27 @@
                 await updateDoc(doc(db, "users", currentUser.uid), { balance: userData.balance + couponAmount });
                 await addDoc(collection(db, "deposits"), { userId: currentUser.uid, amount: couponAmount, method: 'كوبون شحن', code: code, date: serverTimestamp() });
 
-                // 2. إعطاء العمولة 5% للشخص الذي دعاه (Affiliate System)
+                // 2. إعطاء العمولة ديناميكياً للشخص الذي دعاه
                 if (userData.invitedBy) {
                     try {
-                        const commission = couponAmount * 0.05; // حساب 5%
+                        let commRate = 0.05; // 5% الافتراضي
+                        try {
+                            const settingsSnap = await getDoc(doc(db, "settings", "general"));
+                            if (settingsSnap.exists() && settingsSnap.data().affiliatePercent) {
+                                commRate = parseFloat(settingsSnap.data().affiliatePercent) / 100;
+                            }
+                        } catch(se){} // في حال عدم وجود الإعداد يستمر على 5%
+
+                        const commission = couponAmount * commRate;
                         await updateDoc(doc(db, "users", userData.invitedBy), { 
-                            balance: increment(commission), 
                             inviteEarnings: increment(commission) 
                         });
-                        // تسجيل العملية في محفظة الشخص الداعي
+                        
+                        // تسجيل العملية للداعي كأرباح دعوات غير محولة
                         await addDoc(collection(db, "deposits"), { 
                             userId: userData.invitedBy, 
                             amount: commission, 
-                            method: 'عمولة دعوة صديق (5%)', 
+                            method: `أرباح دعوة صديق (${commRate * 100}%)`, 
                             date: serverTimestamp() 
                         });
                     } catch(affiliateErr) { console.error("Affiliate reward failed:", affiliateErr); }
@@ -901,7 +932,7 @@
                 });
 
                 depsArray.forEach(dep => {
-                    const isComm = dep.method.includes('دعوة');
+                    const isComm = dep.method.includes('أرباح دعوة') || dep.method.includes('سحب أرباح');
                     const iconColor = isComm ? 'var(--warning)' : 'var(--success)';
                     const bgColor = isComm ? 'rgba(245, 158, 11, 0.1)' : 'rgba(16, 185, 129, 0.1)';
                     const iconClass = isComm ? 'fa-gift' : 'fa-arrow-down';
