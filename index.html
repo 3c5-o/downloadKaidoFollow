@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="description" content="منصة أديسون التعليمية - الإصدار الاحترافي">
+    <title>منصة أديسون | المستقبل</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 🎨 لوحة الألوان المتطورة (Deep Space & Neon) */
+            --bg-dark: #0B0F19;
+            --bg-darker: #05080F;
+            --primary: #06b6d4;     /* سيان */
+            --primary-glow: #22d3ee;
+            --accent: #6366f1;      /* بنفسجي */
+            --accent-glow: #818cf8;
+            --surface: rgba(30, 41, 59, 0.7); /* زجاجي */
+            --surface-hover: rgba(51, 65, 85, 0.8);
+            --border: rgba(148, 163, 184, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            
+            /* أبعاد وقياسات */
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 12px;
+            --header-height: 80px;
+            
+            /* ألوان الفصول (تدرجات) */
+            --c1: linear-gradient(135deg, #3b82f6, #2563eb);
+            --c2: linear-gradient(135deg, #ec4899, #db2777);
+            --c3: linear-gradient(135deg, #10b981, #059669);
+            --c4: linear-gradient(135deg, #f59e0b, #d97706);
+            --c5: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            --c6: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        /* --------------------------------------------------- */
+        /* 1. التأسيس الشامل (Reset & Base) */
+        /* --------------------------------------------------- */
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; -webkit-tap-highlight-color: transparent; }
+        
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg-darker);
+            color: var(--text-main);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+            /* خلفية شبكية معقدة */
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.15) 0px, transparent 50%),
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+            background-attachment: fixed;
+        }
+
+        /* تخصيص شريط التمرير (Scrollbar) */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-darker); }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        /* تخصيص تحديد النص */
+        ::selection { background: var(--primary); color: #000; }
+
+        /* --------------------------------------------------- */
+        /* 2. العناصر المشتركة (Utilities) */
+        /* --------------------------------------------------- */
+        .glass {
+            background: var(--surface);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            box-shadow: 0 10px 20px -10px var(--accent);
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn-primary:hover::before { left: 100%; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 30px -10px var(--accent-glow); }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* --------------------------------------------------- */
+        /* 3. الرأس (Header) */
+        /* --------------------------------------------------- */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            height: var(--header-height);
+            padding: 0 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background: rgba(5, 8, 15, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .brand {
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+            letter-spacing: -1px;
+            position: relative;
+        }
+
+        .brand::after {
+            content: 'Edison';
+            position: absolute;
+            top: -15px;
+            left: -10px;
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            opacity: 0.5;
+            color: var(--text-muted);
+            -webkit-text-fill-color: var(--text-muted);
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            padding: 14px 50px 14px 20px;
+            border-radius: 50px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            background: rgba(0,0,0,0.2);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.1);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--surface);
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+
+        .search-btn:hover { color: white; background: var(--primary); }
+
+        /* --------------------------------------------------- */
+        /* 4. التخطيط والمحتوى (Layout) */
+        /* --------------------------------------------------- */
+        main {
+            padding: 2rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: calc(100vh - var(--header-height) - 100px);
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .page.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* --------------------------------------------------- */
+        /* 5. الصفحة الرئيسية (Home) */
+        /* --------------------------------------------------- */
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem;
+            position: relative;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            background: linear-gradient(to bottom right, #fff 30%, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .teachers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .teacher-card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .teacher-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 0%, rgba(6, 182, 212, 0.1), transparent 70%);
+            opacity: 0;
+            transition: 0.4s;
+        }
+
+        .teacher-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px -15px rgba(6, 182, 212, 0.2);
+        }
+
+        .teacher-card:hover::before { opacity: 1; }
+
+        .teacher-img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255,255,255,0.1);
+            margin-bottom: 1.5rem;
+            transition: 0.4s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .teacher-card:hover .teacher-img {
+            transform: scale(1.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .teacher-info h3 { font-size: 1.5rem; margin-bottom: 0.5rem; color: white; }
+        .teacher-info p { color: var(--primary); font-weight: 600; font-size: 0.95rem; }
+
+        /* --------------------------------------------------- */
+        /* 6. صفحة الفصول (Classes) */
+        /* --------------------------------------------------- */
+        .classes-layout {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .teacher-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.6));
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .teacher-header::after {
+            content: '';
+            position: absolute;
+            right: -50px; top: -50px;
+            width: 200px; height: 200px;
+            background: var(--primary);
+            filter: blur(100px);
+            opacity: 0.15;
+            border-radius: 50%;
+        }
+
+        .teacher-header img {
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            border: 3px solid var(--accent);
+        }
+
+        .class-card {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .class-card.active {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .class-trigger {
+            width: 100%;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: none;
+            border: none;
+            color: white;
+            font-family: inherit;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-align: right;
+        }
+        
+        .class-trigger h3 { display: flex; align-items: center; gap: 10px; }
+        .class-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+        .class-arrow {
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            color: var(--text-muted);
+        }
+
+        .class-card.active .class-arrow { transform: rotate(180deg); color: var(--primary); }
+
+        .lectures-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .class-card.active .lectures-container { max-height: 1000px; transition: max-height 0.8s ease-in-out; }
+
+        .lecture-row {
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255,255,255,0.03);
+            cursor: pointer;
+            transition: 0.2s;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .lecture-row:hover { background: rgba(255,255,255,0.05); padding-right: 2.5rem; color: white; }
+        
+        .lecture-info { display: flex; align-items: center; gap: 15px; }
+        
+        .status-icon {
+            width: 24px; height: 24px;
+            border-radius: 50%;
+            border: 2px solid #334155;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+
+        .lecture-row.completed .status-icon {
+            background: var(--success);
+            border-color: var(--success);
+            color: #000;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+        }
+
+        .lecture-row.completed { opacity: 0.6; }
+        .lecture-row.completed:hover { opacity: 1; }
+
+        /* --------------------------------------------------- */
+        /* 7. صفحة الفيديو (Video Player) */
+        /* --------------------------------------------------- */
+        .video-page { max-width: 1100px; margin: 0 auto; }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            background: #000;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 2rem;
+        }
+
+        /* Ambient Glow Behind Video */
+        .video-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.8);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .video-wrapper video, .video-wrapper iframe {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border: none;
+            display: block;
+            outline: none;
+        }
+
+        .video-meta {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        .video-title { font-size: 1.8rem; margin-bottom: 1rem; line-height: 1.4; }
+        .video-desc { color: var(--text-muted); margin-bottom: 2rem; white-space: pre-line; }
+        
+        .actions-bar {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* --------------------------------------------------- */
+        /* 8. المودال (Modal) */
+        /* --------------------------------------------------- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: 0.4s;
+        }
+
+        .modal-overlay.show { opacity: 1; display: flex; }
+
+        .modal-box {
+            background: #131c2e;
+            width: 90%;
+            max-width: 450px;
+            padding: 3rem 2rem;
+            border-radius: 30px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: scale(0.8);
+            transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-overlay.show .modal-box { transform: scale(1); }
+
+        .modal-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        /* --------------------------------------------------- */
+        /* 9. التجاوب (Responsive) */
+        /* --------------------------------------------------- */
+        @media (max-width: 768px) {
+            header { padding: 0 1rem; gap: 1rem; height: auto; padding-block: 1rem; flex-direction: column; }
+            .brand { font-size: 1.5rem; }
+            .search-box { width: 100%; margin: 0; }
+            .hero h1 { font-size: 2.2rem; }
+            .teacher-header { flex-direction: column; text-align: center; padding: 1.5rem; }
+            .teacher-header img { width: 80px; height: 80px; margin-bottom: 1rem; }
+            .teacher-header::after { display: none; }
+            .modal-box { padding: 2rem 1.5rem; }
+            .actions-bar { justify-content: center; }
+            .btn { width: 100%; }
+        }
+        
+        /* Loader */
+        .loader-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-darker);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
+        }
+        .loader {
+            width: 48px; height: 48px;
+            border: 5px solid #FFF;
+            border-bottom-color: var(--primary);
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+        @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    </style>
+</head>
+<body>
+
+    <div id="loader" class="loader-container">
+        <span class="loader"></span>
+    </div>
+
+    <div id="welcomeModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-icon">🚀</div>
+            <h2 style="margin-bottom: 1rem; color: white;">أهلاً بك يا بطل!</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">
+                انضم الآن لقناتنا الرسمية للحصول على الملازم والتحديثات الهامة. رحلتك للتفوق تبدأ هنا.
+            </p>
+            <div style="display: flex; gap: 1rem; flex-direction: column;">
+                <a href="https://t.me/od7cc" target="_blank" class="btn btn-primary">انضم للقناة الآن</a>
+                <button id="closeModal" class="btn btn-secondary">تصفح المنصة</button>
+            </div>
+        </div>
+    </div>
+
+    <header id="mainHeader">
+        <div class="brand" onclick="router.navigate('home')">Edison</div>
+        <div class="search-box">
+            <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن مدرس أو مادة...">
+            <button class="search-btn">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <div id="homePage" class="page active">
+            <section class="hero">
+                <h1>منصة أديسون<br><span style="color: var(--primary); font-weight: 300;">الإصدار المطور</span></h1>
+                <p>التعليم كما يجب أن يكون. سرعة، سهولة، وتصميم يليق بطموحك.</p>
+            </section>
+            <div id="teachersGrid" class="teachers-grid">
+                </div>
+        </div>
+
+        <div id="classesPage" class="page">
+            <div class="classes-layout">
+                <button onclick="router.navigate('home')" class="btn btn-secondary" style="width: fit-content;">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transform: scaleX(-1);"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+                    العودة للقائمة
+                </button>
+                
+                <div class="teacher-header glass">
+                    <img id="tImage" src="" alt="">
+                    <div>
+                        <h2 id="tName" style="font-size: 2rem; margin-bottom: 5px;"></h2>
+                        <p id="tSubject" style="color: var(--primary); font-size: 1.2rem;"></p>
+                    </div>
+                </div>
+
+                <div id="classesList" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    </div>
+            </div>
+        </div>
+
+        <div id="videoPage" class="page">
+            <div class="video-page">
+                <div class="video-wrapper">
+                    <video id="nativePlayer" controls playsinline style="display: none;"></video>
+                    <iframe id="embedPlayer" allowfullscreen style="display: none;" allow="autoplay; encrypted-media"></iframe>
+                </div>
+
+                <div class="video-meta glass">
+                    <h1 id="vTitle" class="video-title"></h1>
+                    <p id="vDesc" class="video-desc"></p>
+                    
+                    <div class="actions-bar">
+                        <button onclick="router.navigate('classes')" class="btn btn-secondary">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transform: scaleX(-1);"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+                            العودة للفصول
+                        </button>
+                        <button onclick="copyLink()" class="btn btn-primary">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                            نسخ الرابط
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- حالة التطبيق (State Management) ---
+        const store = {
+            teachers: [],
+            currentTeacher: null,
+            progress: JSON.parse(localStorage.getItem('edison_progress') || '{}'),
+            currentUrl: '',
+            
+            saveProgress(url) {
+                this.progress[url] = true;
+                localStorage.setItem('edison_progress', JSON.stringify(this.progress));
+                render.refreshClasses(); // تحديث الواجهة
+            },
+            
+            isCompleted(url) { return !!this.progress[url]; }
+        };
+
+        // --- التوجيه (Routing) ---
+        const router = {
+            pages: ['home', 'classes', 'video'],
+            navigate(pageName) {
+                window.scrollTo(0, 0);
+                this.pages.forEach(p => document.getElementById(p + 'Page').classList.remove('active'));
+                document.getElementById(pageName + 'Page').classList.add('active');
+                
+                // إيقاف الفيديو عند الخروج
+                if(pageName !== 'video') player.stop();
+            }
+        };
+
+        // --- المشغل (Player Logic) ---
+        const player = {
+            native: document.getElementById('nativePlayer'),
+            embed: document.getElementById('embedPlayer'),
+            
+            play(url, title, desc) {
+                store.currentUrl = url;
+                document.getElementById('vTitle').textContent = title;
+                document.getElementById('vDesc').textContent = desc || 'لا يوجد وصف لهذه المحاضرة.';
+                
+                this.stop(); // تنظيف القديم
+
+                if (url.includes('iframe.mediadelivery.net') || url.includes('embed')) {
+                    this.embed.style.display = 'block';
+                    this.embed.src = url;
+                } else {
+                    this.native.style.display = 'block';
+                    this.native.src = url;
+                    this.native.play().catch(e => console.log('Autoplay blocked'));
+                    
+                    // عند انتهاء الفيديو
+                    this.native.onended = () => {
+                        store.saveProgress(url);
+                        // يمكن إضافة منطق الانتقال التلقائي هنا
+                    };
+                }
+                router.navigate('video');
+            },
+            
+            stop() {
+                this.native.pause();
+                this.native.src = '';
+                this.native.style.display = 'none';
+                this.embed.src = '';
+                this.embed.style.display = 'none';
+            }
+        };
+
+        // --- العرض (Rendering) ---
+        const render = {
+            teachers(list) {
+                const grid = document.getElementById('teachersGrid');
+                if(!list.length) {
+                    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2rem;">لا يوجد نتائج مطابقة 😔</p>';
+                    return;
+                }
+                grid.innerHTML = list.map(t => `
+                    <div class="teacher-card" onclick="app.openTeacher(${t.id})">
+                        <img src="${t.image}" class="teacher-img" alt="${t.name}" loading="lazy">
+                        <div class="teacher-info">
+                            <h3>${t.name}</h3>
+                            <p>${t.subject}</p>
+                        </div>
+                    </div>
+                `).join('');
+            },
+
+            classes(teacher) {
+                document.getElementById('tImage').src = teacher.image;
+                document.getElementById('tName').textContent = teacher.name;
+                document.getElementById('tSubject').textContent = teacher.subject;
+                
+                const list = document.getElementById('classesList');
+                const gradients = ['var(--c1)', 'var(--c2)', 'var(--c3)', 'var(--c4)', 'var(--c5)', 'var(--c6)'];
+                
+                list.innerHTML = teacher.classes.map((cls, i) => {
+                    const grad = gradients[i % gradients.length];
+                    const lecturesHtml = cls.lectures.map((lec, j) => {
+                        const done = store.isCompleted(lec.url);
+                        return `
+                        <div class="lecture-row ${done ? 'completed' : ''}" onclick="player.play('${lec.url}', '${lec.title}', '${lec.description || ''}')">
+                            <div class="lecture-info">
+                                <div class="status-icon" style="${done ? 'border-color: var(--success); color: var(--success);' : ''}">
+                                    ${done ? '✓' : (j + 1)}
+                                </div>
+                                <span>${lec.title}</span>
+                            </div>
+                            <div style="opacity: 0.5;">▶</div>
+                        </div>`;
+                    }).join('');
+
+                    return `
+                    <div class="class-card">
+                        <button class="class-trigger" onclick="this.parentElement.classList.toggle('active')">
+                            <h3>
+                                <span class="class-dot" style="background: ${grad}"></span>
+                                ${cls.name}
+                            </h3>
+                            <span class="class-arrow">▼</span>
+                        </button>
+                        <div class="lectures-container">
+                            ${lecturesHtml}
+                        </div>
+                    </div>`;
+                }).join('');
+            },
+            
+            refreshClasses() {
+                if(store.currentTeacher) this.classes(store.currentTeacher);
+            }
+        };
+
+        // --- المنطق الرئيسي (App Logic) ---
+        const app = {
+            init() {
+                // تأثير الهيدر عند السكرول
+                window.addEventListener('scroll', () => {
+                    const header = document.getElementById('mainHeader');
+                    if(window.scrollY > 50) header.classList.add('scrolled');
+                    else header.classList.remove('scrolled');
+                });
+
+                // البحث
+                document.getElementById('searchInput').addEventListener('input', (e) => {
+                    const term = e.target.value.toLowerCase();
+                    const filtered = store.teachers.filter(t => 
+                        t.name.toLowerCase().includes(term) || 
+                        t.subject.toLowerCase().includes(term)
+                    );
+                    render.teachers(filtered);
+                });
+
+                // تحميل البيانات
+                fetch('data.json')
+                    .then(res => {
+                        if(!res.ok) throw new Error("HTTP error");
+                        return res.json();
+                    })
+                    .then(data => {
+                        store.teachers = data.teachers;
+                        render.teachers(store.teachers);
+                        document.getElementById('loader').style.opacity = '0';
+                        setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
+                    })
+                    .catch(err => {
+                        document.getElementById('teachersGrid').innerHTML = `<p style="color: #ef4444; text-align: center;">حدث خطأ في تحميل البيانات. تأكد من ملف data.json<br>${err.message}</p>`;
+                        document.getElementById('loader').style.display = 'none';
+                    });
+
+                // المودال
+                const modal = document.getElementById('welcomeModal');
+                if(!localStorage.getItem('visited_v2')) {
+                    setTimeout(() => modal.classList.add('show'), 1000);
+                }
+                document.getElementById('closeModal').onclick = () => {
+                    modal.classList.remove('show');
+                    localStorage.setItem('visited_v2', 'true');
+                };
+            },
+
+            openTeacher(id) {
+                const teacher = store.teachers.find(t => t.id == id);
+                if(teacher) {
+                    store.currentTeacher = teacher;
+                    render.classes(teacher);
+                    router.navigate('classes');
+                }
+            }
+        };
+
+        // أدوات مساعدة
+        function copyLink() {
+            navigator.clipboard.writeText(store.currentUrl).then(() => alert('تم نسخ الرابط بنجاح 📋'));
+        }
+
+        // تشغيل التطبيق
+        document.addEventListener('DOMContentLoaded', app.init);
+    </script>
+</body>
+</html>
